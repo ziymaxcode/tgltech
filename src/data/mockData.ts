@@ -201,7 +201,7 @@ export const ECOSYSTEMS = [
     title: 'Courses & Certifications',
     description: 'IEEE-inspired learning tracks.',
     icon: GraduationCap,
-    path: '/courses',
+    path: '/careers?tab=certifications',
     color: 'bg-purple-50 text-purple-600'
   },
   {
