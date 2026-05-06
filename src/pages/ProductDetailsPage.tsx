@@ -1,10 +1,12 @@
 import { useParams, Link } from 'react-router-dom';
 import { STORE_PRODUCTS, PROJECTS, COURSES } from '../data/mockData';
-import { ArrowLeft, PlayCircle, BookText, Share2, Sparkles, AlertCircle } from 'lucide-react';
+import { ArrowLeft, PlayCircle, BookText, Share2, Sparkles, AlertCircle, ShoppingCart } from 'lucide-react';
+import { useCart } from '../context/CartContext';
 
 export function ProductDetailsPage() {
   const { productId } = useParams();
   const product = STORE_PRODUCTS.find(p => p.id === productId);
+  const { addToCart } = useCart();
 
   if (!product) {
     return <div className="p-24 text-center">Product not found</div>;
@@ -14,7 +16,9 @@ export function ProductDetailsPage() {
   const projectsUsingThis = product.projectsUsingThis.map(id => PROJECTS.find(p => p.id === id)).filter(Boolean);
   const relatedCourses = product.relatedCourses.map(id => COURSES.find(c => c.id === id)).filter(Boolean);
 
-  const whatsappMessage = `Hi TGL Technologies,%0A%0AI'm interested in the *${product.name}* and compatible components. Please connect with me.`;
+  const handleAddToCart = () => {
+    addToCart({ id: product.id, name: product.name, price: product.price });
+  };
 
   return (
     <div className="bg-[#fbfbfb] min-h-screen pb-32">
@@ -51,16 +55,17 @@ export function ProductDetailsPage() {
             </div>
             
             <div className="mt-auto space-y-4">
-              <a 
-                href={`https://wa.me/919876543210?text=${whatsappMessage}`}
-                target="_blank"
-                rel="noreferrer"
-                className="w-full bg-[#25D366] text-white font-bold text-sm tracking-widest uppercase py-4 rounded-xl flex justify-center items-center hover:bg-green-500 transition-colors shadow-sm"
+              <button 
+                onClick={handleAddToCart}
+                className="w-full bg-blue-600 text-white font-bold text-sm tracking-widest uppercase py-4 rounded-xl flex justify-center items-center hover:bg-blue-700 transition-colors shadow-sm"
               >
-                Buy via WhatsApp
-              </a>
+                <ShoppingCart className="w-5 h-5 mr-2" /> Add to Cart
+              </button>
               <div className="grid grid-cols-2 gap-4">
-                <button className="bg-gray-50 text-[#1d1d1f] border border-gray-100 font-bold text-xs tracking-wider uppercase py-4 rounded-xl hover:bg-gray-100 transition-colors">
+                <button 
+                  onClick={handleAddToCart}
+                  className="bg-gray-50 text-[#1d1d1f] border border-gray-100 font-bold text-xs tracking-wider uppercase py-4 rounded-xl hover:bg-gray-100 transition-colors"
+                >
                   Request Kit
                 </button>
                 <button className="bg-blue-50 text-blue-600 border border-blue-100 font-bold text-xs tracking-wider uppercase py-4 rounded-xl hover:bg-blue-100 transition-colors">

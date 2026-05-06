@@ -1,7 +1,8 @@
 import { Link, useLocation } from 'react-router-dom';
-import { Menu, X, Cpu } from 'lucide-react';
+import { Menu, X, Cpu, ShoppingCart } from 'lucide-react';
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
+import { useCart } from '../../context/CartContext';
 
 const LINKS = [
   { name: 'Store', path: '/store' },
@@ -22,6 +23,8 @@ const LINKS = [
 export function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const location = useLocation();
+  const { cart } = useCart();
+  const cartItemCount = cart.reduce((acc, item) => acc + item.quantity, 0);
 
   return (
     <nav className="fixed top-0 w-full z-50 bg-white border-b border-gray-100">
@@ -79,22 +82,28 @@ export function Navbar() {
                 </Link>
               );
             })}
-            <a 
-              href="https://wa.me/919876543210" 
-              target="_blank" 
-              rel="noreferrer"
-              className="px-4 py-2 border border-blue-600 text-blue-600 rounded-full text-xs font-bold uppercase tracking-wider hover:bg-blue-50 transition-colors"
-            >
-              Inquiry
-            </a>
-            <div className="flex items-center gap-2 bg-[#25D366] text-white px-4 py-2 rounded-full cursor-pointer hover:bg-green-500 transition-colors">
-              <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.246 2.248 3.484 5.232 3.484 8.412-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.309 1.656zm6.224-3.82c1.516.903 3.109 1.38 4.759 1.381 5.281.001 9.574-4.291 9.576-9.574.001-2.559-1.017-4.965-2.869-6.815-1.852-1.851-4.255-2.869-6.815-2.869-5.285 0-9.577 4.292-9.578 9.576-.001 1.832.524 3.615 1.519 5.172l-.999 3.646 3.732-.979z"/></svg>
-              <span className="text-xs font-bold uppercase">WhatsApp</span>
-            </div>
+            
+            <Link to="/checkout" className="relative p-2 text-gray-600 hover:text-blue-600 transition-colors ml-2">
+              <ShoppingCart className="w-6 h-6" />
+              {cartItemCount > 0 && (
+                <span className="absolute top-0 right-0 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-white transform translate-x-1/4 -translate-y-1/4 bg-rose-500 rounded-full">
+                  {cartItemCount}
+                </span>
+              )}
+            </Link>
+            
           </div>
 
           {/* Mobile Menu Button */}
-          <div className="md:hidden flex items-center">
+          <div className="md:hidden flex items-center space-x-4">
+            <Link to="/checkout" className="relative p-2 text-gray-600 hover:text-blue-600 transition-colors">
+              <ShoppingCart className="w-5 h-5" />
+              {cartItemCount > 0 && (
+                <span className="absolute top-0 right-0 inline-flex items-center justify-center px-1.5 py-0.5 text-[10px] font-bold leading-none text-white transform translate-x-1/4 -translate-y-1/4 bg-rose-500 rounded-full">
+                  {cartItemCount}
+                </span>
+              )}
+            </Link>
             <button
               onClick={() => setIsOpen(!isOpen)}
               className="text-slate-600 hover:text-slate-900 focus:outline-none"
