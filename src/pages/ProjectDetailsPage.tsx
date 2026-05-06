@@ -165,7 +165,6 @@ export function ProjectDetailsPage() {
                         </div>
                         <div className="ml-3">
                           <p className="text-sm font-bold text-[#1d1d1f] group-hover:text-blue-600 line-clamp-1">{p.name}</p>
-                          <p className="text-xs text-gray-500 font-medium">{p.price}</p>
                         </div>
                       </Link>
                     </li>
