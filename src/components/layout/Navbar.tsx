@@ -5,10 +5,10 @@ import { motion, AnimatePresence } from 'motion/react';
 import { useCart } from '../../context/CartContext';
 
 const LINKS = [
-  { name: 'Store', path: '/store' },
-  { name: 'Projects', path: '/projects' },
+  { name: 'DIY Store', path: '/store' },
+  { name: 'Engineering Projects', path: '/projects' },
   { 
-    name: 'Careers', 
+    name: 'Trainings', 
     path: '/careers',
     dropdown: [
       { name: 'PhD Research Support', path: '/careers?tab=phd' },
@@ -16,7 +16,7 @@ const LINKS = [
       { name: 'Certifications', path: '/careers?tab=certifications' },
     ]
   },
-  { name: 'Labs', path: '/labs' },
+  { name: 'Lab Setups', path: '/labs' },
   { name: 'Solutions', path: '/solutions' },
 ];
 

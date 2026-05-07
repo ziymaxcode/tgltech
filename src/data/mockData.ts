@@ -182,7 +182,7 @@ export const COURSES = [
 export const ECOSYSTEMS = [
   {
     id: 'store',
-    title: 'Electronics Store',
+    title: 'DIY Store',
     description: 'Components, boards, and robotic kits.',
     icon: ShoppingCart,
     path: '/store',
@@ -190,7 +190,7 @@ export const ECOSYSTEMS = [
   },
   {
     id: 'projects',
-    title: 'DIY Projects',
+    title: 'Engineering Projects',
     description: 'Source code, diagrams, and tutorials.',
     icon: LayoutTemplate,
     path: '/projects',
@@ -198,7 +198,7 @@ export const ECOSYSTEMS = [
   },
   {
     id: 'courses',
-    title: 'Courses & Certifications',
+    title: 'Trainings',
     description: 'IEEE-inspired learning tracks.',
     icon: GraduationCap,
     path: '/careers?tab=certifications',
