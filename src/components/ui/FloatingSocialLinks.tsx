@@ -1,8 +1,15 @@
-import { Facebook, Instagram, MessageCircle, ShoppingBag } from 'lucide-react';
+import { Facebook, Instagram, MessageCircle, ShoppingBag, Phone } from 'lucide-react';
 import { motion } from 'motion/react';
 
 export function FloatingSocialLinks() {
   const socialLinks = [
+    {
+      id: 'call',
+      name: 'Call Us',
+      icon: <Phone className="w-5 h-5" />,
+      url: 'tel:+919876543210',
+      color: 'bg-[#3b82f6] hover:bg-[#2563eb]', // Blue color
+    },
     {
       id: 'whatsapp',
       name: 'WhatsApp',
