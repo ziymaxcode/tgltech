@@ -586,6 +586,29 @@ export const COURSES = [
   },
 ];
 
+export const INTERNSHIPS = [
+  {
+    id: "int1",
+    title: "Embedded Systems Intern",
+    type: "On-Site / Remote",
+    duration: "3-6 Months",
+    requirements: "C/C++, Basic PCB Design, Microcontrollers",
+    category: "Embedded Systems",
+    description:
+      "Work directly with our hardware team designing custom PCBs, writing RTOS firmware, and integrating IoT solutions for enterprise clients.",
+  },
+  {
+    id: "int2",
+    title: "IoT Cloud Intern",
+    type: "Remote",
+    duration: "3-6 Months",
+    requirements: "React, Node.js, WebSockets, Firebase",
+    category: "IoT Development",
+    description:
+      "Build scalable backends, deploy MQTT brokers, and create real-time React dashboards for connected devices.",
+  },
+];
+
 export const ECOSYSTEMS = [
   {
     id: "store",

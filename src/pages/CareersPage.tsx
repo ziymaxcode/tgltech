@@ -8,7 +8,7 @@ import {
   SlidersHorizontal,
   Search,
 } from "lucide-react";
-import { COURSES } from "../data/mockData";
+import { COURSES, INTERNSHIPS } from "../data/mockData";
 import { useLocation, Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 
@@ -17,8 +17,13 @@ export function CareersPage() {
   const [activeTab, setActiveTab] = useState<
     "phd" | "internships" | "certifications"
   >("internships");
+
   const [courseCategory, setCourseCategory] = useState<string>("All Courses");
   const [courseSearch, setCourseSearch] = useState<string>("");
+
+  const [internshipCategory, setInternshipCategory] =
+    useState<string>("All Internships");
+  const [internshipSearch, setInternshipSearch] = useState<string>("");
 
   useEffect(() => {
     const params = new URLSearchParams(location.search);
@@ -28,11 +33,19 @@ export function CareersPage() {
     }
     const cat = params.get("category");
     if (cat) {
-      if (cat === "programming") setCourseCategory("Programming Foundations");
-      else if (cat === "robotics") setCourseCategory("Robotics & Automation");
-      else if (cat === "iot") setCourseCategory("Internet of Things (IoT)");
-      else if (cat === "ai") setCourseCategory("Artificial Intelligence");
-      else setCourseCategory("All Courses");
+      if (tab === "certifications") {
+        if (cat === "programming") setCourseCategory("Programming Foundations");
+        else if (cat === "robotics") setCourseCategory("Robotics & Automation");
+        else if (cat === "iot") setCourseCategory("Internet of Things (IoT)");
+        else if (cat === "ai") setCourseCategory("Artificial Intelligence");
+        else setCourseCategory("All Courses");
+      } else if (tab === "internships") {
+        if (cat === "iot") setInternshipCategory("IoT Development");
+        else if (cat === "web") setInternshipCategory("Web Development");
+        else if (cat === "embedded") setInternshipCategory("Embedded Systems");
+        else if (cat === "ai") setInternshipCategory("AI & Machine Learning");
+        else setInternshipCategory("All Internships");
+      }
     }
   }, [location]);
 
@@ -44,12 +57,30 @@ export function CareersPage() {
     "Artificial Intelligence",
   ];
 
+  const INTERNSHIP_CATEGORIES = [
+    "All Internships",
+    "IoT Development",
+    "Web Development",
+    "Embedded Systems",
+    "AI & Machine Learning",
+  ];
+
   const filteredCourses = COURSES.filter((c) => {
     const matchesCategory =
       courseCategory === "All Courses" || c.category === courseCategory;
     const matchesSearch = c.name
       .toLowerCase()
       .includes(courseSearch.toLowerCase());
+    return matchesCategory && matchesSearch;
+  });
+
+  const filteredInternships = INTERNSHIPS.filter((i) => {
+    const matchesCategory =
+      internshipCategory === "All Internships" ||
+      i.category === internshipCategory;
+    const matchesSearch = i.title
+      .toLowerCase()
+      .includes(internshipSearch.toLowerCase());
     return matchesCategory && matchesSearch;
   });
 
@@ -65,13 +96,21 @@ export function CareersPage() {
             </h1>
           </div>
 
-          {activeTab === "certifications" && (
+          {(activeTab === "certifications" || activeTab === "internships") && (
             <div className="w-full md:w-72 relative">
               <input
                 type="text"
-                placeholder="Search courses..."
-                value={courseSearch}
-                onChange={(e) => setCourseSearch(e.target.value)}
+                placeholder={`Search ${activeTab === "certifications" ? "courses" : "internships"}...`}
+                value={
+                  activeTab === "certifications"
+                    ? courseSearch
+                    : internshipSearch
+                }
+                onChange={(e) =>
+                  activeTab === "certifications"
+                    ? setCourseSearch(e.target.value)
+                    : setInternshipSearch(e.target.value)
+                }
                 className="w-full pl-9 pr-3 py-2 bg-gray-50 border border-gray-100 rounded-lg focus:ring-2 focus:ring-blue-600 font-medium text-sm text-[#1d1d1f] placeholder:text-gray-400 outline-none transition-shadow"
               />
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 w-4 h-4" />
@@ -127,60 +166,79 @@ export function CareersPage() {
         )}
 
         {activeTab === "internships" && (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <div className="bg-white rounded-3xl border border-gray-100 p-8 shadow-sm flex flex-col justify-between hover:shadow-md transition-shadow">
-              <div>
-                <span className="bg-blue-50 text-blue-600 px-3 py-1 rounded-full text-[10px] uppercase font-black tracking-widest mb-6 inline-block">
-                  On-Site / Remote
-                </span>
-                <h3 className="text-2xl font-bold text-[#1d1d1f] mb-4">
-                  Embedded Systems Intern
-                </h3>
-                <p className="text-gray-500 mb-6 leading-relaxed">
-                  Work directly with our hardware team designing custom PCBs,
-                  writing RTOS firmware, and integrating IoT solutions for
-                  enterprise clients.
-                </p>
-                <div className="space-y-2 mb-8">
-                  <p className="text-sm text-gray-600">
-                    <span className="font-bold">Duration:</span> 3-6 Months
-                  </p>
-                  <p className="text-sm text-gray-600">
-                    <span className="font-bold">Requirements:</span> C/C++,
-                    Basic PCB Design, Microcontrollers
-                  </p>
+          <div className="flex flex-col gap-8">
+            <div className="flex flex-col md:flex-row gap-8">
+              {/* Sidebar */}
+              <aside className="w-full md:w-64 shrink-0">
+                <div className="bg-white rounded-3xl border border-gray-100 p-6 sticky top-24 shadow-sm max-h-[calc(100vh-8rem)] flex flex-col">
+                  <h3 className="font-bold flex items-center text-[#1d1d1f] border-b border-gray-100 pb-4 mb-4 tracking-tight shrink-0">
+                    <SlidersHorizontal className="w-4 h-4 mr-2" /> Categories
+                  </h3>
+                  <ul className="space-y-1 overflow-y-auto pr-2 flex-1">
+                    {INTERNSHIP_CATEGORIES.map((cat) => (
+                      <li key={cat}>
+                        <button
+                          onClick={() => setInternshipCategory(cat)}
+                          className={`w-full text-left px-3 py-2 rounded-xl text-sm font-medium transition-colors ${
+                            internshipCategory === cat
+                              ? "bg-gray-50 text-blue-600 font-bold border border-gray-100"
+                              : "text-gray-500 hover:bg-gray-50 hover:text-[#1d1d1f]"
+                          }`}
+                        >
+                          {cat}
+                        </button>
+                      </li>
+                    ))}
+                  </ul>
                 </div>
-              </div>
-              <button className="w-full bg-gray-50 border border-gray-100 text-[#1d1d1f] font-bold py-3 rounded-full text-xs uppercase tracking-wider hover:border-blue-600 hover:text-blue-600 transition-colors">
-                Apply Now
-              </button>
-            </div>
+              </aside>
 
-            <div className="bg-white rounded-3xl border border-gray-100 p-8 shadow-sm flex flex-col justify-between hover:shadow-md transition-shadow">
-              <div>
-                <span className="bg-green-50 text-green-600 px-3 py-1 rounded-full text-[10px] uppercase font-black tracking-widest mb-6 inline-block">
-                  Remote
-                </span>
-                <h3 className="text-2xl font-bold text-[#1d1d1f] mb-4">
-                  IoT Cloud Intern
-                </h3>
-                <p className="text-gray-500 mb-6 leading-relaxed">
-                  Build scalable backends, deploy MQTT brokers, and create
-                  real-time React dashboards for connected devices.
-                </p>
-                <div className="space-y-2 mb-8">
-                  <p className="text-sm text-gray-600">
-                    <span className="font-bold">Duration:</span> 3-6 Months
-                  </p>
-                  <p className="text-sm text-gray-600">
-                    <span className="font-bold">Requirements:</span> React,
-                    Node.js, WebSockets, Firebase
-                  </p>
-                </div>
+              {/* Internships Grid */}
+              <div className="flex-1">
+                {filteredInternships.length > 0 ? (
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    {filteredInternships.map((internship) => (
+                      <div
+                        key={internship.id}
+                        className="bg-white rounded-3xl border border-gray-100 p-8 shadow-sm flex flex-col justify-between hover:shadow-md transition-shadow"
+                      >
+                        <div>
+                          <span
+                            className={`${internship.type === "Remote" ? "bg-green-50 text-green-600" : "bg-blue-50 text-blue-600"} px-3 py-1 rounded-full text-[10px] uppercase font-black tracking-widest mb-6 inline-block`}
+                          >
+                            {internship.type}
+                          </span>
+                          <h3 className="text-xl font-bold text-[#1d1d1f] mb-4">
+                            {internship.title}
+                          </h3>
+                          <p className="text-gray-500 mb-6 leading-relaxed text-sm">
+                            {internship.description}
+                          </p>
+                          <div className="space-y-2 mb-8">
+                            <p className="text-sm text-gray-600">
+                              <span className="font-bold">Duration:</span>{" "}
+                              {internship.duration}
+                            </p>
+                            <p className="text-sm text-gray-600">
+                              <span className="font-bold">Requirements:</span>{" "}
+                              {internship.requirements}
+                            </p>
+                          </div>
+                        </div>
+                        <button className="w-full bg-gray-50 border border-gray-100 text-[#1d1d1f] font-bold py-3 rounded-xl text-xs uppercase tracking-wider hover:border-blue-600 hover:text-blue-600 transition-colors shadow-sm">
+                          Apply Now
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <div className="bg-white rounded-3xl border border-gray-100 p-12 text-center shadow-sm">
+                    <p className="text-gray-500 text-lg">
+                      No internships found matching your criteria.
+                    </p>
+                  </div>
+                )}
               </div>
-              <button className="w-full bg-gray-50 border border-gray-100 text-[#1d1d1f] font-bold py-3 rounded-full text-xs uppercase tracking-wider hover:border-blue-600 hover:text-blue-600 transition-colors">
-                Apply Now
-              </button>
             </div>
           </div>
         )}
