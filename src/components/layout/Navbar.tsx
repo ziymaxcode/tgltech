@@ -3,6 +3,7 @@ import { Menu, X, Cpu, ShoppingCart } from 'lucide-react';
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { useCart } from '../../context/CartContext';
+import { STORE_PRODUCTS } from '../../data/mockData';
 
 const LINKS = [
   { 
@@ -10,12 +11,12 @@ const LINKS = [
     path: '/store',
     dropdown: [
       { name: 'All Components', path: '/store' },
-      { name: 'Development Boards', path: '/store?category=Development+Boards' },
-      { name: 'Sensors', path: '/store?category=Sensors' },
-      { name: 'Modules', path: '/store?category=Modules' },
-      { name: 'Robotics', path: '/store?category=Robotics' },
-      { name: 'Drone Components', path: '/store?category=Drone+Components' },
-      { name: 'Kits', path: '/store?category=Kits' },
+      { name: 'Development Boards', path: '/store?category=Development+Boards', storeCategory: 'Development Boards' },
+      { name: 'Sensors', path: '/store?category=Sensors', storeCategory: 'Sensors' },
+      { name: 'Modules', path: '/store?category=Modules', storeCategory: 'Modules' },
+      { name: 'Robotics', path: '/store?category=Robotics', storeCategory: 'Robotics' },
+      { name: 'Drone Components', path: '/store?category=Drone+Components', storeCategory: 'Drone Components' },
+      { name: 'Kits', path: '/store?category=Kits', storeCategory: 'Kits' },
     ]
   },
   { 
@@ -120,13 +121,31 @@ export function Navbar() {
                     <div className="absolute top-full left-0 pt-4 opacity-0 translate-y-2 pointer-events-none group-hover:opacity-100 group-hover:translate-y-0 group-hover:pointer-events-auto transition-all">
                       <div className="bg-white border border-gray-100 shadow-lg rounded-2xl py-2 w-56 flex flex-col">
                         {link.dropdown.map(subLink => (
-                          <Link 
-                            key={subLink.path} 
-                            to={subLink.path}
-                            className="px-4 py-2 text-sm text-gray-500 hover:text-blue-600 hover:bg-gray-50 transition-colors whitespace-nowrap"
-                          >
-                            {subLink.name}
-                          </Link>
+                          <div key={subLink.path} className="relative group/sub">
+                            <Link 
+                              to={subLink.path}
+                              className="px-4 py-2 text-sm text-gray-500 hover:text-blue-600 hover:bg-gray-50 transition-colors whitespace-nowrap flex justify-between items-center w-full"
+                            >
+                              {subLink.name}
+                              {(subLink as any).storeCategory && <span className="ml-2 font-bold opacity-0 group-hover/sub:opacity-100 transition-opacity">›</span>}
+                            </Link>
+                            {(subLink as any).storeCategory && (
+                              <div className="absolute top-0 left-full pl-2 opacity-0 -translate-x-2 pointer-events-none group-hover/sub:opacity-100 group-hover/sub:translate-x-0 group-hover/sub:pointer-events-auto transition-all w-64 z-50">
+                                <div className="bg-white border border-gray-100 shadow-lg rounded-2xl py-2 flex flex-col max-h-96 overflow-y-auto">
+                                  {STORE_PRODUCTS.filter(p => p.category === (subLink as any).storeCategory).map(product => (
+                                    <Link 
+                                      key={product.id}
+                                      to={`/store/${product.id}`}
+                                      className="px-4 py-2 text-sm text-gray-500 hover:text-blue-600 hover:bg-gray-50 transition-colors flex flex-col"
+                                    >
+                                      <span>{product.name}</span>
+                                      {product.price && <span className="text-xs font-bold mt-0.5">{product.price}</span>}
+                                    </Link>
+                                  ))}
+                                </div>
+                              </div>
+                            )}
+                          </div>
                         ))}
                       </div>
                     </div>
