@@ -2,18 +2,8 @@ import { useState, useEffect } from "react";
 import { useLocation, Link } from "react-router-dom";
 import { STORE_PRODUCTS } from "../data/mockData";
 import { ProductCard } from "../components/ui/ProductCard";
-import { Search, SlidersHorizontal } from "lucide-react";
-
-const CATEGORIES = [
-  "All Components",
-  "Development Boards",
-  "Sensors",
-  "Modules",
-  "Displays",
-  "Robotics",
-  "Drone Components",
-  "Kits",
-];
+import { Search } from "lucide-react";
+import { StoreSidebar } from "../components/StoreSidebar";
 
 export function StorePage() {
   const location = useLocation();
@@ -38,7 +28,7 @@ export function StorePage() {
     <div className="bg-[#fbfbfb] min-h-screen pb-24">
       {/* Store Header */}
       <div className="bg-white border-b border-gray-100 py-6">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div className="w-full mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div>
             <h1 className="text-2xl font-bold text-[#1d1d1f] tracking-tight">
               Electronics & DIY Store
@@ -58,51 +48,10 @@ export function StorePage() {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-8 flex flex-col md:flex-row gap-8">
         {/* Sidebar */}
-        <div className="w-full md:w-64 shrink-0">
-          <div className="bg-white rounded-3xl border border-gray-100 p-6 sticky top-24 shadow-sm max-h-[calc(100vh-8rem)] flex flex-col">
-            <h3 className="font-bold flex items-center text-[#1d1d1f] border-b border-gray-100 pb-4 mb-4 tracking-tight shrink-0">
-              <SlidersHorizontal className="w-4 h-4 mr-2" /> Categories
-            </h3>
-            <ul className="space-y-1 overflow-y-auto pr-2 flex-1">
-              {CATEGORIES.map((cat) => (
-                <li key={cat} className="flex flex-col">
-                  <button
-                    onClick={() => setActiveCategory(cat)}
-                    className={`w-full text-left px-3 py-2 rounded-xl text-sm font-medium transition-colors flex justify-between items-center ${
-                      activeCategory === cat
-                        ? "bg-gray-50 text-blue-600 font-bold border border-gray-100"
-                        : "text-gray-500 hover:bg-gray-50 hover:text-[#1d1d1f]"
-                    }`}
-                  >
-                    <span>{cat}</span>
-                    {cat !== "All Components" && (
-                      <span
-                        className={`transition-transform duration-300 ${activeCategory === cat ? "rotate-90 text-blue-600" : "text-gray-400"}`}
-                      >
-                        ›
-                      </span>
-                    )}
-                  </button>
-                  {cat !== "All Components" && activeCategory === cat && (
-                    <div className="mt-1 flex flex-col pl-3 border-l-2 border-gray-100 ml-3">
-                      {STORE_PRODUCTS.filter((p) => p.category === cat).map(
-                        (product) => (
-                          <Link
-                            key={product.id}
-                            to={`/store/${product.id}`}
-                            className="px-3 py-1.5 text-sm text-gray-500 hover:text-blue-600 hover:bg-gray-50 transition-colors flex flex-col rounded-lg"
-                          >
-                            <span className="truncate">{product.name}</span>
-                          </Link>
-                        ),
-                      )}
-                    </div>
-                  )}
-                </li>
-              ))}
-            </ul>
-          </div>
-        </div>
+        <StoreSidebar
+          activeCategory={activeCategory}
+          setActiveCategory={setActiveCategory}
+        />
 
         {/* Product Grid */}
         <div className="flex-1">

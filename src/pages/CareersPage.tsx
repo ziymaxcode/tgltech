@@ -87,7 +87,7 @@ export function CareersPage() {
   return (
     <div className="bg-[#fbfbfb] min-h-screen pb-24">
       <div className="bg-white border-b border-gray-100 py-6">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div className="w-full mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div>
             <h1 className="text-2xl font-bold text-[#1d1d1f] tracking-tight">
               {activeTab === "phd" && "PhD Research Support"}

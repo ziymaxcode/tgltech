@@ -9,6 +9,7 @@ const LINKS = [
   {
     name: "Electronics DIY Store",
     path: "/store",
+    isMegaStore: true,
     dropdown: [
       { name: "All Components", path: "/store" },
       {
@@ -42,13 +43,7 @@ const LINKS = [
   {
     name: "Engineering Projects",
     path: "/projects",
-    dropdown: [
-      { name: "All Projects", path: "/projects" },
-      { name: "IoT Projects", path: "/projects?category=IoT+Projects" },
-      { name: "AI Projects", path: "/projects?category=AI+Projects" },
-      { name: "Robotics", path: "/projects?category=Robotics" },
-      { name: "School Projects", path: "/projects?category=School+Projects" },
-    ],
+    isMegaProjects: true,
   },
   {
     name: "Internships",
@@ -129,13 +124,14 @@ const LINKS = [
 
 export function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
+  const [closedMenuPath, setClosedMenuPath] = useState<string | null>(null);
   const location = useLocation();
   const { cart } = useCart();
   const cartItemCount = cart.reduce((acc, item) => acc + item.quantity, 0);
 
   return (
     <nav className="fixed top-0 w-full z-50 bg-white border-b border-gray-100">
-      <div className="max-w-7xl mx-auto px-10">
+      <div className="w-full mx-auto px-10">
         <div className="flex justify-between items-center h-16">
           <Link to="/" className="flex items-center space-x-2">
             <Cpu className="h-8 w-8 text-blue-600" />
@@ -153,9 +149,18 @@ export function Navbar() {
                     link.path !== "/") ||
                   (link.path === "/" && location.pathname === "/");
 
-              if (link.dropdown) {
+              if ((link as any).isMegaProjects) {
                 return (
-                  <div key={link.path} className="relative group">
+                  <div
+                    key={link.path}
+                    className="relative group"
+                    onMouseLeave={() => setClosedMenuPath(null)}
+                    onClick={(e) => {
+                      if ((e.target as HTMLElement).closest("a")) {
+                        setClosedMenuPath(link.path);
+                      }
+                    }}
+                  >
                     <Link
                       to={link.path}
                       className={`flex items-center text-sm font-medium transition-colors whitespace-nowrap ${
@@ -166,50 +171,403 @@ export function Navbar() {
                     >
                       {link.name}
                     </Link>
-                    <div className="absolute top-full left-0 pt-4 opacity-0 translate-y-2 pointer-events-none group-hover:opacity-100 group-hover:translate-y-0 group-hover:pointer-events-auto transition-all">
-                      <div className="bg-white border border-gray-100 shadow-lg rounded-2xl py-2 w-56 flex flex-col">
-                        {link.dropdown.map((subLink) => (
-                          <div
-                            key={subLink.path}
-                            className="relative group/sub"
-                          >
+                    <div
+                      className={`absolute top-full left-0 pt-4 transition-all z-50 ${closedMenuPath === link.path ? "opacity-0 translate-y-2 pointer-events-none" : "opacity-0 translate-y-2 pointer-events-none group-hover:opacity-100 group-hover:translate-y-0 group-hover:pointer-events-auto"}`}
+                    >
+                      <div className="bg-white border border-gray-100 shadow-2xl rounded-3xl p-8 w-[800px] flex gap-12">
+                        {/* Sidebar */}
+                        <div className="w-48 shrink-0">
+                          <h3 className="font-black text-[10px] uppercase tracking-widest text-[#1d1d1f] mb-4">
+                            Major & Minor
+                          </h3>
+                          <ul className="space-y-3">
+                            <li className="text-sm text-gray-500 hover:text-blue-600 font-medium">
+                              <Link to="/projects?category=IEEE+Major+Projects">
+                                IEEE Major Projects
+                              </Link>
+                            </li>
+                            <li className="text-sm text-gray-500 hover:text-blue-600 font-medium">
+                              <Link to="/projects?category=Application+Major+Projects">
+                                Application Major Projects
+                              </Link>
+                            </li>
+                            <li className="text-sm text-gray-500 hover:text-blue-600 font-medium">
+                              <Link to="/projects?category=Minor+Projects">
+                                Minor Projects
+                              </Link>
+                            </li>
+                          </ul>
+                        </div>
+
+                        {/* Mega Menu Content */}
+                        <div className="flex-1 grid grid-cols-3 gap-8">
+                          <div>
+                            <h3 className="font-black text-[10px] uppercase tracking-widest text-blue-600 mb-4 pb-2 border-b border-gray-100">
+                              Embedded
+                            </h3>
+                            <ul className="space-y-3">
+                              <li className="text-sm text-gray-600 hover:text-[#1d1d1f]">
+                                <Link to="/projects?category=MATLAB">
+                                  MATLAB
+                                </Link>
+                              </li>
+                              <li className="text-sm text-gray-600 hover:text-[#1d1d1f]">
+                                <Link to="/projects?category=VLSI">VLSI</Link>
+                              </li>
+                              <li className="text-sm text-gray-600 hover:text-[#1d1d1f]">
+                                <Link to="/projects?category=ELECTRICAL">
+                                  ELECTRICAL
+                                </Link>
+                              </li>
+                              <li className="text-sm text-gray-600 hover:text-[#1d1d1f]">
+                                <Link to="/projects?category=PYTHON">
+                                  PYTHON
+                                </Link>
+                              </li>
+                              <li className="text-sm text-gray-600 hover:text-[#1d1d1f]">
+                                <Link to="/projects?category=ANDROID">
+                                  ANDROID
+                                </Link>
+                              </li>
+                              <li className="text-sm text-gray-600 hover:text-[#1d1d1f]">
+                                <Link to="/projects?category=JAVA">JAVA</Link>
+                              </li>
+                            </ul>
+                          </div>
+
+                          <div>
+                            <h3 className="font-black text-[10px] uppercase tracking-widest text-[#1d1d1f] mb-4 pb-2 border-b border-gray-100">
+                              Domains
+                            </h3>
+                            <ul className="space-y-3">
+                              <li className="text-sm text-gray-600 hover:text-[#1d1d1f]">
+                                <Link to="/projects?category=Robotics">
+                                  Robotics
+                                </Link>
+                              </li>
+                              <li className="text-sm text-gray-600 hover:text-[#1d1d1f]">
+                                <Link to="/projects?category=IOT">IOT</Link>
+                              </li>
+                              <li className="text-sm text-gray-600 hover:text-[#1d1d1f]">
+                                <Link to="/projects?category=Deep+Learning">
+                                  Deep Learning
+                                </Link>
+                              </li>
+                              <li className="text-sm text-gray-600 hover:text-[#1d1d1f]">
+                                <Link to="/projects?category=Industrial+Automation">
+                                  Industrial Automation
+                                </Link>
+                              </li>
+                              <li className="text-sm text-gray-600 hover:text-[#1d1d1f]">
+                                <Link to="/projects?category=Biomedical">
+                                  Biomedical
+                                </Link>
+                              </li>
+                              <li className="text-sm text-gray-600 hover:text-[#1d1d1f]">
+                                <Link to="/projects?category=Renewable">
+                                  Renewable
+                                </Link>
+                              </li>
+                              <li className="text-sm text-gray-600 hover:text-[#1d1d1f]">
+                                <Link to="/projects?category=Mechatronics">
+                                  Mechatronics
+                                </Link>
+                              </li>
+                              <li className="text-sm text-gray-600 hover:text-[#1d1d1f]">
+                                <Link to="/projects?category=Embedded+with+Matlab">
+                                  Embedded with Matlab
+                                </Link>
+                              </li>
+                              <li className="text-sm text-gray-600 hover:text-[#1d1d1f]">
+                                <Link to="/projects?category=Artificial+Intelligence">
+                                  Artificial Intelligence
+                                </Link>
+                              </li>
+                              <li className="text-sm text-gray-600 hover:text-[#1d1d1f]">
+                                <Link to="/projects?category=OpenCV">
+                                  OpenCV
+                                </Link>
+                              </li>
+                            </ul>
+                          </div>
+
+                          <div>
+                            <h3 className="font-black text-[10px] uppercase tracking-widest text-[#1d1d1f] mb-4 pb-2 border-b border-gray-100">
+                              Controllers & Others
+                            </h3>
+                            <ul className="space-y-3">
+                              <li className="text-sm text-gray-600 hover:text-[#1d1d1f]">
+                                <Link to="/projects?category=ARM7">ARM7</Link>
+                              </li>
+                              <li className="text-sm text-gray-600 hover:text-[#1d1d1f]">
+                                <Link to="/projects?category=Raspberry+pi">
+                                  Raspberry pi
+                                </Link>
+                              </li>
+                              <li className="text-sm text-gray-600 hover:text-[#1d1d1f]">
+                                <Link to="/projects?category=NodeMCU">
+                                  NodeMCU
+                                </Link>
+                              </li>
+                              <li className="text-sm text-gray-600 hover:text-[#1d1d1f]">
+                                <Link to="/projects?category=Arduino">
+                                  Arduino
+                                </Link>
+                              </li>
+                              <li className="text-sm text-gray-600 hover:text-[#1d1d1f]">
+                                <Link to="/projects?category=PIC16F77A">
+                                  PIC16F77A
+                                </Link>
+                              </li>
+                              <li className="text-sm text-gray-600 hover:text-[#1d1d1f]">
+                                <Link to="/projects?category=Android">
+                                  Android Apps
+                                </Link>
+                              </li>
+                            </ul>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                );
+              }
+
+              if (link.isMegaStore) {
+                return (
+                  <div
+                    key={link.path}
+                    className="relative group"
+                    onMouseLeave={() => setClosedMenuPath(null)}
+                    onClick={(e) => {
+                      if ((e.target as HTMLElement).closest("a")) {
+                        setClosedMenuPath(link.path);
+                      }
+                    }}
+                  >
+                    <Link
+                      to={link.path}
+                      className={`flex items-center text-sm font-medium transition-colors whitespace-nowrap ${
+                        isActive
+                          ? "text-blue-600"
+                          : "text-gray-500 hover:text-blue-600"
+                      }`}
+                    >
+                      {link.name}
+                    </Link>
+                    <div
+                      className={`absolute top-full left-0 pt-4 transition-all z-50 ${closedMenuPath === link.path ? "opacity-0 translate-y-2 pointer-events-none" : "opacity-0 translate-y-2 pointer-events-none group-hover:opacity-100 group-hover:translate-y-0 group-hover:pointer-events-auto"}`}
+                    >
+                      <div className="bg-white border border-gray-100 shadow-2xl rounded-3xl p-8 w-[800px] flex gap-12">
+                        {/* Sidebar / Main Categories */}
+                        <div className="w-48 shrink-0">
+                          <h3 className="font-black text-[10px] uppercase tracking-widest text-[#1d1d1f] mb-4">
+                            Main Store
+                          </h3>
+                          <ul className="space-y-3">
+                            <li className="text-sm text-gray-500 hover:text-blue-600 font-medium">
+                              <Link to="/store">All Components</Link>
+                            </li>
+                            <li className="text-sm text-gray-500 hover:text-blue-600 font-medium">
+                              <Link to="/store?category=Development+Boards">
+                                Development Boards
+                              </Link>
+                            </li>
+                            <li className="text-sm text-gray-500 hover:text-blue-600 font-medium">
+                              <Link to="/store?category=Sensors">Sensors</Link>
+                            </li>
+                            <li className="text-sm text-gray-500 hover:text-blue-600 font-medium">
+                              <Link to="/store?category=Modules">Modules</Link>
+                            </li>
+                            <li className="text-sm text-gray-500 hover:text-blue-600 font-medium">
+                              <Link to="/store?category=Displays">
+                                Displays
+                              </Link>
+                            </li>
+                            <li className="text-sm text-gray-500 hover:text-blue-600 font-medium">
+                              <Link to="/store?category=Robotics">
+                                Robotics
+                              </Link>
+                            </li>
+                            <li className="text-sm text-gray-500 hover:text-blue-600 font-medium">
+                              <Link to="/store?category=Drone+Components">
+                                Drone Components
+                              </Link>
+                            </li>
+                            <li className="text-sm text-gray-500 hover:text-blue-600 font-medium">
+                              <Link to="/store?category=Kits">Kits</Link>
+                            </li>
+                          </ul>
+                        </div>
+
+                        {/* Mega Menu Content matching the requested style */}
+                        <div className="flex-1 grid grid-cols-3 gap-8">
+                          <div>
+                            <h3 className="font-black text-[10px] uppercase tracking-widest text-blue-600 mb-4 pb-2 border-b border-gray-100">
+                              Boards & Modules
+                            </h3>
+                            <ul className="space-y-3">
+                              <li className="text-sm text-gray-600 hover:text-[#1d1d1f]">
+                                <Link to="/store?category=Development+Boards">
+                                  Arduino
+                                </Link>
+                              </li>
+                              <li className="text-sm text-gray-600 hover:text-[#1d1d1f]">
+                                <Link to="/store?category=Development+Boards">
+                                  Raspberry Pi
+                                </Link>
+                              </li>
+                              <li className="text-sm text-gray-600 hover:text-[#1d1d1f]">
+                                <Link to="/store?category=Development+Boards">
+                                  ESP / NodeMCU
+                                </Link>
+                              </li>
+                              <li className="text-sm text-gray-600 hover:text-[#1d1d1f]">
+                                <Link to="/store?category=Development+Boards">
+                                  STM32
+                                </Link>
+                              </li>
+                              <li className="text-sm text-gray-600 hover:text-[#1d1d1f]">
+                                <Link to="/store?category=Modules">
+                                  Wireless Modules
+                                </Link>
+                              </li>
+                              <li className="text-sm text-gray-600 hover:text-[#1d1d1f]">
+                                <Link to="/store?category=Displays">
+                                  OLED & LCD
+                                </Link>
+                              </li>
+                            </ul>
+                          </div>
+
+                          <div>
+                            <h3 className="font-black text-[10px] uppercase tracking-widest text-[#1d1d1f] mb-4 pb-2 border-b border-gray-100">
+                              Sensors & Power
+                            </h3>
+                            <ul className="space-y-3">
+                              <li className="text-sm text-gray-600 hover:text-[#1d1d1f]">
+                                <Link to="/store?category=Sensors">
+                                  Environmental
+                                </Link>
+                              </li>
+                              <li className="text-sm text-gray-600 hover:text-[#1d1d1f]">
+                                <Link to="/store?category=Sensors">
+                                  Motion & Distance
+                                </Link>
+                              </li>
+                              <li className="text-sm text-gray-600 hover:text-[#1d1d1f]">
+                                <Link to="/store?category=Sensors">
+                                  Gas & Chemical
+                                </Link>
+                              </li>
+                              <li className="text-sm text-gray-600 hover:text-[#1d1d1f]">
+                                <Link to="/store?category=Sensors">
+                                  Biometric
+                                </Link>
+                              </li>
+                              <li className="text-sm text-gray-600 hover:text-[#1d1d1f]">
+                                <Link to="/store?category=Modules">
+                                  Power Modules
+                                </Link>
+                              </li>
+                              <li className="text-sm text-gray-600 hover:text-[#1d1d1f]">
+                                <Link to="/store?category=Modules">
+                                  Relays & Switches
+                                </Link>
+                              </li>
+                            </ul>
+                          </div>
+
+                          <div>
+                            <h3 className="font-black text-[10px] uppercase tracking-widest text-[#1d1d1f] mb-4 pb-2 border-b border-gray-100">
+                              Robotics & Drones
+                            </h3>
+                            <ul className="space-y-3">
+                              <li className="text-sm text-gray-600 hover:text-[#1d1d1f]">
+                                <Link to="/store?category=Robotics">
+                                  Robot Chassis
+                                </Link>
+                              </li>
+                              <li className="text-sm text-gray-600 hover:text-[#1d1d1f]">
+                                <Link to="/store?category=Robotics">
+                                  Motors & Drivers
+                                </Link>
+                              </li>
+                              <li className="text-sm text-gray-600 hover:text-[#1d1d1f]">
+                                <Link to="/store?category=Drone+Components">
+                                  BLDC Motors
+                                </Link>
+                              </li>
+                              <li className="text-sm text-gray-600 hover:text-[#1d1d1f]">
+                                <Link to="/store?category=Drone+Components">
+                                  ESCs & Flight Controllers
+                                </Link>
+                              </li>
+                              <li className="text-sm text-gray-600 hover:text-[#1d1d1f]">
+                                <Link to="/store?category=Drone+Components">
+                                  Propellers & Frames
+                                </Link>
+                              </li>
+                              <li className="text-sm text-gray-600 hover:text-[#1d1d1f]">
+                                <Link to="/store?category=Kits">
+                                  Complete Kits
+                                </Link>
+                              </li>
+                            </ul>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                );
+              }
+
+              if (link.dropdown) {
+                return (
+                  <div
+                    key={link.path}
+                    className="relative group"
+                    onMouseLeave={() => setClosedMenuPath(null)}
+                    onClick={(e) => {
+                      if ((e.target as HTMLElement).closest("a")) {
+                        setClosedMenuPath(link.path);
+                      }
+                    }}
+                  >
+                    <Link
+                      to={link.path}
+                      className={`flex items-center text-sm font-medium transition-colors whitespace-nowrap ${
+                        isActive
+                          ? "text-blue-600"
+                          : "text-gray-500 hover:text-blue-600"
+                      }`}
+                    >
+                      {link.name}
+                    </Link>
+                    <div
+                      className={`absolute top-full pt-4 transition-all z-50 ${
+                        ["Lab Setups", "Technical Solutions"].includes(
+                          link.name,
+                        )
+                          ? "right-0"
+                          : "left-0"
+                      } ${closedMenuPath === link.path ? "opacity-0 translate-y-2 pointer-events-none" : "opacity-0 translate-y-2 pointer-events-none group-hover:opacity-100 group-hover:translate-y-0 group-hover:pointer-events-auto"}`}
+                    >
+                      <div className="bg-white border border-gray-100 shadow-2xl rounded-3xl p-8 min-w-[500px]">
+                        <h3 className="font-black text-[12px] uppercase tracking-widest text-[#1d1d1f] mb-6 pb-2 border-b border-gray-100">
+                          {link.name}
+                        </h3>
+                        <div className="grid grid-cols-2 gap-x-8 gap-y-4">
+                          {link.dropdown.map((subLink) => (
                             <Link
+                              key={subLink.path}
                               to={subLink.path}
-                              className="px-4 py-2 text-sm text-gray-500 hover:text-blue-600 hover:bg-gray-50 transition-colors whitespace-nowrap flex justify-between items-center w-full"
+                              className="text-sm text-gray-500 hover:text-blue-600 font-medium transition-colors"
                             >
                               {subLink.name}
-                              {(subLink as any).storeCategory && (
-                                <span className="ml-2 font-bold opacity-0 group-hover/sub:opacity-100 transition-opacity">
-                                  ›
-                                </span>
-                              )}
                             </Link>
-                            {(subLink as any).storeCategory && (
-                              <div className="absolute top-0 left-full pl-2 opacity-0 -translate-x-2 pointer-events-none group-hover/sub:opacity-100 group-hover/sub:translate-x-0 group-hover/sub:pointer-events-auto transition-all w-64 z-50">
-                                <div className="bg-white border border-gray-100 shadow-lg rounded-2xl py-2 flex flex-col max-h-96 overflow-y-auto">
-                                  {STORE_PRODUCTS.filter(
-                                    (p) =>
-                                      p.category ===
-                                      (subLink as any).storeCategory,
-                                  ).map((product) => (
-                                    <Link
-                                      key={product.id}
-                                      to={`/store/${product.id}`}
-                                      className="px-4 py-2 text-sm text-gray-500 hover:text-blue-600 hover:bg-gray-50 transition-colors flex flex-col"
-                                    >
-                                      <span>{product.name}</span>
-                                      {product.price && (
-                                        <span className="text-xs font-bold mt-0.5">
-                                          {product.price}
-                                        </span>
-                                      )}
-                                    </Link>
-                                  ))}
-                                </div>
-                              </div>
-                            )}
-                          </div>
-                        ))}
+                          ))}
+                        </div>
                       </div>
                     </div>
                   </div>

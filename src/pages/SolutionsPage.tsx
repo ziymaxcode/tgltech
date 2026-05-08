@@ -78,7 +78,7 @@ export function SolutionsPage() {
   return (
     <div className="bg-[#fbfbfb] min-h-screen pb-24">
       <div className="bg-white border-b border-gray-100 py-6">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="w-full mx-auto px-4 sm:px-6 lg:px-8">
           <h1 className="text-2xl font-bold text-[#1d1d1f] tracking-tight">
             {activeType === "all"
               ? "Technology & Prototyping Solutions"
