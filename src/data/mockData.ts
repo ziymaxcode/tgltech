@@ -182,7 +182,7 @@ export const COURSES = [
 export const ECOSYSTEMS = [
   {
     id: 'store',
-    title: 'DIY Store',
+    title: 'Electronics DIY Store',
     description: 'Components, boards, and robotic kits.',
     icon: ShoppingCart,
     path: '/store',

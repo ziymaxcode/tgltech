@@ -5,7 +5,19 @@ import { motion, AnimatePresence } from 'motion/react';
 import { useCart } from '../../context/CartContext';
 
 const LINKS = [
-  { name: 'DIY Store', path: '/store' },
+  { 
+    name: 'Electronics DIY Store', 
+    path: '/store',
+    dropdown: [
+      { name: 'All Components', path: '/store' },
+      { name: 'Development Boards', path: '/store?category=Development+Boards' },
+      { name: 'Sensors', path: '/store?category=Sensors' },
+      { name: 'Modules', path: '/store?category=Modules' },
+      { name: 'Robotics', path: '/store?category=Robotics' },
+      { name: 'Drone Components', path: '/store?category=Drone+Components' },
+      { name: 'Kits', path: '/store?category=Kits' },
+    ]
+  },
   { name: 'Engineering Projects', path: '/projects' },
   { name: 'Internships', path: '/careers?tab=internships' },
   { name: 'PhD Support', path: '/careers?tab=phd' },
@@ -38,6 +50,34 @@ export function Navbar() {
                 ? location.pathname + location.search === link.path
                 : location.pathname.startsWith(link.path) && link.path !== '/' || (link.path === '/' && location.pathname === '/');
               
+              if (link.dropdown) {
+                return (
+                  <div key={link.path} className="relative group">
+                    <Link
+                      to={link.path}
+                      className={`flex items-center text-sm font-medium transition-colors whitespace-nowrap ${
+                        isActive ? 'text-blue-600' : 'text-gray-500 hover:text-blue-600'
+                      }`}
+                    >
+                      {link.name}
+                    </Link>
+                    <div className="absolute top-full left-0 pt-4 opacity-0 translate-y-2 pointer-events-none group-hover:opacity-100 group-hover:translate-y-0 group-hover:pointer-events-auto transition-all">
+                      <div className="bg-white border border-gray-100 shadow-lg rounded-2xl py-2 w-56 flex flex-col">
+                        {link.dropdown.map(subLink => (
+                          <Link 
+                            key={subLink.path} 
+                            to={subLink.path}
+                            className="px-4 py-2 text-sm text-gray-500 hover:text-blue-600 hover:bg-gray-50 transition-colors whitespace-nowrap"
+                          >
+                            {subLink.name}
+                          </Link>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                );
+              }
+
               return (
                 <Link
                   key={link.path}
@@ -108,6 +148,20 @@ export function Navbar() {
                     >
                       {link.name}
                     </Link>
+                    {link.dropdown && (
+                      <div className="pl-4 mt-2 border-l-2 border-gray-100 flex flex-col space-y-2">
+                        {link.dropdown.map(sub => (
+                          <Link
+                            key={sub.path}
+                            to={sub.path}
+                            onClick={() => setIsOpen(false)}
+                            className="block text-sm text-gray-500 hover:text-blue-600"
+                          >
+                            {sub.name}
+                          </Link>
+                        ))}
+                      </div>
+                    )}
                   </div>
                 );
               })}

@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import { STORE_PRODUCTS } from '../data/mockData';
 import { ProductCard } from '../components/ui/ProductCard';
 import { Search, SlidersHorizontal } from 'lucide-react';
@@ -15,7 +16,18 @@ const CATEGORIES = [
 ];
 
 export function StorePage() {
+  const location = useLocation();
   const [activeCategory, setActiveCategory] = useState('All Components');
+
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const category = params.get('category');
+    if (category) {
+      setActiveCategory(category);
+    } else {
+      setActiveCategory('All Components');
+    }
+  }, [location]);
 
   const filteredProducts = activeCategory === 'All Components' 
     ? STORE_PRODUCTS 

@@ -20,7 +20,7 @@ export function Footer() {
           <div>
             <h3 className="text-[#1d1d1f] font-bold tracking-tight mb-4">Ecosystem</h3>
             <ul className="space-y-2 text-sm text-gray-500">
-              <li><Link to="/store" className="hover:text-blue-600 transition">DIY Store</Link></li>
+              <li><Link to="/store" className="hover:text-blue-600 transition">Electronics DIY Store</Link></li>
               <li><Link to="/projects" className="hover:text-blue-600 transition">Engineering Projects</Link></li>
               <li><Link to="/careers?tab=certifications" className="hover:text-blue-600 transition">Courses & Certifications</Link></li>
               <li><Link to="/careers?tab=internships" className="hover:text-blue-600 transition">Internships</Link></li>
