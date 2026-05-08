@@ -18,12 +18,68 @@ const LINKS = [
       { name: 'Kits', path: '/store?category=Kits' },
     ]
   },
-  { name: 'Engineering Projects', path: '/projects' },
-  { name: 'Internships', path: '/careers?tab=internships' },
+  { 
+    name: 'Engineering Projects', 
+    path: '/projects',
+    dropdown: [
+      { name: 'All Projects', path: '/projects' },
+      { name: 'IoT Projects', path: '/projects?category=IoT+Projects' },
+      { name: 'AI Projects', path: '/projects?category=AI+Projects' },
+      { name: 'Robotics', path: '/projects?category=Robotics' },
+      { name: 'School Projects', path: '/projects?category=School+Projects' },
+    ]
+  },
+  { 
+    name: 'Internships', 
+    path: '/careers?tab=internships',
+    dropdown: [
+      { name: 'All Internships', path: '/careers?tab=internships' },
+      { name: 'IoT Development', path: '/careers?tab=internships&category=iot' },
+      { name: 'Web Development', path: '/careers?tab=internships&category=web' },
+      { name: 'Embedded Systems', path: '/careers?tab=internships&category=embedded' },
+      { name: 'AI & Machine Learning', path: '/careers?tab=internships&category=ai' },
+    ]
+  },
   { name: 'PhD Support', path: '/careers?tab=phd' },
-  { name: 'Courses & Certifications', path: '/careers?tab=certifications' },
-  { name: 'Lab Setups', path: '/labs' },
-  { name: 'Technical Solutions', path: '/solutions' },
+  { 
+    name: 'Courses & Certifications', 
+    path: '/careers?tab=certifications',
+    dropdown: [
+      { name: 'All Courses', path: '/careers?tab=certifications' },
+      { name: 'Programming Foundations', path: '/careers?tab=certifications&category=programming' },
+      { name: 'Robotics & Automation', path: '/careers?tab=certifications&category=robotics' },
+      { name: 'Internet of Things (IoT)', path: '/careers?tab=certifications&category=iot' },
+      { name: 'Artificial Intelligence', path: '/careers?tab=certifications&category=ai' },
+    ]
+  },
+  { 
+    name: 'Lab Setups', 
+    path: '/labs',
+    dropdown: [
+      { name: 'All Labs', path: '/labs' },
+      { name: 'ATAL Tinkering Lab (ATL)', path: '/labs?type=atl' },
+      { name: 'AICTE IDEA Lab', path: '/labs?type=aicte' },
+      { name: 'NAIN Project Lab', path: '/labs?type=nain' },
+      { name: 'Innovation Robotics Lab', path: '/labs?type=robotics' },
+      { name: 'STEM Education Lab', path: '/labs?type=stem' },
+      { name: 'IoT & AI Lab', path: '/labs?type=iot' },
+      { name: 'Embedded Systems Lab', path: '/labs?type=embedded' },
+    ]
+  },
+  { 
+    name: 'Technical Solutions', 
+    path: '/solutions',
+    dropdown: [
+      { name: 'All Solutions', path: '/solutions' },
+      { name: 'Embedded & Firmware', path: '/solutions?type=embedded' },
+      { name: 'PCB Design', path: '/solutions?type=pcb' },
+      { name: 'Cloud IoT Dashboards', path: '/solutions?type=cloud' },
+      { name: 'Mobile Apps', path: '/solutions?type=mobile' },
+      { name: '3D CAD Modeling', path: '/solutions?type=cad' },
+      { name: 'FDM/SLA Prototyping', path: '/solutions?type=prototyping' },
+      { name: 'Enclosure Design', path: '/solutions?type=enclosure' },
+    ]
+  },
 ];
 
 export function Navbar() {

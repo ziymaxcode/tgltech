@@ -1,12 +1,28 @@
 import { FolderGit2, Lightbulb } from 'lucide-react';
 import { PROJECTS } from '../data/mockData';
-import { Link } from 'react-router-dom';
-import { useState } from 'react';
+import { Link, useLocation } from 'react-router-dom';
+import { useState, useEffect } from 'react';
 
 export function ProjectsPage() {
+  const location = useLocation();
   const [activeTab, setActiveTab] = useState<'readymade' | 'custom'>('readymade');
+  const [activeCategory, setActiveCategory] = useState<string>('All');
 
-  const filteredProjects = PROJECTS.filter(project => project.isReadymade);
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const category = params.get('category');
+    if (category) {
+      setActiveCategory(category);
+      setActiveTab('readymade');
+    } else {
+      setActiveCategory('All');
+    }
+  }, [location]);
+
+  const readymadeProjects = PROJECTS.filter(project => project.isReadymade);
+  const filteredProjects = activeCategory === 'All' 
+    ? readymadeProjects 
+    : readymadeProjects.filter(p => p.category === activeCategory);
 
   return (
     <div className="bg-[#fbfbfb] min-h-screen pb-24">
@@ -36,10 +52,18 @@ export function ProjectsPage() {
 
           {activeTab === 'readymade' && (
             <div className="max-w-2xl mx-auto mt-8 flex flex-wrap gap-4 justify-center">
-              {['IoT Projects', 'AI Projects', 'Robotics', 'School Projects'].map(tag => (
-                <button key={tag} className="px-4 py-2 rounded-full border border-gray-100 bg-gray-50 text-xs font-bold uppercase tracking-widest hover:border-blue-600 hover:text-blue-600 text-gray-500 transition-colors">
+              {['All Projects', 'IoT Projects', 'AI Projects', 'Robotics', 'School Projects'].map(tag => (
+                <Link 
+                  to={tag === 'All Projects' ? '/projects' : `/projects?category=${encodeURIComponent(tag)}`}
+                  key={tag} 
+                  className={`px-4 py-2 rounded-full border text-xs font-bold uppercase tracking-widest transition-colors ${
+                    (tag === 'All Projects' && activeCategory === 'All') || activeCategory === tag 
+                      ? 'border-blue-600 text-blue-600 bg-white' 
+                      : 'border-gray-100 bg-gray-50 hover:border-blue-600 hover:text-blue-600 text-gray-500'
+                  }`}
+                >
                   {tag}
-                </button>
+                </Link>
               ))}
             </div>
           )}

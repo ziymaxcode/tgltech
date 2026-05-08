@@ -1,6 +1,35 @@
 import { Cpu, Server, CircuitBoard, Smartphone, PenTool, Layers, Box } from 'lucide-react';
+import { useLocation } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+
+const SOLUTIONS_DATA = [
+  { id: 'embedded', title: 'Embedded & Firmware', icon: Cpu, desc: 'RTOS, C/C++, Bare-metal optimization for ESP, STM32, ARM Cortex.' },
+  { id: 'pcb', title: 'PCB Design', icon: CircuitBoard, desc: 'Multi-layer routing, SI/PI analysis, and DFM ready gerber outputs.' },
+  { id: 'cloud', title: 'Cloud IoT Dashboards', icon: Server, desc: 'AWS/GCP integrations, MQTT brokers, and real-time React UIs.' },
+  { id: 'mobile', title: 'Mobile Apps', icon: Smartphone, desc: 'Flutter and React Native control interfaces via Bluetooth and WebSockets.' },
+  { id: 'cad', title: '3D CAD Modeling', icon: Layers, desc: 'Precision industrial design and mechanical engineering.' },
+  { id: 'prototyping', title: 'FDM/SLA Prototyping', icon: Box, desc: 'High-resolution rapid prints in PLA, ABS, and Resins.' },
+  { id: 'enclosure', title: 'Enclosure Design', icon: PenTool, desc: 'PCB-fit custom cases ready for injection molding.' }
+];
 
 export function SolutionsPage() {
+  const location = useLocation();
+  const [activeType, setActiveType] = useState('all');
+
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const type = params.get('type');
+    if (type) {
+      setActiveType(type);
+    } else {
+      setActiveType('all');
+    }
+  }, [location]);
+
+  const filteredSolutions = activeType === 'all' 
+    ? SOLUTIONS_DATA 
+    : SOLUTIONS_DATA.filter(sol => sol.id === activeType);
+
   return (
     <div className="bg-[#fbfbfb] min-h-screen pb-16">
       <div className="bg-white border-b border-gray-100 py-12">
@@ -9,24 +38,20 @@ export function SolutionsPage() {
             <Cpu className="w-8 h-8 text-blue-600" />
             <span className="font-bold text-gray-500 uppercase tracking-widest text-[10px]">Enterprise</span>
           </div>
-          <h1 className="text-3xl md:text-4xl font-bold text-[#1d1d1f] mb-4 tracking-tight">Technology & Prototyping Solutions</h1>
+          <h1 className="text-3xl md:text-4xl font-bold text-[#1d1d1f] mb-4 tracking-tight">
+            {activeType === 'all' ? 'Technology & Prototyping Solutions' : filteredSolutions[0]?.title}
+          </h1>
           <p className="text-base text-gray-500 max-w-2xl leading-relaxed">
-            From bare-metal firmware and custom PCB designs to 3D CAD modeling and rapid prototyping. We architect and develop custom hardware and software integrations.
+            {activeType === 'all' 
+              ? 'From bare-metal firmware and custom PCB designs to 3D CAD modeling and rapid prototyping. We architect and develop custom hardware and software integrations.' 
+              : filteredSolutions[0]?.desc}
           </p>
         </div>
       </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-12">
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-          {[
-            { title: 'Embedded & Firmware', icon: Cpu, desc: 'RTOS, C/C++, Bare-metal optimization for ESP, STM32, ARM Cortex.' },
-            { title: 'PCB Design', icon: CircuitBoard, desc: 'Multi-layer routing, SI/PI analysis, and DFM ready gerber outputs.' },
-            { title: 'Cloud IoT Dashboards', icon: Server, desc: 'AWS/GCP integrations, MQTT brokers, and real-time React UIs.' },
-            { title: 'Mobile Apps', icon: Smartphone, desc: 'Flutter and React Native control interfaces via Bluetooth and WebSockets.' },
-            { title: '3D CAD Modeling', icon: Layers, desc: 'Precision industrial design and mechanical engineering.' },
-            { title: 'FDM/SLA Prototyping', icon: Box, desc: 'High-resolution rapid prints in PLA, ABS, and Resins.' },
-            { title: 'Enclosure Design', icon: PenTool, desc: 'PCB-fit custom cases ready for injection molding.' }
-          ].map((sol, i) => (
+          {filteredSolutions.map((sol, i) => (
             <div key={i} className="flex flex-col p-6 bg-white border border-gray-100 rounded-3xl group transition-shadow hover:shadow-md">
               <div className="w-14 h-14 rounded-2xl bg-gray-50 flex items-center justify-center border border-gray-100 group-hover:bg-blue-50 transition-colors mb-6">
                 <sol.icon className="w-7 h-7 text-[#1d1d1f] group-hover:text-blue-600 transition-colors" />
