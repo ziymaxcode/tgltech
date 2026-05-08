@@ -1,7 +1,7 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import { motion } from 'motion/react';
-import { useCart } from '../../context/CartContext';
+import React from "react";
+import { Link } from "react-router-dom";
+import { motion } from "motion/react";
+import { useCart } from "../../context/CartContext";
 
 interface ProductCardProps {
   key?: string | number;
@@ -25,30 +25,39 @@ export function ProductCard({ product }: ProductCardProps) {
   };
 
   return (
-    <div className="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden group flex flex-col p-4 relative transition-shadow hover:shadow-md">
-      <Link to={`/store/${product.id}`} className="absolute inset-0 z-10"></Link>
-      
-      <span className="text-[10px] uppercase text-blue-600 font-black tracking-widest mb-1">{product.category}</span>
-      <h3 className="font-bold text-[#1d1d1f] leading-tight mb-2 line-clamp-2">
-        {product.name}
-      </h3>
-      
-      <div className="relative h-48 overflow-hidden bg-[#fbfbfb] rounded-2xl mb-4 flex items-center justify-center">
-        <img 
-          src={product.image} 
-          alt={product.name} 
-          className="w-full h-full object-contain mix-blend-multiply opacity-90 group-hover:opacity-100 transition-opacity p-2"
+    <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden group flex flex-col p-3 relative transition-all hover:shadow-md hover:-translate-y-1">
+      <Link
+        to={`/store/${product.id}`}
+        className="absolute inset-0 z-10"
+      ></Link>
+
+      <div className="relative aspect-square overflow-hidden bg-[#fbfbfb] rounded-xl mb-3 flex items-center justify-center p-3">
+        <img
+          src={product.image}
+          alt={product.name}
+          className="w-full h-full object-contain mix-blend-multiply opacity-90 group-hover:scale-105 transition-transform duration-500"
         />
       </div>
 
-      <div className="mt-auto flex items-center justify-between">
-        <span className="font-bold text-xl tracking-tight text-[#1d1d1f]">{product.price}</span>
-        <button 
-          onClick={handleAdd}
-          className="flex items-center justify-center bg-gray-50 border border-gray-100 hover:border-blue-600 hover:text-blue-600 px-4 py-1.5 rounded-full text-xs font-bold uppercase transition-colors text-gray-500 z-20"
-        >
-          Add
-        </button>
+      <div className="flex flex-col flex-1 px-1">
+        <span className="text-[10px] uppercase text-gray-400 font-bold tracking-wider mb-1 line-clamp-1">
+          {product.category}
+        </span>
+        <h3 className="text-[#1d1d1f] font-semibold text-sm leading-snug mb-2 line-clamp-2">
+          {product.name}
+        </h3>
+
+        <div className="mt-auto pt-2 flex items-center justify-between">
+          <span className="font-bold text-base tracking-tight text-[#1d1d1f]">
+            {product.price}
+          </span>
+          <button
+            onClick={handleAdd}
+            className="flex items-center justify-center bg-[#1d1d1f] hover:bg-black text-white px-3 py-1.5 rounded-lg text-[10px] font-bold uppercase transition-colors z-20"
+          >
+            Add
+          </button>
+        </div>
       </div>
     </div>
   );

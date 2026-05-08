@@ -1,85 +1,129 @@
-import { Link, useLocation } from 'react-router-dom';
-import { Menu, X, Cpu, ShoppingCart } from 'lucide-react';
-import { useState } from 'react';
-import { motion, AnimatePresence } from 'motion/react';
-import { useCart } from '../../context/CartContext';
-import { STORE_PRODUCTS } from '../../data/mockData';
+import { Link, useLocation } from "react-router-dom";
+import { Menu, X, Cpu, ShoppingCart } from "lucide-react";
+import { useState } from "react";
+import { motion, AnimatePresence } from "motion/react";
+import { useCart } from "../../context/CartContext";
+import { STORE_PRODUCTS } from "../../data/mockData";
 
 const LINKS = [
-  { 
-    name: 'Electronics DIY Store', 
-    path: '/store',
+  {
+    name: "Electronics DIY Store",
+    path: "/store",
     dropdown: [
-      { name: 'All Components', path: '/store' },
-      { name: 'Development Boards', path: '/store?category=Development+Boards', storeCategory: 'Development Boards' },
-      { name: 'Sensors', path: '/store?category=Sensors', storeCategory: 'Sensors' },
-      { name: 'Modules', path: '/store?category=Modules', storeCategory: 'Modules' },
-      { name: 'Robotics', path: '/store?category=Robotics', storeCategory: 'Robotics' },
-      { name: 'Drone Components', path: '/store?category=Drone+Components', storeCategory: 'Drone Components' },
-      { name: 'Kits', path: '/store?category=Kits', storeCategory: 'Kits' },
-    ]
+      { name: "All Components", path: "/store" },
+      {
+        name: "Development Boards",
+        path: "/store?category=Development+Boards",
+        storeCategory: "Development Boards",
+      },
+      {
+        name: "Sensors",
+        path: "/store?category=Sensors",
+        storeCategory: "Sensors",
+      },
+      {
+        name: "Modules",
+        path: "/store?category=Modules",
+        storeCategory: "Modules",
+      },
+      {
+        name: "Robotics",
+        path: "/store?category=Robotics",
+        storeCategory: "Robotics",
+      },
+      {
+        name: "Drone Components",
+        path: "/store?category=Drone+Components",
+        storeCategory: "Drone Components",
+      },
+      { name: "Kits", path: "/store?category=Kits", storeCategory: "Kits" },
+    ],
   },
-  { 
-    name: 'Engineering Projects', 
-    path: '/projects',
+  {
+    name: "Engineering Projects",
+    path: "/projects",
     dropdown: [
-      { name: 'All Projects', path: '/projects' },
-      { name: 'IoT Projects', path: '/projects?category=IoT+Projects' },
-      { name: 'AI Projects', path: '/projects?category=AI+Projects' },
-      { name: 'Robotics', path: '/projects?category=Robotics' },
-      { name: 'School Projects', path: '/projects?category=School+Projects' },
-    ]
+      { name: "All Projects", path: "/projects" },
+      { name: "IoT Projects", path: "/projects?category=IoT+Projects" },
+      { name: "AI Projects", path: "/projects?category=AI+Projects" },
+      { name: "Robotics", path: "/projects?category=Robotics" },
+      { name: "School Projects", path: "/projects?category=School+Projects" },
+    ],
   },
-  { 
-    name: 'Internships', 
-    path: '/careers?tab=internships',
+  {
+    name: "Internships",
+    path: "/careers?tab=internships",
     dropdown: [
-      { name: 'All Internships', path: '/careers?tab=internships' },
-      { name: 'IoT Development', path: '/careers?tab=internships&category=iot' },
-      { name: 'Web Development', path: '/careers?tab=internships&category=web' },
-      { name: 'Embedded Systems', path: '/careers?tab=internships&category=embedded' },
-      { name: 'AI & Machine Learning', path: '/careers?tab=internships&category=ai' },
-    ]
+      { name: "All Internships", path: "/careers?tab=internships" },
+      {
+        name: "IoT Development",
+        path: "/careers?tab=internships&category=iot",
+      },
+      {
+        name: "Web Development",
+        path: "/careers?tab=internships&category=web",
+      },
+      {
+        name: "Embedded Systems",
+        path: "/careers?tab=internships&category=embedded",
+      },
+      {
+        name: "AI & Machine Learning",
+        path: "/careers?tab=internships&category=ai",
+      },
+    ],
   },
-  { name: 'PhD Support', path: '/careers?tab=phd' },
-  { 
-    name: 'Courses & Certifications', 
-    path: '/careers?tab=certifications',
+  {
+    name: "Certified Courses",
+    path: "/careers?tab=certifications",
     dropdown: [
-      { name: 'All Courses', path: '/careers?tab=certifications' },
-      { name: 'Programming Foundations', path: '/careers?tab=certifications&category=programming' },
-      { name: 'Robotics & Automation', path: '/careers?tab=certifications&category=robotics' },
-      { name: 'Internet of Things (IoT)', path: '/careers?tab=certifications&category=iot' },
-      { name: 'Artificial Intelligence', path: '/careers?tab=certifications&category=ai' },
-    ]
+      { name: "All Courses", path: "/careers?tab=certifications" },
+      {
+        name: "Programming Foundations",
+        path: "/careers?tab=certifications&category=programming",
+      },
+      {
+        name: "Robotics & Automation",
+        path: "/careers?tab=certifications&category=robotics",
+      },
+      {
+        name: "Internet of Things (IoT)",
+        path: "/careers?tab=certifications&category=iot",
+      },
+      {
+        name: "Artificial Intelligence",
+        path: "/careers?tab=certifications&category=ai",
+      },
+    ],
   },
-  { 
-    name: 'Lab Setups', 
-    path: '/labs',
+  {
+    name: "Lab Setups",
+    path: "/labs",
     dropdown: [
-      { name: 'All Labs', path: '/labs' },
-      { name: 'ATAL Tinkering Lab (ATL)', path: '/labs?type=atl' },
-      { name: 'AICTE IDEA Lab', path: '/labs?type=aicte' },
-      { name: 'NAIN Project Lab', path: '/labs?type=nain' },
-      { name: 'Innovation Robotics Lab', path: '/labs?type=robotics' },
-      { name: 'STEM Education Lab', path: '/labs?type=stem' },
-      { name: 'IoT & AI Lab', path: '/labs?type=iot' },
-      { name: 'Embedded Systems Lab', path: '/labs?type=embedded' },
-    ]
+      { name: "All Labs", path: "/labs" },
+      { name: "ATAL Tinkering Lab (ATL)", path: "/labs?type=atl" },
+      { name: "AICTE IDEA Lab", path: "/labs?type=aicte" },
+      { name: "NAIN Project Lab", path: "/labs?type=nain" },
+      { name: "Innovation Robotics Lab", path: "/labs?type=robotics" },
+      { name: "STEM Education Lab", path: "/labs?type=stem" },
+      { name: "IoT & AI Lab", path: "/labs?type=iot" },
+      { name: "Embedded Systems Lab", path: "/labs?type=embedded" },
+    ],
   },
-  { 
-    name: 'Technical Solutions', 
-    path: '/solutions',
+  { name: "PhD Support", path: "/careers?tab=phd" },
+  {
+    name: "Technical Solutions",
+    path: "/solutions",
     dropdown: [
-      { name: 'All Solutions', path: '/solutions' },
-      { name: 'Embedded & Firmware', path: '/solutions?type=embedded' },
-      { name: 'PCB Design', path: '/solutions?type=pcb' },
-      { name: 'Cloud IoT Dashboards', path: '/solutions?type=cloud' },
-      { name: 'Mobile Apps', path: '/solutions?type=mobile' },
-      { name: '3D CAD Modeling', path: '/solutions?type=cad' },
-      { name: 'FDM/SLA Prototyping', path: '/solutions?type=prototyping' },
-      { name: 'Enclosure Design', path: '/solutions?type=enclosure' },
-    ]
+      { name: "All Solutions", path: "/solutions" },
+      { name: "Embedded & Firmware", path: "/solutions?type=embedded" },
+      { name: "PCB Design", path: "/solutions?type=pcb" },
+      { name: "Cloud IoT Dashboards", path: "/solutions?type=cloud" },
+      { name: "Mobile Apps", path: "/solutions?type=mobile" },
+      { name: "3D CAD Modeling", path: "/solutions?type=cad" },
+      { name: "FDM/SLA Prototyping", path: "/solutions?type=prototyping" },
+      { name: "Enclosure Design", path: "/solutions?type=enclosure" },
+    ],
   },
 ];
 
@@ -103,43 +147,62 @@ export function Navbar() {
           {/* Desktop Nav */}
           <div className="hidden xl:flex items-center space-x-6">
             {LINKS.map((link) => {
-              const isActive = link.path.includes('?') 
+              const isActive = link.path.includes("?")
                 ? location.pathname + location.search === link.path
-                : location.pathname.startsWith(link.path) && link.path !== '/' || (link.path === '/' && location.pathname === '/');
-              
+                : (location.pathname.startsWith(link.path) &&
+                    link.path !== "/") ||
+                  (link.path === "/" && location.pathname === "/");
+
               if (link.dropdown) {
                 return (
                   <div key={link.path} className="relative group">
                     <Link
                       to={link.path}
                       className={`flex items-center text-sm font-medium transition-colors whitespace-nowrap ${
-                        isActive ? 'text-blue-600' : 'text-gray-500 hover:text-blue-600'
+                        isActive
+                          ? "text-blue-600"
+                          : "text-gray-500 hover:text-blue-600"
                       }`}
                     >
                       {link.name}
                     </Link>
                     <div className="absolute top-full left-0 pt-4 opacity-0 translate-y-2 pointer-events-none group-hover:opacity-100 group-hover:translate-y-0 group-hover:pointer-events-auto transition-all">
                       <div className="bg-white border border-gray-100 shadow-lg rounded-2xl py-2 w-56 flex flex-col">
-                        {link.dropdown.map(subLink => (
-                          <div key={subLink.path} className="relative group/sub">
-                            <Link 
+                        {link.dropdown.map((subLink) => (
+                          <div
+                            key={subLink.path}
+                            className="relative group/sub"
+                          >
+                            <Link
                               to={subLink.path}
                               className="px-4 py-2 text-sm text-gray-500 hover:text-blue-600 hover:bg-gray-50 transition-colors whitespace-nowrap flex justify-between items-center w-full"
                             >
                               {subLink.name}
-                              {(subLink as any).storeCategory && <span className="ml-2 font-bold opacity-0 group-hover/sub:opacity-100 transition-opacity">›</span>}
+                              {(subLink as any).storeCategory && (
+                                <span className="ml-2 font-bold opacity-0 group-hover/sub:opacity-100 transition-opacity">
+                                  ›
+                                </span>
+                              )}
                             </Link>
                             {(subLink as any).storeCategory && (
                               <div className="absolute top-0 left-full pl-2 opacity-0 -translate-x-2 pointer-events-none group-hover/sub:opacity-100 group-hover/sub:translate-x-0 group-hover/sub:pointer-events-auto transition-all w-64 z-50">
                                 <div className="bg-white border border-gray-100 shadow-lg rounded-2xl py-2 flex flex-col max-h-96 overflow-y-auto">
-                                  {STORE_PRODUCTS.filter(p => p.category === (subLink as any).storeCategory).map(product => (
-                                    <Link 
+                                  {STORE_PRODUCTS.filter(
+                                    (p) =>
+                                      p.category ===
+                                      (subLink as any).storeCategory,
+                                  ).map((product) => (
+                                    <Link
                                       key={product.id}
                                       to={`/store/${product.id}`}
                                       className="px-4 py-2 text-sm text-gray-500 hover:text-blue-600 hover:bg-gray-50 transition-colors flex flex-col"
                                     >
                                       <span>{product.name}</span>
-                                      {product.price && <span className="text-xs font-bold mt-0.5">{product.price}</span>}
+                                      {product.price && (
+                                        <span className="text-xs font-bold mt-0.5">
+                                          {product.price}
+                                        </span>
+                                      )}
                                     </Link>
                                   ))}
                                 </div>
@@ -158,15 +221,20 @@ export function Navbar() {
                   key={link.path}
                   to={link.path}
                   className={`text-sm font-medium transition-colors whitespace-nowrap ${
-                    isActive ? 'text-blue-600' : 'text-gray-500 hover:text-blue-600'
+                    isActive
+                      ? "text-blue-600"
+                      : "text-gray-500 hover:text-blue-600"
                   }`}
                 >
                   {link.name}
                 </Link>
               );
             })}
-            
-            <Link to="/checkout" className="relative p-2 text-gray-600 hover:text-blue-600 transition-colors ml-2">
+
+            <Link
+              to="/checkout"
+              className="relative p-2 text-gray-600 hover:text-blue-600 transition-colors ml-2"
+            >
               <ShoppingCart className="w-6 h-6" />
               {cartItemCount > 0 && (
                 <span className="absolute top-0 right-0 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-white transform translate-x-1/4 -translate-y-1/4 bg-rose-500 rounded-full">
@@ -174,12 +242,14 @@ export function Navbar() {
                 </span>
               )}
             </Link>
-            
           </div>
 
           {/* Mobile Menu Button */}
           <div className="xl:hidden flex items-center space-x-4">
-            <Link to="/checkout" className="relative p-2 text-gray-600 hover:text-blue-600 transition-colors">
+            <Link
+              to="/checkout"
+              className="relative p-2 text-gray-600 hover:text-blue-600 transition-colors"
+            >
               <ShoppingCart className="w-5 h-5" />
               {cartItemCount > 0 && (
                 <span className="absolute top-0 right-0 inline-flex items-center justify-center px-1.5 py-0.5 text-[10px] font-bold leading-none text-white transform translate-x-1/4 -translate-y-1/4 bg-rose-500 rounded-full">
@@ -191,7 +261,11 @@ export function Navbar() {
               onClick={() => setIsOpen(!isOpen)}
               className="text-slate-600 hover:text-slate-900 focus:outline-none"
             >
-              {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+              {isOpen ? (
+                <X className="h-6 w-6" />
+              ) : (
+                <Menu className="h-6 w-6" />
+              )}
             </button>
           </div>
         </div>
@@ -208,24 +282,28 @@ export function Navbar() {
           >
             <div className="px-4 py-4 flex flex-col space-y-4">
               {LINKS.map((link) => {
-                const isActive = link.path.includes('?') 
+                const isActive = link.path.includes("?")
                   ? location.pathname + location.search === link.path
-                  : location.pathname.startsWith(link.path) && link.path !== '/' || (link.path === '/' && location.pathname === '/');
-                  
+                  : (location.pathname.startsWith(link.path) &&
+                      link.path !== "/") ||
+                    (link.path === "/" && location.pathname === "/");
+
                 return (
                   <div key={link.path}>
                     <Link
                       to={link.path}
                       onClick={() => setIsOpen(false)}
                       className={`block text-base font-medium ${
-                        isActive ? 'text-blue-600' : 'text-slate-600 hover:text-blue-600'
+                        isActive
+                          ? "text-blue-600"
+                          : "text-slate-600 hover:text-blue-600"
                       }`}
                     >
                       {link.name}
                     </Link>
                     {link.dropdown && (
                       <div className="pl-4 mt-2 border-l-2 border-gray-100 flex flex-col space-y-2">
-                        {link.dropdown.map(sub => (
+                        {link.dropdown.map((sub) => (
                           <Link
                             key={sub.path}
                             to={sub.path}
