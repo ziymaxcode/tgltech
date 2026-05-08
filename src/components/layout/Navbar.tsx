@@ -7,17 +7,11 @@ import { useCart } from '../../context/CartContext';
 const LINKS = [
   { name: 'DIY Store', path: '/store' },
   { name: 'Engineering Projects', path: '/projects' },
-  { 
-    name: 'Trainings', 
-    path: '/careers',
-    dropdown: [
-      { name: 'PhD Research Support', path: '/careers?tab=phd' },
-      { name: 'Internships', path: '/careers?tab=internships' },
-      { name: 'Certifications', path: '/careers?tab=certifications' },
-    ]
-  },
+  { name: 'Internships', path: '/careers?tab=internships' },
+  { name: 'PhD Support', path: '/careers?tab=phd' },
+  { name: 'Courses & Certifications', path: '/careers?tab=certifications' },
   { name: 'Lab Setups', path: '/labs' },
-  { name: 'Solutions', path: '/solutions' },
+  { name: 'Technical Solutions', path: '/solutions' },
 ];
 
 export function Navbar() {
@@ -38,43 +32,17 @@ export function Navbar() {
           </Link>
 
           {/* Desktop Nav */}
-          <div className="hidden md:flex items-center space-x-8">
+          <div className="hidden xl:flex items-center space-x-6">
             {LINKS.map((link) => {
-              const isActive = location.pathname.startsWith(link.path);
+              const isActive = link.path.includes('?') 
+                ? location.pathname + location.search === link.path
+                : location.pathname.startsWith(link.path) && link.path !== '/' || (link.path === '/' && location.pathname === '/');
               
-              if (link.dropdown) {
-                return (
-                  <div key={link.path} className="relative group">
-                    <Link
-                      to={link.path}
-                      className={`flex items-center text-sm font-medium transition-colors ${
-                        isActive ? 'text-blue-600' : 'text-gray-500 hover:text-blue-600'
-                      }`}
-                    >
-                      {link.name}
-                    </Link>
-                    <div className="absolute top-full left-0 pt-4 opacity-0 translate-y-2 pointer-events-none group-hover:opacity-100 group-hover:translate-y-0 group-hover:pointer-events-auto transition-all">
-                      <div className="bg-white border border-gray-100 shadow-lg rounded-2xl py-2 w-56 flex flex-col">
-                        {link.dropdown.map(subLink => (
-                          <Link 
-                            key={subLink.path} 
-                            to={subLink.path}
-                            className="px-4 py-2 text-sm text-gray-500 hover:text-blue-600 hover:bg-gray-50 transition-colors"
-                          >
-                            {subLink.name}
-                          </Link>
-                        ))}
-                      </div>
-                    </div>
-                  </div>
-                );
-              }
-
               return (
                 <Link
                   key={link.path}
                   to={link.path}
-                  className={`text-sm font-medium transition-colors ${
+                  className={`text-sm font-medium transition-colors whitespace-nowrap ${
                     isActive ? 'text-blue-600' : 'text-gray-500 hover:text-blue-600'
                   }`}
                 >
@@ -95,7 +63,7 @@ export function Navbar() {
           </div>
 
           {/* Mobile Menu Button */}
-          <div className="md:hidden flex items-center space-x-4">
+          <div className="xl:hidden flex items-center space-x-4">
             <Link to="/checkout" className="relative p-2 text-gray-600 hover:text-blue-600 transition-colors">
               <ShoppingCart className="w-5 h-5" />
               {cartItemCount > 0 && (
@@ -121,34 +89,28 @@ export function Navbar() {
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
-            className="md:hidden bg-white border-b border-gray-200 shadow-lg absolute w-full max-h-[80vh] overflow-y-auto"
+            className="xl:hidden bg-white border-b border-gray-200 shadow-lg absolute w-full max-h-[80vh] overflow-y-auto"
           >
             <div className="px-4 py-4 flex flex-col space-y-4">
-              {LINKS.map((link) => (
-                <div key={link.path}>
-                  <Link
-                    to={link.path}
-                    onClick={() => setIsOpen(false)}
-                    className="block text-base font-medium text-slate-600 hover:text-blue-600"
-                  >
-                    {link.name}
-                  </Link>
-                  {link.dropdown && (
-                    <div className="pl-4 mt-2 border-l-2 border-gray-100 flex flex-col space-y-2">
-                      {link.dropdown.map(sub => (
-                        <Link
-                          key={sub.path}
-                          to={sub.path}
-                          onClick={() => setIsOpen(false)}
-                          className="block text-sm text-gray-500 hover:text-blue-600"
-                        >
-                          {sub.name}
-                        </Link>
-                      ))}
-                    </div>
-                  )}
-                </div>
-              ))}
+              {LINKS.map((link) => {
+                const isActive = link.path.includes('?') 
+                  ? location.pathname + location.search === link.path
+                  : location.pathname.startsWith(link.path) && link.path !== '/' || (link.path === '/' && location.pathname === '/');
+                  
+                return (
+                  <div key={link.path}>
+                    <Link
+                      to={link.path}
+                      onClick={() => setIsOpen(false)}
+                      className={`block text-base font-medium ${
+                        isActive ? 'text-blue-600' : 'text-slate-600 hover:text-blue-600'
+                      }`}
+                    >
+                      {link.name}
+                    </Link>
+                  </div>
+                );
+              })}
             </div>
           </motion.div>
         )}

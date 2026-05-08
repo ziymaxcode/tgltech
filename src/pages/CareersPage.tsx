@@ -1,12 +1,11 @@
 import { GraduationCap, Award, Users, BookOpen, ShieldCheck, Briefcase } from 'lucide-react';
 import { COURSES } from '../data/mockData';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 
 export function CareersPage() {
   const location = useLocation();
-  const navigate = useNavigate();
-  const [activeTab, setActiveTab] = useState<'phd' | 'internships' | 'certifications'>('certifications');
+  const [activeTab, setActiveTab] = useState<'phd' | 'internships' | 'certifications'>('internships');
 
   useEffect(() => {
     const params = new URLSearchParams(location.search);
@@ -16,40 +15,21 @@ export function CareersPage() {
     }
   }, [location]);
 
-  const handleTabChange = (tab: 'phd' | 'internships' | 'certifications') => {
-    navigate(`/careers?tab=${tab}`);
-  };
-
   return (
     <div className="bg-[#fbfbfb] min-h-screen pb-24">
       <div className="bg-white border-b border-gray-100 py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <Briefcase className="w-12 h-12 text-blue-600 mx-auto mb-6" />
-          <h1 className="text-4xl md:text-5xl font-bold mb-4 text-[#1d1d1f] tracking-tight">Careers & Growth</h1>
+          <h1 className="text-4xl md:text-5xl font-bold mb-4 text-[#1d1d1f] tracking-tight">
+            {activeTab === 'phd' && 'PhD Research Support'}
+            {activeTab === 'internships' && 'Internships'}
+            {activeTab === 'certifications' && 'Courses & Certifications'}
+          </h1>
           <p className="text-lg text-gray-500 max-w-2xl mx-auto">
-            From certified learning tracks to advanced PhD research support and hands-on internships, we empower your career journey.
+            {activeTab === 'phd' && 'Dedicated guidance and engineering support for your doctoral thesis and research publications.'}
+            {activeTab === 'internships' && 'Hands-on learning, real-world projects, and career-defining industrial experience.'}
+            {activeTab === 'certifications' && 'Expert-led curriculum to level up your engineering and software development skills.'}
           </p>
-
-          <div className="max-w-xl mx-auto mt-10 flex bg-gray-50 p-1 rounded-full border border-gray-100">
-             <button 
-                onClick={() => handleTabChange('phd')}
-                className={`flex-1 py-3 px-4 rounded-full text-xs font-bold uppercase tracking-widest transition-colors ${activeTab === 'phd' ? 'bg-white shadow-sm text-blue-600' : 'text-gray-500 hover:text-[#1d1d1f]'}`}
-             >
-                PhD Support
-             </button>
-             <button 
-                onClick={() => handleTabChange('internships')}
-                className={`flex-1 py-3 px-4 rounded-full text-xs font-bold uppercase tracking-widest transition-colors ${activeTab === 'internships' ? 'bg-white shadow-sm text-blue-600' : 'text-gray-500 hover:text-[#1d1d1f]'}`}
-             >
-                Internships
-             </button>
-             <button 
-                onClick={() => handleTabChange('certifications')}
-                className={`flex-1 py-3 px-4 rounded-full text-xs font-bold uppercase tracking-widest transition-colors ${activeTab === 'certifications' ? 'bg-white shadow-sm text-blue-600' : 'text-gray-500 hover:text-[#1d1d1f]'}`}
-             >
-                Certifications
-             </button>
-          </div>
         </div>
       </div>
 

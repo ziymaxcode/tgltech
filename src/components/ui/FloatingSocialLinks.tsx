@@ -1,4 +1,4 @@
-import { Facebook, Instagram, MessageCircle, ShoppingBag, Phone } from 'lucide-react';
+import { Facebook, Instagram, MessageCircle, Phone } from 'lucide-react';
 import { motion } from 'motion/react';
 
 export function FloatingSocialLinks() {
@@ -34,13 +34,6 @@ export function FloatingSocialLinks() {
       icon: <Instagram className="w-5 h-5" />,
       url: 'https://instagram.com',
       color: 'bg-[#e4405f] hover:bg-[#c13584]',
-    },
-    {
-      id: 'indiamart',
-      name: 'IndiaMart',
-      icon: <ShoppingBag className="w-5 h-5" />,
-      url: 'https://www.indiamart.com',
-      color: 'bg-[#00a699] hover:bg-[#008f83]',
     },
   ];
 
