@@ -7,7 +7,7 @@ import {
   ChevronDown,
   ChevronUp,
 } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { useCart } from "../../context/CartContext";
 import { STORE_PRODUCTS } from "../../data/mockData";
@@ -155,6 +155,14 @@ export function Navbar() {
   const location = useLocation();
   const { cart } = useCart();
   const cartItemCount = cart.reduce((acc, item) => acc + item.quantity, 0);
+
+  useEffect(() => {
+    if (isOpen) {
+      document.body.classList.add('mobile-menu-open');
+    } else {
+      document.body.classList.remove('mobile-menu-open');
+    }
+  }, [isOpen]);
 
   return (
     <nav className="fixed top-0 w-full z-50 bg-white border-b border-gray-100">
