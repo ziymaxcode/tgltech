@@ -11,11 +11,12 @@ export interface CartItem {
   name: string;
   price: string;
   quantity: number;
+  image?: string;
 }
 
 interface CartContextType {
   cart: CartItem[];
-  addToCart: (product: { id: string; name: string; price: string }) => void;
+  addToCart: (product: { id: string; name: string; price: string; image?: string }) => void;
   removeFromCart: (id: string) => void;
   updateQuantity: (id: string, quantity: number) => void;
   clearCart: () => void;
@@ -37,7 +38,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
     localStorage.setItem("tgl_cart", JSON.stringify(cart));
   }, [cart]);
 
-  const addToCart = (product: { id: string; name: string; price: string }) => {
+  const addToCart = (product: { id: string; name: string; price: string; image?: string }) => {
     setCart((prev) => {
       const existing = prev.find((item) => item.id === product.id);
       if (existing) {

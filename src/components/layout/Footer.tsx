@@ -91,7 +91,7 @@ export function Footer() {
               <li>support@tgltechnologies.com</li>
               <li>
                 <a
-                  href="https://wa.me/919876543210"
+                  href="https://wa.me/918217366801"
                   className="text-[#25D366] hover:opacity-80 transition font-bold"
                 >
                   WhatsApp Inquiry

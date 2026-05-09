@@ -189,7 +189,7 @@ export function ProjectsPage() {
               </div>
 
               <a
-                href="https://wa.me/919876543210?text=Hi, I have a custom project idea:"
+                href="https://wa.me/918217366801?text=Hi, I have a custom project idea:"
                 target="_blank"
                 rel="noreferrer"
                 className="inline-block bg-[#1d1d1f] text-white px-10 py-4 rounded-full font-bold text-xs uppercase tracking-wider hover:bg-blue-600 transition-colors shadow-lg shadow-black/5"

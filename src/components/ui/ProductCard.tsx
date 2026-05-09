@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "motion/react";
 import { useCart } from "../../context/CartContext";
@@ -17,11 +17,17 @@ interface ProductCardProps {
 
 export function ProductCard({ product }: ProductCardProps) {
   const { addToCart } = useCart();
+  const [isAdding, setIsAdding] = useState(false);
 
   const handleAdd = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
-    addToCart({ id: product.id, name: product.name, price: product.price });
+    addToCart({ id: product.id, name: product.name, price: product.price, image: product.image });
+    
+    setIsAdding(true);
+    setTimeout(() => {
+      setIsAdding(false);
+    }, 1000);
   };
 
   return (
@@ -53,9 +59,14 @@ export function ProductCard({ product }: ProductCardProps) {
           </span>
           <button
             onClick={handleAdd}
-            className="flex items-center justify-center bg-[#1d1d1f] hover:bg-black text-white px-2 sm:px-3 py-1 sm:py-1.5 rounded-lg text-[9px] sm:text-[10px] font-bold uppercase transition-colors z-20"
+            disabled={isAdding}
+            className={`flex items-center justify-center px-2 sm:px-3 py-1 sm:py-1.5 rounded-lg text-[9px] sm:text-[10px] font-bold uppercase transition-colors z-20 ${
+              isAdding
+                ? "bg-green-600 hover:bg-green-700 text-white"
+                : "bg-[#1d1d1f] hover:bg-black text-white"
+            }`}
           >
-            Add
+            {isAdding ? "Added" : "Add"}
           </button>
         </div>
       </div>

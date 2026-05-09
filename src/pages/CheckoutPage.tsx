@@ -15,7 +15,7 @@ export function CheckoutPage() {
     });
 
     window.open(
-      `https://wa.me/919876543210?text=${encodeURIComponent(message)}`,
+      `https://wa.me/918217366801?text=${encodeURIComponent(message)}`,
       "_blank",
     );
     clearCart();
@@ -57,11 +57,26 @@ export function CheckoutPage() {
                     key={item.id}
                     className="py-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4"
                   >
-                    <div className="flex-1">
-                      <h3 className="font-bold text-[#1d1d1f] text-lg">
-                        {item.name}
-                      </h3>
-                      <p className="text-gray-500 font-medium">{item.price}</p>
+                    <div className="flex-1 flex items-center gap-4">
+                      {item.image ? (
+                        <div className="w-16 h-16 sm:w-20 sm:h-20 bg-[#fbfbfb] rounded-xl border border-gray-100 flex items-center justify-center p-2 shrink-0">
+                          <img
+                            src={item.image}
+                            alt={item.name}
+                            className="w-full h-full object-contain"
+                          />
+                        </div>
+                      ) : (
+                        <div className="w-16 h-16 sm:w-20 sm:h-20 bg-gray-100 rounded-xl flex items-center justify-center shrink-0">
+                          <span className="text-gray-400 text-xs font-medium">No Image</span>
+                        </div>
+                      )}
+                      <div>
+                        <h3 className="font-bold text-[#1d1d1f] text-base sm:text-lg">
+                          {item.name}
+                        </h3>
+                        <p className="text-gray-500 font-medium text-sm sm:text-base">{item.price}</p>
+                      </div>
                     </div>
 
                     <div className="flex items-center gap-4 border border-gray-200 rounded-full px-2 py-1 bg-[#fbfbfb] self-start sm:self-auto">
@@ -100,7 +115,7 @@ export function CheckoutPage() {
               </ul>
             </div>
 
-            <div className="bg-[#fbfbfb] p-6 sm:p-8 border-t border-gray-100 flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div className="bg-[#fbfbfb] p-6 sm:p-8 border-t border-gray-100 flex flex-col sm:flex-row items-center justify-between gap-6">
               <div className="text-center sm:text-left">
                 <p className="text-gray-500 text-sm mb-1">
                   Total items:{" "}
@@ -110,15 +125,23 @@ export function CheckoutPage() {
                   Checkout via WhatsApp
                 </p>
               </div>
-              <button
-                onClick={handleCheckout}
-                className="w-full sm:w-auto bg-[#25D366] hover:bg-green-500 text-white px-8 py-4 rounded-full font-bold uppercase tracking-wider transition-colors flex items-center justify-center gap-2"
-              >
-                <svg className="w-5 h-5 fill-current" viewBox="0 0 24 24">
-                  <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.246 2.248 3.484 5.232 3.484 8.412-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.309 1.656zm6.224-3.82c1.516.903 3.109 1.38 4.759 1.381 5.281.001 9.574-4.291 9.576-9.574.001-2.559-1.017-4.965-2.869-6.815-1.852-1.851-4.255-2.869-6.815-2.869-5.285 0-9.577 4.292-9.578 9.576-.001 1.832.524 3.615 1.519 5.172l-.999 3.646 3.732-.979z" />
-                </svg>
-                Send Request
-              </button>
+              <div className="w-full sm:w-auto flex flex-col sm:flex-row gap-3 sm:gap-4">
+                <Link
+                  to="/store"
+                  className="w-full sm:w-auto bg-gray-100 hover:bg-gray-200 text-[#1d1d1f] px-8 py-4 rounded-full font-bold uppercase tracking-wider transition-colors flex items-center justify-center text-sm"
+                >
+                  Add More Items
+                </Link>
+                <button
+                  onClick={handleCheckout}
+                  className="w-full sm:w-auto bg-[#25D366] hover:bg-green-500 text-white px-8 py-4 rounded-full font-bold uppercase tracking-wider transition-colors flex items-center justify-center gap-2 text-sm"
+                >
+                  <svg className="w-5 h-5 fill-current" viewBox="0 0 24 24">
+                    <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.246 2.248 3.484 5.232 3.484 8.412-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.309 1.656zm6.224-3.82c1.516.903 3.109 1.38 4.759 1.381 5.281.001 9.574-4.291 9.576-9.574.001-2.559-1.017-4.965-2.869-6.815-1.852-1.851-4.255-2.869-6.815-2.869-5.285 0-9.577 4.292-9.578 9.576-.001 1.832.524 3.615 1.519 5.172l-.999 3.646 3.732-.979z" />
+                  </svg>
+                  Send Request
+                </button>
+              </div>
             </div>
           </div>
         )}

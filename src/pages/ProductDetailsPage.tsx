@@ -17,6 +17,7 @@ export function ProductDetailsPage() {
   const navigate = useNavigate();
   const product = STORE_PRODUCTS.find((p) => p.id === productId);
   const { addToCart } = useCart();
+  const [isAddingToCart, setIsAddingToCart] = useState(false);
 
   const [activeCategory, setActiveCategory] = useState(
     product?.category || "All Components",
@@ -40,7 +41,11 @@ export function ProductDetailsPage() {
     .filter(Boolean);
 
   const handleAddToCart = () => {
-    addToCart({ id: product.id, name: product.name, price: product.price });
+    addToCart({ id: product.id, name: product.name, price: product.price, image: product.image });
+    setIsAddingToCart(true);
+    setTimeout(() => {
+      setIsAddingToCart(false);
+    }, 1000);
   };
 
   const handleCategoryChange = (category: string) => {
@@ -143,18 +148,24 @@ export function ProductDetailsPage() {
               <div className="mt-auto space-y-3 sm:space-y-4">
                 <button
                   onClick={handleAddToCart}
-                  className="w-full bg-blue-600 text-white font-bold text-[10px] sm:text-sm tracking-widest uppercase py-3 sm:py-4 rounded-xl flex justify-center items-center hover:bg-blue-700 transition-colors shadow-sm"
+                  disabled={isAddingToCart}
+                  className={`w-full text-white font-bold text-[10px] sm:text-sm tracking-widest uppercase py-3 sm:py-4 rounded-xl flex justify-center items-center transition-colors shadow-sm ${
+                    isAddingToCart ? "bg-green-600 hover:bg-green-700" : "bg-blue-600 hover:bg-blue-700"
+                  }`}
                 >
-                  <ShoppingCart className="w-4 h-4 sm:w-5 sm:h-5 mr-2" /> Add to
-                  Cart
+                  <ShoppingCart className="w-4 h-4 sm:w-5 sm:h-5 mr-2" />{" "}
+                  {isAddingToCart ? "Added to Cart" : "Add to Cart"}
                 </button>
 
                 <div className="grid grid-cols-2 gap-3 sm:gap-4">
                   <button
                     onClick={handleAddToCart}
-                    className="bg-gray-50 text-[#1d1d1f] border border-gray-100 font-bold text-[10px] sm:text-xs tracking-wider uppercase py-3 sm:py-4 rounded-xl hover:bg-gray-100 transition-colors"
+                    disabled={isAddingToCart}
+                    className={`border border-gray-100 font-bold text-[10px] sm:text-xs tracking-wider uppercase py-3 sm:py-4 rounded-xl transition-colors ${
+                      isAddingToCart ? "bg-green-50 text-green-600" : "bg-gray-50 text-[#1d1d1f] hover:bg-gray-100"
+                    }`}
                   >
-                    Request Kit
+                    {isAddingToCart ? "Added" : "Request Kit"}
                   </button>
                   <button className="bg-blue-50 text-blue-600 border border-blue-100 font-bold text-[10px] sm:text-xs tracking-wider uppercase py-3 sm:py-4 rounded-xl hover:bg-blue-100 transition-colors px-2">
                     Bulk Inquiry
