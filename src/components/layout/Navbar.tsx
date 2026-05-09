@@ -1,5 +1,12 @@
 import { Link, useLocation } from "react-router-dom";
-import { Menu, X, Cpu, ShoppingCart } from "lucide-react";
+import {
+  Menu,
+  X,
+  Cpu,
+  ShoppingCart,
+  ChevronDown,
+  ChevronUp,
+} from "lucide-react";
 import { useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { useCart } from "../../context/CartContext";
@@ -44,6 +51,20 @@ const LINKS = [
     name: "Engineering Projects",
     path: "/projects",
     isMegaProjects: true,
+    dropdown: [
+      { name: "All Projects", path: "/projects" },
+      {
+        name: "IEEE Major Projects",
+        path: "/projects?category=IEEE+Major+Projects",
+      },
+      {
+        name: "Application Major Projects",
+        path: "/projects?category=Application+Major+Projects",
+      },
+      { name: "Minor Projects", path: "/projects?category=Minor+Projects" },
+      { name: "Robotics", path: "/projects?category=Robotics" },
+      { name: "IOT", path: "/projects?category=IOT" },
+    ],
   },
   {
     name: "Internships",
@@ -125,6 +146,12 @@ const LINKS = [
 export function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [closedMenuPath, setClosedMenuPath] = useState<string | null>(null);
+  const [mobileExpanded, setMobileExpanded] = useState<Record<string, boolean>>(
+    {},
+  );
+  const toggleMobileMenu = (path: string) => {
+    setMobileExpanded((prev) => ({ ...prev, [path]: !prev[path] }));
+  };
   const location = useLocation();
   const { cart } = useCart();
   const cartItemCount = cart.reduce((acc, item) => acc + item.quantity, 0);
@@ -648,31 +675,57 @@ export function Navbar() {
 
                 return (
                   <div key={link.path}>
-                    <Link
-                      to={link.path}
-                      onClick={() => setIsOpen(false)}
-                      className={`block text-base font-medium ${
-                        isActive
-                          ? "text-blue-600"
-                          : "text-slate-600 hover:text-blue-600"
-                      }`}
-                    >
-                      {link.name}
-                    </Link>
-                    {link.dropdown && (
-                      <div className="pl-4 mt-2 border-l-2 border-gray-100 flex flex-col space-y-2">
-                        {link.dropdown.map((sub) => (
-                          <Link
-                            key={sub.path}
-                            to={sub.path}
-                            onClick={() => setIsOpen(false)}
-                            className="block text-sm text-gray-500 hover:text-blue-600"
-                          >
-                            {sub.name}
-                          </Link>
-                        ))}
-                      </div>
-                    )}
+                    <div className="flex justify-between items-center">
+                      <Link
+                        to={link.path}
+                        onClick={() => setIsOpen(false)}
+                        className={`block text-base font-medium flex-1 py-1 ${
+                          isActive
+                            ? "text-blue-600"
+                            : "text-slate-600 hover:text-blue-600"
+                        }`}
+                      >
+                        {link.name}
+                      </Link>
+                      {link.dropdown && (
+                        <button
+                          onClick={(e) => {
+                            e.preventDefault();
+                            toggleMobileMenu(link.path);
+                          }}
+                          className={`p-1 ml-2 ${isActive ? "text-blue-600" : "text-slate-600"}`}
+                        >
+                          {mobileExpanded[link.path] ? (
+                            <ChevronUp className="h-5 w-5" />
+                          ) : (
+                            <ChevronDown className="h-5 w-5" />
+                          )}
+                        </button>
+                      )}
+                    </div>
+                    <AnimatePresence>
+                      {link.dropdown && mobileExpanded[link.path] && (
+                        <motion.div
+                          initial={{ height: 0, opacity: 0 }}
+                          animate={{ height: "auto", opacity: 1 }}
+                          exit={{ height: 0, opacity: 0 }}
+                          className="overflow-hidden"
+                        >
+                          <div className="pl-4 mt-2 border-l-2 border-gray-100 flex flex-col space-y-2 py-2">
+                            {link.dropdown.map((sub) => (
+                              <Link
+                                key={sub.path}
+                                to={sub.path}
+                                onClick={() => setIsOpen(false)}
+                                className="block text-sm text-gray-500 hover:text-blue-600 py-1"
+                              >
+                                {sub.name}
+                              </Link>
+                            ))}
+                          </div>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
                   </div>
                 );
               })}
