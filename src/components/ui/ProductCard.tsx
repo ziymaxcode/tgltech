@@ -25,13 +25,13 @@ export function ProductCard({ product }: ProductCardProps) {
   };
 
   return (
-    <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden group flex flex-col p-3 relative transition-all hover:shadow-md hover:-translate-y-1">
+    <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden group flex flex-col p-2 sm:p-3 relative transition-all hover:shadow-md hover:-translate-y-1">
       <Link
         to={`/store/${product.id}`}
         className="absolute inset-0 z-10"
       ></Link>
 
-      <div className="relative aspect-square overflow-hidden bg-[#fbfbfb] rounded-xl mb-3 flex items-center justify-center p-3">
+      <div className="relative aspect-square overflow-hidden bg-[#fbfbfb] rounded-xl mb-2 sm:mb-3 flex items-center justify-center p-2 sm:p-3">
         <img
           src={product.image}
           alt={product.name}
@@ -40,20 +40,20 @@ export function ProductCard({ product }: ProductCardProps) {
       </div>
 
       <div className="flex flex-col flex-1 px-1">
-        <span className="text-[10px] uppercase text-gray-400 font-bold tracking-wider mb-1 line-clamp-1">
+        <span className="text-[9px] sm:text-[10px] uppercase text-gray-400 font-bold tracking-wider mb-1 line-clamp-1">
           {product.category}
         </span>
-        <h3 className="text-[#1d1d1f] font-semibold text-sm leading-snug mb-2 line-clamp-2">
+        <h3 className="text-[#1d1d1f] font-semibold text-xs sm:text-sm leading-snug mb-1 sm:mb-2 line-clamp-2">
           {product.name}
         </h3>
 
         <div className="mt-auto pt-2 flex items-center justify-between">
-          <span className="font-bold text-base tracking-tight text-[#1d1d1f]">
+          <span className="font-bold text-sm sm:text-base tracking-tight text-[#1d1d1f]">
             {product.price}
           </span>
           <button
             onClick={handleAdd}
-            className="flex items-center justify-center bg-[#1d1d1f] hover:bg-black text-white px-3 py-1.5 rounded-lg text-[10px] font-bold uppercase transition-colors z-20"
+            className="flex items-center justify-center bg-[#1d1d1f] hover:bg-black text-white px-2 sm:px-3 py-1 sm:py-1.5 rounded-lg text-[9px] sm:text-[10px] font-bold uppercase transition-colors z-20"
           >
             Add
           </button>

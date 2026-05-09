@@ -54,73 +54,121 @@ export function ProductDetailsPage() {
     <div className="bg-[#fbfbfb] min-h-screen pb-32">
       {/* Breadcrumb & Navigation */}
       <div className="w-full mx-auto px-4 sm:px-6 lg:px-8 py-6">
+        <nav className="text-[10px] sm:text-xs font-bold uppercase tracking-widest text-gray-400 mb-4">
+          <ol className="flex flex-wrap items-center gap-x-2 gap-y-1">
+            <li>
+              <Link to="/" className="hover:text-[#1d1d1f] transition-colors">
+                Home
+              </Link>
+            </li>
+            <li>
+              <span className="text-gray-300">/</span>
+            </li>
+            <li>
+              <Link
+                to="/store"
+                className="hover:text-[#1d1d1f] transition-colors"
+              >
+                Store
+              </Link>
+            </li>
+            <li>
+              <span className="text-gray-300">/</span>
+            </li>
+            <li>
+              <Link
+                to={`/store?category=${encodeURIComponent(product.category)}`}
+                className="hover:text-[#1d1d1f] transition-colors"
+              >
+                {product.category}
+              </Link>
+            </li>
+            <li>
+              <span className="text-gray-300">/</span>
+            </li>
+            <li className="text-[#1d1d1f]">{product.name}</li>
+          </ol>
+        </nav>
         <Link
           to="/store"
-          className="inline-flex items-center text-xs font-bold uppercase tracking-widest text-gray-400 hover:text-[#1d1d1f] transition-colors"
+          className="inline-flex items-center text-xs font-bold uppercase tracking-widest text-[#1d1d1f] transition-colors"
         >
           <ArrowLeft className="w-4 h-4 mr-2" /> Back to Store
         </Link>
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-4 flex flex-col md:flex-row gap-8">
-        <StoreSidebar
-          activeCategory={activeCategory}
-          setActiveCategory={handleCategoryChange}
-        />
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-4 flex flex-col-reverse md:flex-row gap-8">
+        <div className="hidden md:block">
+          <StoreSidebar
+            activeCategory={activeCategory}
+            setActiveCategory={handleCategoryChange}
+          />
+        </div>
 
-        <div className="flex-1 space-y-16">
+        <div className="flex-1 space-y-12 md:space-y-16">
           {/* Main Product Hero */}
           <div className="bg-white rounded-3xl border border-gray-100 overflow-hidden shadow-sm flex flex-col md:flex-row">
-            <div className="md:w-1/2 p-8 md:p-12 lg:p-16 flex items-center justify-center bg-[#fbfbfb] border-b md:border-b-0 md:border-r border-gray-100 relative">
-              <span className="absolute top-6 left-6 bg-white px-3 py-1 rounded-full text-[10px] uppercase font-black tracking-widest text-blue-600 border border-gray-100 shadow-sm">
+            <div className="md:w-1/2 p-6 sm:p-8 md:p-12 lg:p-16 flex items-center justify-center bg-[#fbfbfb] border-b md:border-b-0 md:border-r border-gray-100 relative min-h-[250px]">
+              <span className="absolute top-4 left-4 sm:top-6 sm:left-6 bg-white px-3 py-1 rounded-full text-[10px] uppercase font-black tracking-widest text-blue-600 border border-gray-100 shadow-sm">
                 {product.category}
               </span>
               <img
                 src={product.image}
                 alt={product.name}
-                className="max-h-96 object-contain mix-blend-multiply opacity-90"
+                className="max-h-48 sm:max-h-64 md:max-h-96 object-contain mix-blend-multiply opacity-90"
               />
             </div>
 
-            <div className="md:w-1/2 p-8 md:p-12 flex flex-col bg-white">
+            <div className="md:w-1/2 p-6 sm:p-8 md:p-12 flex flex-col bg-white">
               <div className="flex justify-between items-start mb-4">
-                <h1 className="text-4xl font-bold text-[#1d1d1f] leading-tight tracking-tight">
+                <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-[#1d1d1f] leading-tight tracking-tight pr-4">
                   {product.name}
                 </h1>
-                <button className="p-2 text-gray-400 hover:text-blue-600 bg-gray-50 rounded-full transition-colors">
+                <button className="p-2 text-gray-400 hover:text-blue-600 bg-gray-50 rounded-full transition-colors shrink-0">
                   <Share2 className="w-4 h-4" />
                 </button>
               </div>
 
-              <p className="text-lg text-gray-500 mb-8 leading-relaxed">
+              <p className="text-base sm:text-lg text-gray-500 mb-6 sm:mb-8 leading-relaxed">
                 {product.description}
               </p>
 
-              <div className="text-4xl font-bold text-[#1d1d1f] mb-8 tracking-tight">
+              <div className="text-3xl sm:text-4xl font-bold text-[#1d1d1f] mb-6 sm:mb-8 tracking-tight">
                 {product.price}
-                <span className="text-xs font-bold uppercase tracking-widest text-gray-400 block mt-2">
+                <span className="text-[10px] sm:text-xs font-bold uppercase tracking-widest text-gray-400 block mt-1 sm:mt-2">
                   + shipping
                 </span>
               </div>
 
-              <div className="mt-auto space-y-4">
+              <div className="mt-auto space-y-3 sm:space-y-4">
                 <button
                   onClick={handleAddToCart}
-                  className="w-full bg-blue-600 text-white font-bold text-sm tracking-widest uppercase py-4 rounded-xl flex justify-center items-center hover:bg-blue-700 transition-colors shadow-sm"
+                  className="w-full bg-blue-600 text-white font-bold text-[10px] sm:text-sm tracking-widest uppercase py-3 sm:py-4 rounded-xl flex justify-center items-center hover:bg-blue-700 transition-colors shadow-sm"
                 >
-                  <ShoppingCart className="w-5 h-5 mr-2" /> Add to Cart
+                  <ShoppingCart className="w-4 h-4 sm:w-5 sm:h-5 mr-2" /> Add to
+                  Cart
                 </button>
-                <div className="grid grid-cols-2 gap-4">
+
+                <div className="grid grid-cols-2 gap-3 sm:gap-4">
                   <button
                     onClick={handleAddToCart}
-                    className="bg-gray-50 text-[#1d1d1f] border border-gray-100 font-bold text-xs tracking-wider uppercase py-4 rounded-xl hover:bg-gray-100 transition-colors"
+                    className="bg-gray-50 text-[#1d1d1f] border border-gray-100 font-bold text-[10px] sm:text-xs tracking-wider uppercase py-3 sm:py-4 rounded-xl hover:bg-gray-100 transition-colors"
                   >
                     Request Kit
                   </button>
-                  <button className="bg-blue-50 text-blue-600 border border-blue-100 font-bold text-xs tracking-wider uppercase py-4 rounded-xl hover:bg-blue-100 transition-colors">
+                  <button className="bg-blue-50 text-blue-600 border border-blue-100 font-bold text-[10px] sm:text-xs tracking-wider uppercase py-3 sm:py-4 rounded-xl hover:bg-blue-100 transition-colors px-2">
                     Bulk Inquiry
                   </button>
                 </div>
+
+                <a
+                  href={(product as any).gdriveLink || "#"}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-full bg-white text-gray-600 border border-gray-200 font-bold text-[10px] sm:text-xs tracking-wider uppercase py-3 sm:py-4 rounded-xl flex justify-center items-center hover:bg-gray-50 hover:text-[#1d1d1f] transition-colors shadow-sm mt-3 sm:mt-4"
+                >
+                  <BookText className="w-4 h-4 mr-2" /> Documentation & GDrive
+                </a>
               </div>
             </div>
           </div>

@@ -167,7 +167,7 @@ export function CareersPage() {
 
         {activeTab === "internships" && (
           <div className="flex flex-col gap-8">
-            <div className="flex flex-col md:flex-row gap-8">
+            <div className="flex flex-col-reverse md:flex-row gap-8">
               {/* Sidebar */}
               <aside className="w-full md:w-64 shrink-0">
                 <div className="bg-white rounded-3xl border border-gray-100 p-6 sticky top-24 shadow-sm max-h-[calc(100vh-8rem)] flex flex-col">
@@ -245,7 +245,7 @@ export function CareersPage() {
 
         {activeTab === "certifications" && (
           <div className="flex flex-col gap-8">
-            <div className="flex flex-col md:flex-row gap-8">
+            <div className="flex flex-col-reverse md:flex-row gap-8">
               {/* Sidebar */}
               <aside className="w-full md:w-64 shrink-0">
                 <div className="bg-white rounded-3xl border border-gray-100 p-6 sticky top-24 shadow-sm max-h-[calc(100vh-8rem)] flex flex-col">

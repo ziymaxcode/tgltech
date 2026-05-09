@@ -56,14 +56,33 @@ export function ProjectDetailsPage() {
           <div className="absolute inset-0 bg-gradient-to-t from-[#1d1d1f] to-transparent"></div>
         </div>
         <div className="w-full mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full flex justify-between items-end">
-          <div>
+          <div className="w-full">
+            <nav className="text-[10px] sm:text-xs font-bold uppercase tracking-widest text-gray-400 mb-4">
+              <ol className="flex flex-wrap items-center gap-x-2 gap-y-1">
+                <li>
+                  <Link to="/" className="hover:text-white transition-colors">Home</Link>
+                </li>
+                <li><span className="text-gray-600">/</span></li>
+                <li>
+                  <Link to="/projects" className="hover:text-white transition-colors">Projects</Link>
+                </li>
+                <li><span className="text-gray-600">/</span></li>
+                <li>
+                  <Link to={`/projects?category=${encodeURIComponent(project.category)}`} className="hover:text-white transition-colors">
+                    {project.category}
+                  </Link>
+                </li>
+                <li><span className="text-gray-600">/</span></li>
+                <li className="text-gray-200">{project.name}</li>
+              </ol>
+            </nav>
             <Link
               to="/projects"
-              className="inline-flex items-center text-xs font-bold uppercase tracking-widest text-gray-400 hover:text-white mb-6"
+              className="inline-flex items-center text-xs font-bold uppercase tracking-widest text-white hover:text-gray-200 mb-4 sm:mb-6 transition-colors"
             >
               <ArrowLeft className="w-4 h-4 mr-2" /> Back to Projects
             </Link>
-            <div className="flex gap-2 mb-4">
+            <div className="flex flex-wrap gap-2 mb-3 sm:mb-4">
               <span className="bg-white/10 text-white font-bold px-3 py-1 rounded-full text-[10px] uppercase tracking-widest border border-white/20 inline-block">
                 {project.category}
               </span>
@@ -73,12 +92,12 @@ export function ProjectDetailsPage() {
                 </span>
               )}
             </div>
-            <h1 className="text-4xl md:text-5xl font-bold text-white max-w-4xl tracking-tight">
+            <h1 className="text-2xl sm:text-3xl md:text-5xl font-bold text-white max-w-4xl tracking-tight leading-tight">
               {project.name}
             </h1>
           </div>
           {project.isReadymade && project.price && (
-            <div className="hidden md:flex flex-col items-end">
+            <div className="hidden md:flex flex-col items-end shrink-0 ml-4">
               <span className="text-gray-400 text-xs font-bold uppercase tracking-widest mb-1">
                 Price
               </span>
@@ -90,13 +109,15 @@ export function ProjectDetailsPage() {
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-12 flex flex-col md:flex-row gap-8">
-        <ProjectSidebar
-          activeTab={activeTab}
-          setActiveTab={setActiveTab}
-          activeCategory={activeCategory}
-          setActiveCategory={setActiveCategory}
-        />
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-8 sm:mt-12 flex flex-col-reverse md:flex-row gap-8">
+        <div className="hidden md:block">
+          <ProjectSidebar
+            activeTab={activeTab}
+            setActiveTab={setActiveTab}
+            activeCategory={activeCategory}
+            setActiveCategory={setActiveCategory}
+          />
+        </div>
 
         <div className="flex-1 grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Main Content */}
@@ -166,27 +187,27 @@ export function ProjectDetailsPage() {
             </section>
 
             {!project.isReadymade && (
-              <section className="bg-white p-8 rounded-3xl border border-gray-100 shadow-sm">
-                <h2 className="font-bold text-xl text-[#1d1d1f] mb-6 flex items-center tracking-tight">
+              <section className="bg-white p-6 sm:p-8 rounded-3xl border border-gray-100 shadow-sm">
+                <h2 className="font-bold text-lg sm:text-xl text-[#1d1d1f] mb-4 sm:mb-6 flex items-center tracking-tight">
                   <Download className="w-5 h-5 mr-3 text-blue-600" /> Download
                   Resources
                 </h2>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                  <button className="flex flex-col items-center p-6 rounded-2xl bg-gray-50 hover:bg-gray-100 border border-gray-100 transition-colors">
-                    <FileCode2 className="w-8 h-8 text-[#1d1d1f] mb-3" />
-                    <span className="text-[10px] font-bold uppercase tracking-widest">
+                <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                  <button className="flex flex-col items-center p-4 sm:p-6 rounded-2xl bg-gray-50 hover:bg-gray-100 border border-gray-100 transition-colors">
+                    <FileCode2 className="w-6 h-6 sm:w-8 sm:h-8 text-[#1d1d1f] mb-2 sm:mb-3" />
+                    <span className="text-[10px] font-bold uppercase tracking-widest text-center">
                       Source Code
                     </span>
                   </button>
-                  <button className="flex flex-col items-center p-6 rounded-2xl bg-gray-50 hover:bg-gray-100 border border-gray-100 transition-colors">
-                    <Presentation className="w-8 h-8 text-[#1d1d1f] mb-3" />
-                    <span className="text-[10px] font-bold uppercase tracking-widest">
+                  <button className="flex flex-col items-center p-4 sm:p-6 rounded-2xl bg-gray-50 hover:bg-gray-100 border border-gray-100 transition-colors">
+                    <Presentation className="w-6 h-6 sm:w-8 sm:h-8 text-[#1d1d1f] mb-2 sm:mb-3" />
+                    <span className="text-[10px] font-bold uppercase tracking-widest text-center">
                       Diagram
                     </span>
                   </button>
-                  <button className="flex flex-col items-center p-6 rounded-2xl bg-gray-50 hover:bg-gray-100 border border-gray-100 transition-colors">
-                    <Video className="w-8 h-8 text-[#1d1d1f] mb-3" />
-                    <span className="text-[10px] font-bold uppercase tracking-widest">
+                  <button className="flex flex-col items-center p-4 sm:p-6 rounded-2xl bg-gray-50 hover:bg-gray-100 border border-gray-100 transition-colors col-span-2 md:col-span-1">
+                    <Video className="w-6 h-6 sm:w-8 sm:h-8 text-[#1d1d1f] mb-2 sm:mb-3" />
+                    <span className="text-[10px] font-bold uppercase tracking-widest text-center">
                       Video
                     </span>
                   </button>
@@ -195,45 +216,45 @@ export function ProjectDetailsPage() {
             )}
 
             {project.isReadymade && (
-              <section className="bg-white p-8 rounded-3xl border border-gray-100 shadow-sm">
-                <h2 className="font-bold text-xl text-[#1d1d1f] mb-6 flex items-center tracking-tight">
+              <section className="bg-white p-6 sm:p-8 rounded-3xl border border-gray-100 shadow-sm">
+                <h2 className="font-bold text-lg sm:text-xl text-[#1d1d1f] mb-4 sm:mb-6 flex items-center tracking-tight">
                   <PackageOpen className="w-5 h-5 mr-3 text-blue-600" /> What's
                   Included
                 </h2>
-                <div className="bg-[#e4edfa] border border-blue-100 rounded-3xl p-8 mb-8">
+                <div className="bg-[#e4edfa] border border-blue-100 rounded-3xl p-4 sm:p-8 mb-6 sm:mb-8">
                   <div className="flex justify-center mb-6">
-                    <h3 className="text-xl font-black text-[#153a70] uppercase tracking-wider bg-white/50 px-6 py-2 rounded-full inline-block backdrop-blur-sm shadow-sm border border-white/60">
+                    <h3 className="text-sm sm:text-xl font-black text-[#153a70] uppercase tracking-wider bg-white/50 px-4 sm:px-6 py-2 rounded-full inline-block backdrop-blur-sm shadow-sm border border-white/60 text-center">
                       Each Project Includes
                     </h3>
                   </div>
-                  <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-                    <div className="flex flex-col items-center justify-center p-6 bg-white rounded-2xl shadow-sm hover:shadow-md transition-all border border-blue-100 hover:border-blue-300 transform hover:-translate-y-1">
-                      <FileText className="w-12 h-12 text-[#153a70] mb-4 stroke-2" />
-                      <span className="text-sm font-bold text-[#153a70] text-center">
+                  <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mb-6">
+                    <div className="flex flex-col items-center justify-center p-4 sm:p-6 bg-white rounded-2xl shadow-sm hover:shadow-md transition-all border border-blue-100 hover:border-blue-300 transform hover:-translate-y-1">
+                      <FileText className="w-8 h-8 sm:w-12 sm:h-12 text-[#153a70] mb-3 sm:mb-4 stroke-2" />
+                      <span className="text-xs sm:text-sm font-bold text-[#153a70] text-center">
                         Documentation
                       </span>
                     </div>
-                    <div className="flex flex-col items-center justify-center p-6 bg-white rounded-2xl shadow-sm hover:shadow-md transition-all border border-blue-100 hover:border-blue-300 transform hover:-translate-y-1">
-                      <Code className="w-12 h-12 text-[#153a70] mb-4 stroke-2" />
-                      <span className="text-sm font-bold text-[#153a70] text-center">
+                    <div className="flex flex-col items-center justify-center p-4 sm:p-6 bg-white rounded-2xl shadow-sm hover:shadow-md transition-all border border-blue-100 hover:border-blue-300 transform hover:-translate-y-1">
+                      <Code className="w-8 h-8 sm:w-12 sm:h-12 text-[#153a70] mb-3 sm:mb-4 stroke-2" />
+                      <span className="text-xs sm:text-sm font-bold text-[#153a70] text-center">
                         Source Code
                       </span>
                     </div>
-                    <div className="flex flex-col items-center justify-center p-6 bg-white rounded-2xl shadow-sm hover:shadow-md transition-all border border-blue-100 hover:border-blue-300 transform hover:-translate-y-1">
-                      <Cpu className="w-12 h-12 text-[#153a70] mb-4 stroke-2" />
-                      <span className="text-sm font-bold text-[#153a70] text-center">
+                    <div className="flex flex-col items-center justify-center p-4 sm:p-6 bg-white rounded-2xl shadow-sm hover:shadow-md transition-all border border-blue-100 hover:border-blue-300 transform hover:-translate-y-1">
+                      <Cpu className="w-8 h-8 sm:w-12 sm:h-12 text-[#153a70] mb-3 sm:mb-4 stroke-2" />
+                      <span className="text-xs sm:text-sm font-bold text-[#153a70] text-center">
                         Circuit Design
                       </span>
                     </div>
-                    <div className="flex flex-col items-center justify-center p-6 bg-white rounded-2xl shadow-sm hover:shadow-md transition-all border border-blue-100 hover:border-blue-300 transform hover:-translate-y-1">
-                      <PlaySquare className="w-12 h-12 text-[#153a70] mb-4 stroke-2" />
-                      <span className="text-sm font-bold text-[#153a70] text-center">
+                    <div className="flex flex-col items-center justify-center p-4 sm:p-6 bg-white rounded-2xl shadow-sm hover:shadow-md transition-all border border-blue-100 hover:border-blue-300 transform hover:-translate-y-1">
+                      <PlaySquare className="w-8 h-8 sm:w-12 sm:h-12 text-[#153a70] mb-3 sm:mb-4 stroke-2" />
+                      <span className="text-xs sm:text-sm font-bold text-[#153a70] text-center">
                         Working Video
                       </span>
                     </div>
                   </div>
                   <div className="bg-[#153a70] rounded-2xl p-4 text-center shadow-inner">
-                    <span className="text-white font-bold tracking-wider uppercase text-sm sm:text-base">
+                    <span className="text-white font-bold tracking-wider uppercase text-xs sm:text-sm">
                       Digital Download Available
                     </span>
                   </div>

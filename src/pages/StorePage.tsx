@@ -8,6 +8,7 @@ import { StoreSidebar } from "../components/StoreSidebar";
 export function StorePage() {
   const location = useLocation();
   const [activeCategory, setActiveCategory] = useState("All Components");
+  const [searchQuery, setSearchQuery] = useState("");
 
   useEffect(() => {
     const params = new URLSearchParams(location.search);
@@ -19,10 +20,14 @@ export function StorePage() {
     }
   }, [location]);
 
-  const filteredProducts =
-    activeCategory === "All Components"
-      ? STORE_PRODUCTS
-      : STORE_PRODUCTS.filter((p) => p.category === activeCategory);
+  const filteredProducts = STORE_PRODUCTS.filter((p) => {
+    const matchesCategory =
+      activeCategory === "All Components" || p.category === activeCategory;
+    const matchesSearch =
+      p.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      p.description.toLowerCase().includes(searchQuery.toLowerCase());
+    return matchesCategory && matchesSearch;
+  });
 
   return (
     <div className="bg-[#fbfbfb] min-h-screen pb-24">
@@ -39,6 +44,8 @@ export function StorePage() {
             <input
               type="text"
               placeholder="Search components..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
               className="w-full pl-9 pr-3 py-2 bg-gray-50 border border-gray-100 rounded-lg focus:ring-2 focus:ring-blue-600 font-medium text-sm text-[#1d1d1f] placeholder:text-gray-400 outline-none transition-shadow"
             />
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 w-4 h-4" />
@@ -46,7 +53,7 @@ export function StorePage() {
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-8 flex flex-col md:flex-row gap-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-8 flex flex-col-reverse md:flex-row gap-8">
         {/* Sidebar */}
         <StoreSidebar
           activeCategory={activeCategory}
@@ -60,7 +67,7 @@ export function StorePage() {
               Showing {filteredProducts.length} Results
             </h2>
           </div>
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-2 sm:gap-4">
             {filteredProducts.map((product) => (
               <ProductCard key={product.id} product={product} />
             ))}

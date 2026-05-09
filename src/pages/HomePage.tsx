@@ -84,8 +84,8 @@ export function HomePage() {
       </section>
 
       {/* Trending Products */}
-      <section className="py-16 bg-white border-y border-gray-100">
-        <div className="max-w-7xl mx-auto px-10">
+      <section className="py-16 bg-white border-y border-gray-100 overflow-hidden">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-end mb-12">
             <div>
               <h2 className="text-3xl font-bold text-[#1d1d1f] mb-2 tracking-tight">
@@ -102,10 +102,29 @@ export function HomePage() {
               View All <ArrowRight className="ml-2 w-4 h-4" />
             </Link>
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
-            {STORE_PRODUCTS.slice(0, 5).map((product) => (
-              <ProductCard key={product.id} product={product} />
-            ))}
+        </div>
+        <div className="relative w-full mb-4">
+          <div className="flex w-max animate-scrolling pl-4 sm:pl-6 lg:pl-8 hover:[animation-play-state:paused]">
+            <div className="flex gap-3 sm:gap-6 pr-3 sm:pr-6">
+              {STORE_PRODUCTS.slice(0, 10).map((product, index) => (
+                <div
+                  key={`${product.id}-1-${index}`}
+                  className="w-[160px] sm:w-[220px] md:w-[260px] shrink-0"
+                >
+                  <ProductCard product={product} />
+                </div>
+              ))}
+            </div>
+            <div className="flex gap-3 sm:gap-6 pr-3 sm:pr-6">
+              {STORE_PRODUCTS.slice(0, 10).map((product, index) => (
+                <div
+                  key={`${product.id}-2-${index}`}
+                  className="w-[160px] sm:w-[220px] md:w-[260px] shrink-0"
+                >
+                  <ProductCard product={product} />
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </section>

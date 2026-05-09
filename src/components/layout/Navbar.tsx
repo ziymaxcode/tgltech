@@ -158,9 +158,9 @@ export function Navbar() {
 
   useEffect(() => {
     if (isOpen) {
-      document.body.classList.add('mobile-menu-open');
+      document.body.classList.add("mobile-menu-open");
     } else {
-      document.body.classList.remove('mobile-menu-open');
+      document.body.classList.remove("mobile-menu-open");
     }
   }, [isOpen]);
 

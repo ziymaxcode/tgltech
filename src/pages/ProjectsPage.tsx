@@ -58,7 +58,7 @@ export function ProjectsPage() {
       </div>
 
       {/* Main Content */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-8 flex flex-col md:flex-row gap-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-8 flex flex-col-reverse md:flex-row gap-8">
         <ProjectSidebar
           activeTab={activeTab}
           setActiveTab={setActiveTab}
@@ -69,18 +69,18 @@ export function ProjectsPage() {
         <div className="flex-1">
           {activeTab === "readymade" ? (
             filteredProjects.length > 0 ? (
-              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-2 sm:gap-4">
                 {filteredProjects.map((project) => (
                   <div
                     key={project.id}
-                    className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden group flex flex-col p-3 relative transition-all hover:shadow-md hover:-translate-y-1"
+                    className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden group flex flex-col p-2 sm:p-3 relative transition-all hover:shadow-md hover:-translate-y-1"
                   >
                     <Link
                       to={`/projects/${project.id}`}
                       className="absolute inset-0 z-10"
                     ></Link>
 
-                    <div className="relative aspect-square overflow-hidden bg-[#fbfbfb] rounded-xl mb-3 flex items-center justify-center p-3">
+                    <div className="relative aspect-square overflow-hidden bg-[#fbfbfb] rounded-xl mb-2 sm:mb-3 flex items-center justify-center p-2 sm:p-3">
                       <img
                         src={project.image}
                         alt={project.name}
@@ -88,7 +88,7 @@ export function ProjectsPage() {
                       />
                       {project.isReadymade && (
                         <div className="absolute top-2 right-2">
-                          <span className="bg-orange-500 text-white text-[9px] uppercase font-bold tracking-widest px-2 py-0.5 rounded-full shadow-sm z-20 relative">
+                          <span className="bg-orange-500 text-white text-[8px] sm:text-[9px] uppercase font-bold tracking-widest px-1.5 sm:px-2 py-0.5 rounded-full shadow-sm z-20 relative">
                             Built
                           </span>
                         </div>
@@ -96,24 +96,24 @@ export function ProjectsPage() {
                     </div>
 
                     <div className="flex flex-col flex-1 px-1">
-                      <span className="text-[10px] uppercase text-gray-400 font-bold tracking-wider mb-1 line-clamp-1">
+                      <span className="text-[9px] sm:text-[10px] uppercase text-gray-400 font-bold tracking-wider mb-1 line-clamp-1">
                         {project.category}
                       </span>
-                      <h3 className="text-[#1d1d1f] font-semibold text-sm leading-snug mb-2 line-clamp-2">
+                      <h3 className="text-[#1d1d1f] font-semibold text-xs sm:text-sm leading-snug mb-1 sm:mb-2 line-clamp-2">
                         {project.name}
                       </h3>
 
                       <div className="mt-auto pt-2 flex items-center justify-between">
                         {project.price && project.isReadymade ? (
-                          <span className="font-bold text-base tracking-tight text-[#1d1d1f]">
+                          <span className="font-bold text-sm sm:text-base tracking-tight text-[#1d1d1f]">
                             {project.price}
                           </span>
                         ) : (
-                          <span className="flex items-center text-[10px] font-bold tracking-widest uppercase text-gray-400">
+                          <span className="flex items-center text-[9px] sm:text-[10px] font-bold tracking-widest uppercase text-gray-400">
                             Details
                           </span>
                         )}
-                        <span className="flex items-center justify-center bg-[#1d1d1f] hover:bg-black text-white px-3 py-1.5 rounded-lg text-[10px] font-bold uppercase transition-colors z-20 pointer-events-none relative">
+                        <span className="flex items-center justify-center bg-[#1d1d1f] hover:bg-black text-white px-2 sm:px-3 py-1 sm:py-1.5 rounded-lg text-[9px] sm:text-[10px] font-bold uppercase transition-colors z-20 pointer-events-none relative">
                           View
                         </span>
                       </div>
