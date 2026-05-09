@@ -38,7 +38,7 @@ export function FloatingSocialLinks() {
   ];
 
   return (
-    <div className="fixed right-0 top-1/2 -translate-y-1/2 z-50 flex flex-col gap-2 p-4">
+    <div className="fixed right-0 top-[80%] md:top-1/2 -translate-y-1/2 z-50 flex flex-col gap-2 p-4">
       {socialLinks.map((link, index) => (
         <motion.a
           key={link.id}
