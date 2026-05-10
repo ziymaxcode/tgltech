@@ -41,3 +41,13 @@ body.mobile-menu-open .hidden-when-menu-open {
 .animate-scrolling:hover {
   animation-play-state: paused;
 }
+
+@layer utilities {
+  .hide-scrollbar {
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+  }
+  .hide-scrollbar::-webkit-scrollbar {
+    display: none; /* Chrome, Safari and Opera */
+  }
+}

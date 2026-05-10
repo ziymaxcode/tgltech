@@ -66,18 +66,20 @@ export function HomePage() {
 
       {/* Ecosystem Overview */}
       <section className="py-16 bg-[#fbfbfb]">
-        <div className="max-w-7xl mx-auto px-10">
-          <div className="mb-12">
-            <h2 className="text-3xl font-bold text-[#1d1d1f] mb-2 tracking-tight">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="mb-8 md:mb-12">
+            <h2 className="text-2xl sm:text-3xl font-bold text-[#1d1d1f] mb-2 tracking-tight">
               One Unified Ecosystem
             </h2>
-            <p className="text-gray-500">
+            <p className="text-gray-500 text-sm sm:text-base">
               Everything you need to learn, build, and innovate.
             </p>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="flex md:grid md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 overflow-x-auto snap-x snap-mandatory hide-scrollbar pb-6 md:pb-0 -mx-4 px-4 sm:-mx-6 sm:px-6 md:mx-0 md:px-0" style={{ scrollbarWidth: 'none' }}>
             {ECOSYSTEMS.map((sys) => (
-              <EcosystemCard key={sys.id} ecosystem={sys} />
+              <div key={sys.id} className="w-[85vw] max-w-[320px] md:w-auto md:max-w-none snap-center shrink-0 md:shrink h-full">
+                <EcosystemCard ecosystem={sys} />
+              </div>
             ))}
           </div>
         </div>
