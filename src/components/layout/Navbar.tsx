@@ -168,17 +168,13 @@ export function Navbar() {
     <nav className="fixed top-0 w-full z-50 bg-white border-b border-gray-100">
       <div className="w-full mx-auto px-10">
         <div className="flex justify-between items-center h-16">
-          <Link to="/" className="flex items-center space-x-2">
-           <img
-          src="/logo.jpg"
-          alt="TGL Technologies Logo"
-          className="h-10 w-auto object-contain"
-        />
-            <span className="font-bold text-xl tracking-tight uppercase text-[#1d1d1f]">
-              TGL <span className="text-blue-600 italic">Technologies</span>
-            </span>
-          </Link>
-
+          <Link to="/" className="flex items-center">
+  <img
+    src="/logo.jpg"
+    alt="TGL Technologies Logo"
+    className="h-16 w-auto object-contain"
+  />
+</Link>
           {/* Desktop Nav */}
           <div className="hidden xl:flex items-center space-x-6">
             {LINKS.map((link) => {
