@@ -166,15 +166,14 @@ export function Navbar() {
 
   return (
     <nav className="fixed top-0 w-full z-50 bg-white/80 backdrop-blur-xl border-b border-gray-200/50">
-      <div className="w-full mx-auto px-2 md:px-10">
+      <div className="w-full mx-auto px-10">
         <div className="flex justify-between items-center h-16">
-          <Link to="/" className="flex items-center">
-  <img
-    src="/logot.png"
-    alt="TGL Technologies Logo"
-    className="h-16 w-auto object-contain"
-  />
-</Link>
+          <Link to="/" className="flex items-center space-x-2">
+            <Cpu className="h-8 w-8 text-blue-600" />
+            <span className="font-bold text-xl tracking-tight uppercase text-[#1d1d1f]">
+              TGL <span className="text-blue-600 italic">Technologies</span>
+            </span>
+          </Link>
 
           {/* Desktop Nav */}
           <div className="hidden xl:flex items-center space-x-6">
@@ -672,7 +671,7 @@ export function Navbar() {
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
-            className="xl:hidden bg-white/90 backdrop-blur-xl border-b border-gray-200/50 shadow-lg absolute w-full max-h-[80vh] overflow-y-auto"
+            className="xl:hidden bg-white border-b border-gray-200/50 shadow-lg absolute w-full max-h-[80vh] overflow-y-auto"
           >
             <div className="px-4 py-4 flex flex-col space-y-4">
               {LINKS.map((link) => {

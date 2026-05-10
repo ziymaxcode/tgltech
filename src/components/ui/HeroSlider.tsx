@@ -62,14 +62,14 @@ export function HeroSlider() {
   }, []);
 
   return (
-    <div className="relative w-full h-[600px] md:h-[700px] overflow-hidden bg-gray-900">
-      <AnimatePresence>
+    <div className="relative w-full h-[100dvh] -mt-16 overflow-hidden bg-gray-900">
+      <AnimatePresence initial={false}>
         <motion.div
           key={currentIndex}
-          initial={{ opacity: 0, scale: 1.05 }}
-          animate={{ opacity: 1, scale: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 1.2, ease: "easeInOut" }}
+          initial={{ x: "100%" }}
+          animate={{ x: 0 }}
+          exit={{ x: "-100%" }}
+          transition={{ duration: 0.7, ease: [0.32, 0.72, 0, 1] }}
           className="absolute inset-0"
         >
           {/* Background Image */}
@@ -77,11 +77,11 @@ export function HeroSlider() {
             <img 
               src={SLIDES[currentIndex].image} 
               alt={SLIDES[currentIndex].title}
-              className="w-full h-full object-cover opacity-60"
+              className="w-full h-full object-cover"
             />
-            {/* Gradient Overlay */}
-            <div className={`absolute inset-0 bg-gradient-to-r ${SLIDES[currentIndex].color} mix-blend-multiply opacity-80`} />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
+            {/* Gradient Overlay for text readability */}
+            <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/40 to-transparent" />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
           </div>
 
           {/* Content */}
