@@ -61,6 +61,7 @@ export function CheckoutPage() {
                       {item.image ? (
                         <div className="w-16 h-16 sm:w-20 sm:h-20 bg-[#fbfbfb] rounded-xl border border-gray-100 flex items-center justify-center p-2 shrink-0">
                           <img
+                            referrerPolicy="no-referrer"
                             src={item.image}
                             alt={item.name}
                             className="w-full h-full object-contain"

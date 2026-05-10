@@ -75,6 +75,7 @@ export function HeroSlider() {
           {/* Background Image */}
           <div className="absolute inset-0">
             <img 
+              referrerPolicy="no-referrer"
               src={SLIDES[currentIndex].image} 
               alt={SLIDES[currentIndex].title}
               className="w-full h-full object-cover"

@@ -302,6 +302,7 @@ export function CareersPage() {
                       >
                         <div className="w-full aspect-video rounded-2xl overflow-hidden bg-gray-50 mb-6 shrink-0 relative">
                           <img
+                            referrerPolicy="no-referrer"
                             src={course.image}
                             className="w-full h-full object-cover mix-blend-multiply opacity-90 group-hover:scale-105 transition-transform duration-700"
                             alt={course.name}

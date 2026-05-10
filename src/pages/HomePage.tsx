@@ -170,6 +170,7 @@ export function HomePage() {
             <div className="relative">
               <div className="aspect-square bg-gray-100 rounded-3xl flex items-center justify-center overflow-hidden border border-gray-200">
                 <img
+                  referrerPolicy="no-referrer"
                   src="https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&q=80&w=1000"
                   alt="Circuit Board"
                   className="w-full h-full object-cover opacity-80 mix-blend-multiply"

@@ -39,6 +39,7 @@ export function ProductCard({ product }: ProductCardProps) {
 
       <div className="relative aspect-square overflow-hidden bg-[#fbfbfb] rounded-xl mb-2 sm:mb-3 flex items-center justify-center p-2 sm:p-3">
         <img
+          referrerPolicy="no-referrer"
           src={product.image}
           alt={product.name}
           className="w-full h-full object-contain mix-blend-multiply opacity-90 group-hover:scale-105 transition-transform duration-500"

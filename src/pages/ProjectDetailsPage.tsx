@@ -59,6 +59,7 @@ export function ProjectDetailsPage() {
       <div className="relative h-[40vh] bg-[#1d1d1f] flex items-end pb-12 border-b border-gray-200">
         <div className="absolute inset-0 overflow-hidden">
           <img
+            referrerPolicy="no-referrer"
             src={project.image}
             className="w-full h-full object-cover opacity-20 mix-blend-luminosity"
           />
@@ -296,6 +297,7 @@ export function ProjectDetailsPage() {
                         >
                           <div className="w-12 h-12 rounded-xl bg-gray-50 border border-gray-100 flex items-center justify-center p-1 shrink-0">
                             <img
+                              referrerPolicy="no-referrer"
                               src={p.image}
                               className="max-w-full max-h-full mix-blend-multiply opacity-80 group-hover:opacity-100 transition-opacity"
                             />

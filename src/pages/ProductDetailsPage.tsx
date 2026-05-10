@@ -127,6 +127,7 @@ export function ProductDetailsPage() {
                 {product.category}
               </span>
               <img
+                referrerPolicy="no-referrer"
                 src={product.image}
                 alt={product.name}
                 className="max-h-48 sm:max-h-64 md:max-h-96 object-contain mix-blend-multiply opacity-90"
@@ -209,6 +210,7 @@ export function ProductDetailsPage() {
                       className="bg-white p-4 rounded-3xl border border-gray-100 hover:border-blue-600/30 transition-colors shadow-sm"
                     >
                       <img
+                        referrerPolicy="no-referrer"
                         src={p.image}
                         alt={p.name}
                         className="h-32 w-full object-contain mix-blend-multiply opacity-90 mb-4"
@@ -243,6 +245,7 @@ export function ProductDetailsPage() {
                       className="bg-white rounded-3xl border border-gray-100 flex overflow-hidden hover:shadow-md transition-shadow"
                     >
                       <img
+                        referrerPolicy="no-referrer"
                         src={proj.image}
                         alt={proj.name}
                         className="w-1/3 object-cover opacity-90"
