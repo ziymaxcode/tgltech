@@ -10,7 +10,7 @@ import {
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { useCart } from "../../context/CartContext";
-import { STORE_PRODUCTS } from "../../data/mockData";
+import { useData } from "../../context/DataContext";
 
 const LINKS = [
   {
@@ -154,6 +154,7 @@ export function Navbar() {
   };
   const location = useLocation();
   const { cart } = useCart();
+  const { products: STORE_PRODUCTS } = useData();
   const cartItemCount = cart.reduce((acc, item) => acc + item.quantity, 0);
 
   useEffect(() => {
@@ -166,15 +167,14 @@ export function Navbar() {
 
   return (
     <nav className="fixed top-0 w-full z-50 bg-white/80 backdrop-blur-xl border-b border-gray-200/50">
-      <div className="w-full mx-auto px-2 md:px-10">
+      <div className="w-full mx-auto px-10">
         <div className="flex justify-between items-center h-16">
-          <Link to="/" className="flex items-center">
-  <img
-    src="/logot.png"
-    alt="TGL Technologies Logo"
-    className="h-16 w-auto object-contain"
-  />
-</Link>
+          <Link to="/" className="flex items-center space-x-2">
+            <Cpu className="h-8 w-8 text-blue-600" />
+            <span className="font-bold text-xl tracking-tight uppercase text-[#1d1d1f]">
+              TGL <span className="text-blue-600 italic">Technologies</span>
+            </span>
+          </Link>
 
           {/* Desktop Nav */}
           <div className="hidden xl:flex items-center space-x-6">

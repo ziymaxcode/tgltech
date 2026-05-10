@@ -8,11 +8,12 @@ import {
   SlidersHorizontal,
   Search,
 } from "lucide-react";
-import { COURSES, INTERNSHIPS } from "../data/mockData";
 import { useLocation, Link } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { useData } from "../context/DataContext";
 
 export function CareersPage() {
+  const { courses: COURSES, internships: INTERNSHIPS } = useData();
   const location = useLocation();
   const [activeTab, setActiveTab] = useState<
     "phd" | "internships" | "certifications"
@@ -49,20 +50,22 @@ export function CareersPage() {
     }
   }, [location]);
 
+  const dynamicCourseCategories = Array.from(
+    new Set(COURSES.map((c) => c.category).filter(Boolean))
+  ).sort();
+
   const COURSE_CATEGORIES = [
     "All Courses",
-    "Programming Foundations",
-    "Robotics & Automation",
-    "Internet of Things (IoT)",
-    "Artificial Intelligence",
+    ...dynamicCourseCategories,
   ];
+
+  const dynamicInternshipCategories = Array.from(
+    new Set(INTERNSHIPS.map((i) => i.category).filter(Boolean))
+  ).sort();
 
   const INTERNSHIP_CATEGORIES = [
     "All Internships",
-    "IoT Development",
-    "Web Development",
-    "Embedded Systems",
-    "AI & Machine Learning",
+    ...dynamicInternshipCategories,
   ];
 
   const filteredCourses = COURSES.filter((c) => {
@@ -225,9 +228,26 @@ export function CareersPage() {
                             </p>
                           </div>
                         </div>
-                        <button className="w-full bg-gray-50 border border-gray-100 text-[#1d1d1f] font-bold py-3 rounded-xl text-xs uppercase tracking-wider hover:border-blue-600 hover:text-blue-600 transition-colors shadow-sm">
-                          Apply Now
-                        </button>
+                        <div className="flex gap-2">
+                          <a
+                            href={`https://wa.me/918217366801?text=Hi%20TGL%2C%0A%0AI%27m%20interested%20in%20applying%20for%20the%20Internship%3A%20*${encodeURIComponent(internship.title)}*.`}
+                            target="_blank"
+                            rel="noreferrer"
+                            className="flex-1 block text-center bg-gray-50 border border-gray-100 text-[#1d1d1f] font-bold py-3 rounded-xl text-xs uppercase tracking-wider hover:border-blue-600 hover:text-blue-600 transition-colors shadow-sm"
+                          >
+                            Apply Now
+                          </a>
+                          {(internship as any).learningPlanLink && (
+                            <a
+                              href={(internship as any).learningPlanLink}
+                              target="_blank"
+                              rel="noreferrer"
+                              className="flex-1 block text-center bg-gray-50 border border-gray-100 hover:border-blue-600 hover:text-blue-600 text-gray-500 font-bold py-3 rounded-xl text-xs uppercase tracking-wider transition-colors shadow-sm"
+                            >
+                              Learning Plan
+                            </a>
+                          )}
+                        </div>
                       </div>
                     ))}
                   </div>
@@ -308,12 +328,28 @@ export function CareersPage() {
                             </div>
                           </div>
                           <div className="mt-auto flex gap-2">
-                            <button className="flex-1 bg-[#1d1d1f] hover:bg-blue-600 text-white py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider transition-colors shadow-sm">
+                            <a
+                              href={`https://wa.me/918217366801?text=Hi%20TGL%2C%0A%0AI%27m%20interested%20in%20enrolling%20in%20the%20Course%3A%20*${encodeURIComponent((course as any).name)}*.`}
+                              target="_blank"
+                              rel="noreferrer"
+                              className="flex-1 block text-center bg-[#1d1d1f] hover:bg-blue-600 text-white py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider transition-colors shadow-sm"
+                            >
                               Enroll
-                            </button>
-                            <button className="flex-1 bg-gray-50 border border-gray-100 hover:border-blue-600 hover:text-blue-600 text-gray-500 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider transition-colors">
-                              Syllabus
-                            </button>
+                            </a>
+                            {(course as any).syllabusLink ? (
+                              <a
+                                href={(course as any).syllabusLink}
+                                target="_blank"
+                                rel="noreferrer"
+                                className="flex-1 block text-center bg-gray-50 border border-gray-100 hover:border-blue-600 hover:text-blue-600 text-gray-500 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider transition-colors"
+                              >
+                                Syllabus
+                              </a>
+                            ) : (
+                              <button className="flex-1 bg-gray-50 border border-gray-100 hover:border-blue-600 hover:text-blue-600 text-gray-500 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider transition-colors">
+                                Syllabus
+                              </button>
+                            )}
                           </div>
                         </div>
                       </div>

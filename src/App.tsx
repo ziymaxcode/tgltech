@@ -6,6 +6,7 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { PageLayout } from "./components/layout/PageLayout";
 import { CartProvider } from "./context/CartContext";
+import { DataProvider } from "./context/DataContext";
 import { ScrollToTop } from "./components/ScrollToTop";
 import { EnquiryModal } from "./components/ui/EnquiryModal";
 
@@ -22,10 +23,11 @@ import { CheckoutPage } from "./pages/CheckoutPage";
 
 export default function App() {
   return (
-    <CartProvider>
-      <Router>
-        <ScrollToTop />
-        <PageLayout>
+    <DataProvider>
+      <CartProvider>
+        <Router>
+          <ScrollToTop />
+          <PageLayout>
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/store" element={<StorePage />} />
@@ -44,5 +46,6 @@ export default function App() {
         </PageLayout>
       </Router>
     </CartProvider>
+    </DataProvider>
   );
 }

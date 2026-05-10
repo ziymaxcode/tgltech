@@ -1,15 +1,15 @@
 import { FolderGit2, Lightbulb, SlidersHorizontal, Search } from "lucide-react";
-import { PROJECTS } from "../data/mockData";
 import { Link, useLocation } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { ProjectSidebar } from "../components/ProjectSidebar";
+import { ProjectSkeleton } from "../components/ui/Skeletons";
+import { useData } from "../context/DataContext";
 
 export function ProjectsPage() {
+  const { projects: PROJECTS, loading } = useData();
   const location = useLocation();
-  const [activeTab, setActiveTab] = useState<"readymade" | "custom">(
-    "readymade",
-  );
-  const [activeCategory, setActiveCategory] = useState<string>("All");
+  const [activeTab, setActiveTab] = useState<"readymade" | "custom">("readymade");
+  const [activeCategory, setActiveCategory] = useState<string>("All Projects");
   const [searchQuery, setSearchQuery] = useState("");
 
   useEffect(() => {
@@ -19,17 +19,18 @@ export function ProjectsPage() {
       setActiveCategory(category);
       setActiveTab("readymade");
     } else {
-      setActiveCategory("All");
+      setActiveCategory("All Projects");
     }
   }, [location]);
 
-  const readymadeProjects = PROJECTS.filter((project) => project.isReadymade);
+  const readymadeProjects = PROJECTS.filter((project) => project.isReadymade === true);
   const filteredProjects = readymadeProjects.filter((p) => {
     const matchesCategory =
-      activeCategory === "All" || p.category === activeCategory;
+      activeCategory === "All Projects" || p.category === activeCategory;
     const matchesSearch =
-      p.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      p.description.toLowerCase().includes(searchQuery.toLowerCase());
+      p.name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      p.description?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      (Array.isArray(p.tags) && p.tags.some((tag: string) => tag.toLowerCase().includes(searchQuery.toLowerCase())));
     return matchesCategory && matchesSearch;
   });
 
@@ -68,7 +69,13 @@ export function ProjectsPage() {
 
         <div className="flex-1">
           {activeTab === "readymade" ? (
-            filteredProjects.length > 0 ? (
+            loading ? (
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-2 sm:gap-4">
+                {Array.from({ length: 10 }).map((_, i) => (
+                  <ProjectSkeleton key={i} />
+                ))}
+              </div>
+            ) : filteredProjects.length > 0 ? (
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-2 sm:gap-4">
                 {filteredProjects.map((project) => (
                   <div

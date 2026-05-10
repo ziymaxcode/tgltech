@@ -1,18 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
-import { PROJECTS } from "../data/mockData";
 import { SlidersHorizontal, Lightbulb } from "lucide-react";
-
-export const PROJECT_CATEGORIES = [
-  "All Projects",
-  "IoT Projects",
-  "AI Projects",
-  "Robotics",
-  "School Projects",
-  "College Projects",
-  "Arduino Projects",
-  "Raspberry Pi Projects",
-  "Medical Electronics",
-];
+import { useData } from "../context/DataContext";
 
 interface ProjectSidebarProps {
   activeTab: "readymade" | "custom";
@@ -27,7 +15,14 @@ export function ProjectSidebar({
   activeCategory,
   setActiveCategory,
 }: ProjectSidebarProps) {
+  const { projects: PROJECTS } = useData();
   const navigate = useNavigate();
+
+  const dynamicCategories = Array.from(
+    new Set(PROJECTS.map((p) => p.category).filter(Boolean))
+  ).sort();
+
+  const PROJECT_CATEGORIES = ["All Projects", ...dynamicCategories];
 
   return (
     <div className="w-full md:w-64 shrink-0">
@@ -63,17 +58,16 @@ export function ProjectSidebar({
             </h3>
             <ul className="space-y-1 overflow-y-auto pr-2 flex-1">
               {PROJECT_CATEGORIES.map((cat) => {
-                const tag = cat === "All Projects" ? "All" : cat;
                 return (
                   <li key={cat} className="flex flex-col">
                     <button
                       onClick={() => {
-                        if (activeCategory === tag && tag !== "All") {
-                          setActiveCategory("All");
+                        if (activeCategory === cat && cat !== "All Projects") {
+                          setActiveCategory("All Projects");
                           navigate(`/projects`);
                         } else {
-                          setActiveCategory(tag);
-                          if (tag === "All") {
+                          setActiveCategory(cat);
+                          if (cat === "All Projects") {
                             navigate(`/projects`);
                           } else {
                             navigate(
@@ -83,8 +77,7 @@ export function ProjectSidebar({
                         }
                       }}
                       className={`w-full text-left px-3 py-2 rounded-xl text-sm font-medium transition-colors flex justify-between items-center ${
-                        activeCategory === tag ||
-                        (cat === "All Projects" && activeCategory === "All")
+                        activeCategory === cat
                           ? "bg-gray-50 text-blue-600 font-bold border border-gray-100"
                           : "text-gray-500 hover:bg-gray-50 hover:text-[#1d1d1f]"
                       }`}

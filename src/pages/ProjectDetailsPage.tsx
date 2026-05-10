@@ -1,6 +1,6 @@
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
-import { PROJECTS, STORE_PRODUCTS, COURSES } from "../data/mockData";
+import { useData } from "../context/DataContext";
 import {
   ArrowLeft,
   Download,
@@ -17,6 +17,7 @@ import {
 import { ProjectSidebar } from "../components/ProjectSidebar";
 
 export function ProjectDetailsPage() {
+  const { products: STORE_PRODUCTS, projects: PROJECTS, courses: COURSES, loading } = useData();
   const { projectId } = useParams();
   const project = PROJECTS.find((p) => p.id === projectId);
 
@@ -31,6 +32,14 @@ export function ProjectDetailsPage() {
       setActiveTab(project.isReadymade ? "readymade" : "custom");
     }
   }, [project]);
+
+  if (loading && !project) {
+    return (
+      <div className="bg-[#fbfbfb] min-h-screen pb-32 flex items-center justify-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+      </div>
+    );
+  }
 
   if (!project)
     return <div className="p-24 text-center">Project not found</div>;
@@ -151,38 +160,42 @@ export function ProjectDetailsPage() {
                 Documentation
               </h3>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <a
-                  href="#"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="flex items-center p-4 rounded-2xl bg-white shadow-sm border border-gray-100 hover:border-blue-200 hover:shadow-md transition-all"
-                >
-                  <FileCode2 className="w-6 h-6 text-blue-600 mr-4" />
-                  <div>
-                    <span className="block text-sm font-bold text-[#1d1d1f]">
-                      Project Synopsis
-                    </span>
-                    <span className="text-[10px] uppercase tracking-widest text-gray-400 font-bold">
-                      Google Drive Link
-                    </span>
-                  </div>
-                </a>
-                <a
-                  href="#"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="flex items-center p-4 rounded-2xl bg-white shadow-sm border border-gray-100 hover:border-blue-200 hover:shadow-md transition-all"
-                >
-                  <Presentation className="w-6 h-6 text-blue-600 mr-4" />
-                  <div>
-                    <span className="block text-sm font-bold text-[#1d1d1f]">
-                      Project Abstract
-                    </span>
-                    <span className="text-[10px] uppercase tracking-widest text-gray-400 font-bold">
-                      Google Drive Link
-                    </span>
-                  </div>
-                </a>
+                {(project as any).synopsisLink && (
+                  <a
+                    href={(project as any).synopsisLink}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="flex items-center p-4 rounded-2xl bg-white shadow-sm border border-gray-100 hover:border-blue-200 hover:shadow-md transition-all"
+                  >
+                    <FileCode2 className="w-6 h-6 text-blue-600 mr-4" />
+                    <div>
+                      <span className="block text-sm font-bold text-[#1d1d1f]">
+                        Project Synopsis
+                      </span>
+                      <span className="text-[10px] uppercase tracking-widest text-gray-400 font-bold">
+                        Google Drive Link
+                      </span>
+                    </div>
+                  </a>
+                )}
+                {(project as any).abstractLink && (
+                  <a
+                    href={(project as any).abstractLink}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="flex items-center p-4 rounded-2xl bg-white shadow-sm border border-gray-100 hover:border-blue-200 hover:shadow-md transition-all"
+                  >
+                    <Presentation className="w-6 h-6 text-blue-600 mr-4" />
+                    <div>
+                      <span className="block text-sm font-bold text-[#1d1d1f]">
+                        Project Abstract
+                      </span>
+                      <span className="text-[10px] uppercase tracking-widest text-gray-400 font-bold">
+                        Google Drive Link
+                      </span>
+                    </div>
+                  </a>
+                )}
               </div>
             </section>
 

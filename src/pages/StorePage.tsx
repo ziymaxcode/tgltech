@@ -1,11 +1,13 @@
 import { useState, useEffect } from "react";
 import { useLocation, Link } from "react-router-dom";
-import { STORE_PRODUCTS } from "../data/mockData";
 import { ProductCard } from "../components/ui/ProductCard";
+import { ProductSkeleton } from "../components/ui/Skeletons";
 import { Search } from "lucide-react";
 import { StoreSidebar } from "../components/StoreSidebar";
+import { useData } from "../context/DataContext";
 
 export function StorePage() {
+  const { products: STORE_PRODUCTS, loading } = useData();
   const location = useLocation();
   const [activeCategory, setActiveCategory] = useState("All Components");
   const [searchQuery, setSearchQuery] = useState("");
@@ -24,8 +26,9 @@ export function StorePage() {
     const matchesCategory =
       activeCategory === "All Components" || p.category === activeCategory;
     const matchesSearch =
-      p.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      p.description.toLowerCase().includes(searchQuery.toLowerCase());
+      p.name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      p.description?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      (Array.isArray(p.tags) && p.tags.some((tag: string) => tag.toLowerCase().includes(searchQuery.toLowerCase())));
     return matchesCategory && matchesSearch;
   });
 
@@ -64,13 +67,25 @@ export function StorePage() {
         <div className="flex-1">
           <div className="mb-6 flex justify-between items-center">
             <h2 className="font-bold text-[#1d1d1f] text-lg tracking-tight">
-              Showing {filteredProducts.length} Results
+              {loading ? "Loading Products..." : `Showing ${filteredProducts.length} Results`}
             </h2>
           </div>
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-2 sm:gap-4">
-            {filteredProducts.map((product) => (
-              <ProductCard key={product.id} product={product} />
-            ))}
+            {loading ? (
+              Array.from({ length: 10 }).map((_, i) => (
+                <ProductSkeleton key={i} />
+              ))
+            ) : filteredProducts.length > 0 ? (
+              filteredProducts.map((product) => (
+                <ProductCard key={product.id} product={product} />
+              ))
+            ) : (
+              <div className="col-span-full text-center py-24 bg-white rounded-3xl border border-gray-100">
+                <p className="text-gray-500 text-lg">
+                  No products found matching your search.
+                </p>
+              </div>
+            )}
           </div>
         </div>
       </div>

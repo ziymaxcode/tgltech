@@ -1,17 +1,6 @@
 import { Link } from "react-router-dom";
-import { STORE_PRODUCTS } from "../data/mockData";
 import { SlidersHorizontal } from "lucide-react";
-
-export const CATEGORIES = [
-  "All Components",
-  "Development Boards",
-  "Sensors",
-  "Modules",
-  "Displays",
-  "Robotics",
-  "Drone Components",
-  "Kits",
-];
+import { useData } from "../context/DataContext";
 
 interface StoreSidebarProps {
   activeCategory: string;
@@ -22,6 +11,15 @@ export function StoreSidebar({
   activeCategory,
   setActiveCategory,
 }: StoreSidebarProps) {
+  const { products: STORE_PRODUCTS } = useData();
+
+  // Dynamically extract categories from products
+  const dynamicCategories = Array.from(
+    new Set(STORE_PRODUCTS.map((p) => p.category).filter(Boolean))
+  ).sort();
+
+  const CATEGORIES = ["All Components", ...dynamicCategories];
+
   return (
     <div className="w-full md:w-64 shrink-0">
       <div className="bg-white rounded-3xl border border-gray-100 p-6 sticky top-24 shadow-sm max-h-[calc(100vh-8rem)] flex flex-col">

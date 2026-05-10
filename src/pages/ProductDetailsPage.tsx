@@ -1,6 +1,6 @@
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
-import { STORE_PRODUCTS, PROJECTS, COURSES } from "../data/mockData";
+import { useData } from "../context/DataContext";
 import {
   ArrowLeft,
   PlayCircle,
@@ -13,6 +13,7 @@ import { useCart } from "../context/CartContext";
 import { StoreSidebar } from "../components/StoreSidebar";
 
 export function ProductDetailsPage() {
+  const { products: STORE_PRODUCTS, projects: PROJECTS, courses: COURSES, loading } = useData();
   const { productId } = useParams();
   const navigate = useNavigate();
   const product = STORE_PRODUCTS.find((p) => p.id === productId);
@@ -28,6 +29,14 @@ export function ProductDetailsPage() {
       setActiveCategory(product.category);
     }
   }, [product]);
+
+  if (loading && !product) {
+    return (
+      <div className="bg-[#fbfbfb] min-h-screen flex items-center justify-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+      </div>
+    );
+  }
 
   if (!product) {
     return <div className="p-24 text-center">Product not found</div>;
@@ -173,12 +182,12 @@ export function ProductDetailsPage() {
                 </div>
 
                 <a
-                  href={(product as any).gdriveLink || "#"}
+                  href={(product as any).documentationLink || (product as any).gdriveLink || "#"}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="w-full bg-white text-gray-600 border border-gray-200 font-bold text-[10px] sm:text-xs tracking-wider uppercase py-3 sm:py-4 rounded-xl flex justify-center items-center hover:bg-gray-50 hover:text-[#1d1d1f] transition-colors shadow-sm mt-3 sm:mt-4"
                 >
-                  <BookText className="w-4 h-4 mr-2" /> Documentation & GDrive
+                  <BookText className="w-4 h-4 mr-2" /> Documentation Link
                 </a>
               </div>
             </div>
@@ -256,36 +265,27 @@ export function ProductDetailsPage() {
             )}
 
             {/* Related Tutorials */}
-            <section>
-              <h2 className="text-2xl font-bold text-[#1d1d1f] mb-6 flex items-center tracking-tight">
-                <PlayCircle className="w-6 h-6 mr-3 text-blue-600" /> Getting
-                Started Tutorials
-              </h2>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                {[1, 2, 3].map((i) => (
-                  <div
-                    key={i}
-                    className="bg-white rounded-3xl border border-gray-100 overflow-hidden shadow-sm hover:shadow-md transition-shadow"
-                  >
-                    <div className="aspect-video bg-[#1d1d1f] flex items-center justify-center relative group cursor-pointer">
-                      <img
-                        src="https://images.unsplash.com/photo-1555255707-c07966088b7b?auto=format&fit=crop&q=80&w=600"
-                        className="opacity-40 group-hover:opacity-20 transition-opacity mix-blend-luminosity"
-                      />
-                      <PlayCircle className="absolute w-12 h-12 text-white opacity-80 group-hover:opacity-100 group-hover:scale-110 transition-all" />
-                    </div>
-                    <div className="p-6">
-                      <h4 className="font-bold text-[#1d1d1f] text-sm mb-2">
-                        How to wire {product.name} for beginners
-                      </h4>
-                      <p className="text-[10px] uppercase tracking-widest font-bold text-gray-400">
-                        10 mins • Wiring Diagram included
-                      </p>
-                    </div>
+            {(product as any).tutorialLink && (
+              <section>
+                <h2 className="text-2xl font-bold text-[#1d1d1f] mb-6 flex items-center tracking-tight">
+                  <PlayCircle className="w-6 h-6 mr-3 text-blue-600" /> Getting Started Tutorials
+                </h2>
+                <a
+                  href={(product as any).tutorialLink}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="bg-white rounded-3xl border border-gray-100 overflow-hidden shadow-sm hover:shadow-md transition-shadow flex flex-col sm:flex-row items-center p-4 sm:p-6 group cursor-pointer"
+                >
+                  <div className="w-16 h-16 sm:w-20 sm:h-20 bg-blue-50 rounded-2xl flex items-center justify-center mb-4 sm:mb-0 sm:mr-6 group-hover:bg-blue-100 transition-colors shrink-0">
+                    <PlayCircle className="w-8 h-8 sm:w-10 sm:h-10 text-blue-600" />
                   </div>
-                ))}
-              </div>
-            </section>
+                  <div>
+                    <h3 className="font-bold text-[#1d1d1f] text-lg sm:text-xl mb-1 group-hover:text-blue-600 transition-colors text-center sm:text-left">Watch Getting Started Tutorial</h3>
+                    <p className="text-sm text-gray-500 text-center sm:text-left">Learn the basics and get up and running quickly with {product.name}</p>
+                  </div>
+                </a>
+              </section>
+            )}
           </div>
         </div>
       </div>

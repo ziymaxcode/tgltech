@@ -10,12 +10,15 @@ import {
   CheckCircle2,
 } from "lucide-react";
 import { Link } from "react-router-dom";
-import { ECOSYSTEMS, STORE_PRODUCTS } from "../data/mockData";
 import { EcosystemCard } from "../components/ui/EcosystemCard";
 import { ProductCard } from "../components/ui/ProductCard";
+import { ProductSkeleton } from "../components/ui/Skeletons";
 import { HeroSlider } from "../components/ui/HeroSlider";
+import { useData } from "../context/DataContext";
 
 export function HomePage() {
+  const { products: STORE_PRODUCTS, ecosystems: ECOSYSTEMS, loading } = useData();
+
   return (
     <div className="flex flex-col">
       {/* Hero Section */}
@@ -65,7 +68,13 @@ export function HomePage() {
         <div className="relative w-full mb-4">
           <div className="flex w-max animate-scrolling pl-4 sm:pl-6 lg:pl-8 hover:[animation-play-state:paused]">
             <div className="flex gap-3 sm:gap-6 pr-3 sm:pr-6">
-              {STORE_PRODUCTS.slice(0, 10).map((product, index) => (
+              {loading ? (
+                Array.from({ length: 10 }).map((_, i) => (
+                  <div key={`skel-1-${i}`} className="w-[160px] sm:w-[220px] md:w-[260px] shrink-0">
+                    <ProductSkeleton />
+                  </div>
+                ))
+              ) : STORE_PRODUCTS.slice(0, 10).map((product, index) => (
                 <div
                   key={`${product.id}-1-${index}`}
                   className="w-[160px] sm:w-[220px] md:w-[260px] shrink-0"
@@ -75,7 +84,13 @@ export function HomePage() {
               ))}
             </div>
             <div className="flex gap-3 sm:gap-6 pr-3 sm:pr-6">
-              {STORE_PRODUCTS.slice(0, 10).map((product, index) => (
+              {loading ? (
+                Array.from({ length: 10 }).map((_, i) => (
+                  <div key={`skel-2-${i}`} className="w-[160px] sm:w-[220px] md:w-[260px] shrink-0">
+                    <ProductSkeleton />
+                  </div>
+                ))
+              ) : STORE_PRODUCTS.slice(0, 10).map((product, index) => (
                 <div
                   key={`${product.id}-2-${index}`}
                   className="w-[160px] sm:w-[220px] md:w-[260px] shrink-0"
