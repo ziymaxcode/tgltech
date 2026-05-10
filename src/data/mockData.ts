@@ -628,7 +628,7 @@ export const ECOSYSTEMS = [
   },
   {
     id: "courses",
-    title: "Trainings",
+    title: "Certified Courses",
     description: "IEEE-inspired learning tracks.",
     icon: GraduationCap,
     path: "/careers?tab=certifications",
@@ -644,7 +644,7 @@ export const ECOSYSTEMS = [
   },
   {
     id: "solutions",
-    title: "Technology & Prototyping",
+    title: "Technical Solutions",
     description: "Embedded, PCB design & 3D Prototyping.",
     icon: Cpu,
     path: "/solutions",

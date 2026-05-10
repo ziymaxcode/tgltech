@@ -81,7 +81,7 @@ export function SolutionsPage() {
         <div className="w-full mx-auto px-4 sm:px-6 lg:px-8">
           <h1 className="text-2xl font-bold text-[#1d1d1f] tracking-tight">
             {activeType === "all"
-              ? "Technology & Prototyping Solutions"
+              ? "Technical Solutions"
               : filteredSolutions[0]?.title}
           </h1>
         </div>
