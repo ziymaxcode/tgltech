@@ -165,16 +165,16 @@ export function Navbar() {
   }, [isOpen]);
 
   return (
-    <nav className="fixed top-0 w-full z-50 bg-white border-b border-gray-100">
+    <nav className="fixed top-0 w-full z-50 bg-white/80 backdrop-blur-xl border-b border-gray-200/50">
       <div className="w-full mx-auto px-10">
         <div className="flex justify-between items-center h-16">
-          <Link to="/" className="flex items-center">
-  <img
-    src="/logo.jpg"
-    alt="TGL Technologies Logo"
-    className="h-16 w-auto object-contain"
-  />
-</Link>
+          <Link to="/" className="flex items-center space-x-2">
+            <Cpu className="h-8 w-8 text-blue-600" />
+            <span className="font-bold text-xl tracking-tight uppercase text-[#1d1d1f]">
+              TGL <span className="text-blue-600 italic">Technologies</span>
+            </span>
+          </Link>
+
           {/* Desktop Nav */}
           <div className="hidden xl:flex items-center space-x-6">
             {LINKS.map((link) => {
@@ -209,7 +209,7 @@ export function Navbar() {
                     <div
                       className={`absolute top-full left-0 pt-4 transition-all z-50 ${closedMenuPath === link.path ? "opacity-0 translate-y-2 pointer-events-none" : "opacity-0 translate-y-2 pointer-events-none group-hover:opacity-100 group-hover:translate-y-0 group-hover:pointer-events-auto"}`}
                     >
-                      <div className="bg-white border border-gray-100 shadow-2xl rounded-3xl p-8 w-[800px] flex gap-12">
+                      <div className="bg-white/95 backdrop-blur-3xl border border-gray-100/50 shadow-2xl rounded-3xl p-8 w-[800px] flex gap-12">
                         {/* Sidebar */}
                         <div className="w-48 shrink-0">
                           <h3 className="font-black text-[10px] uppercase tracking-widest text-[#1d1d1f] mb-4">
@@ -393,7 +393,7 @@ export function Navbar() {
                     <div
                       className={`absolute top-full left-0 pt-4 transition-all z-50 ${closedMenuPath === link.path ? "opacity-0 translate-y-2 pointer-events-none" : "opacity-0 translate-y-2 pointer-events-none group-hover:opacity-100 group-hover:translate-y-0 group-hover:pointer-events-auto"}`}
                     >
-                      <div className="bg-white border border-gray-100 shadow-2xl rounded-3xl p-8 w-[800px] flex gap-12">
+                      <div className="bg-white/95 backdrop-blur-3xl border border-gray-100/50 shadow-2xl rounded-3xl p-8 w-[800px] flex gap-12">
                         {/* Sidebar / Main Categories */}
                         <div className="w-48 shrink-0">
                           <h3 className="font-black text-[10px] uppercase tracking-widest text-[#1d1d1f] mb-4">
@@ -588,7 +588,7 @@ export function Navbar() {
                           : "left-0"
                       } ${closedMenuPath === link.path ? "opacity-0 translate-y-2 pointer-events-none" : "opacity-0 translate-y-2 pointer-events-none group-hover:opacity-100 group-hover:translate-y-0 group-hover:pointer-events-auto"}`}
                     >
-                      <div className="bg-white border border-gray-100 shadow-2xl rounded-3xl p-8 min-w-[500px]">
+                      <div className="bg-white/95 backdrop-blur-3xl border border-gray-100/50 shadow-2xl rounded-3xl p-8 min-w-[500px]">
                         <h3 className="font-black text-[12px] uppercase tracking-widest text-[#1d1d1f] mb-6 pb-2 border-b border-gray-100">
                           {link.name}
                         </h3>
@@ -671,7 +671,7 @@ export function Navbar() {
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
-            className="xl:hidden bg-white border-b border-gray-200 shadow-lg absolute w-full max-h-[80vh] overflow-y-auto"
+            className="xl:hidden bg-white/90 backdrop-blur-xl border-b border-gray-200/50 shadow-lg absolute w-full max-h-[80vh] overflow-y-auto"
           >
             <div className="px-4 py-4 flex flex-col space-y-4">
               {LINKS.map((link) => {
