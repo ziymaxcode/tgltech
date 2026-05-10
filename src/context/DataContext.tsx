@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
-import { STORE_PRODUCTS as initialProducts, PROJECTS as initialProjects, COURSES as initialCourses, INTERNSHIPS as initialInternships, ECOSYSTEMS as initialEcosystems } from '../data/mockData';
+import { ECOSYSTEMS as initialEcosystems } from '../data/mockData';
 
 type DataContextType = {
   products: any[];
@@ -43,19 +43,12 @@ export const DataProvider = ({ children }: { children: React.ReactNode }) => {
           
           await Promise.all(promises);
         } else {
-          // Fallback to mock data if not configured
-          setProducts(initialProducts);
-          setProjects(initialProjects);
-          setCourses(initialCourses);
-          setInternships(initialInternships);
+          // No fallback to mock data if not configured
+          console.error("Google sheets are not configured.");
         }
       } catch (err) {
         console.error("Failed to fetch data:", err);
-        // Fallback to mock data on error
-        setProducts(initialProducts);
-        setProjects(initialProjects);
-        setCourses(initialCourses);
-        setInternships(initialInternships);
+        // No fallback to mock data on error
       } finally {
         setLoading(false);
       }
