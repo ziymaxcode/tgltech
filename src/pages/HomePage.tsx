@@ -13,56 +13,13 @@ import { Link } from "react-router-dom";
 import { ECOSYSTEMS, STORE_PRODUCTS } from "../data/mockData";
 import { EcosystemCard } from "../components/ui/EcosystemCard";
 import { ProductCard } from "../components/ui/ProductCard";
+import { HeroSlider } from "../components/ui/HeroSlider";
 
 export function HomePage() {
   return (
     <div className="flex flex-col">
       {/* Hero Section */}
-      <section className="relative pt-32 pb-16 overflow-hidden bg-[#fbfbfb]">
-        <div className="w-full mx-auto px-10 relative z-10">
-          <div className="flex flex-col md:flex-row md:justify-between md:items-end gap-8 mb-12">
-            <div className="max-w-xl">
-              <motion.h1
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                className="text-5xl font-bold tracking-tight leading-none mb-4 text-[#1d1d1f]"
-              >
-                Accelerating Academic Innovation.
-              </motion.h1>
-
-              <motion.p
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.1 }}
-                className="text-lg text-gray-500"
-              >
-                India’s trusted hub for Sensors, DIY Kits, Certifications, and
-                Institutional Lab Solutions.
-              </motion.p>
-            </div>
-
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.2 }}
-              className="flex gap-4 mb-2"
-            >
-              <div className="px-6 py-3 bg-gray-100 rounded-2xl flex flex-col items-center justify-center">
-                <span className="text-2xl font-bold text-[#1d1d1f]">1000+</span>
-                <span className="text-[10px] uppercase text-gray-400 font-bold tracking-widest mt-1">
-                  Components
-                </span>
-              </div>
-              <div className="px-6 py-3 bg-gray-100 rounded-2xl flex flex-col items-center justify-center">
-                <span className="text-2xl font-bold text-[#1d1d1f]">50+</span>
-                <span className="text-[10px] uppercase text-gray-400 font-bold tracking-widest mt-1">
-                  PhD Support
-                </span>
-              </div>
-            </motion.div>
-          </div>
-        </div>
-      </section>
+      <HeroSlider />
 
       {/* Ecosystem Overview */}
       <section className="py-16 bg-[#fbfbfb]">
