@@ -169,7 +169,11 @@ export function Navbar() {
       <div className="w-full mx-auto px-10">
         <div className="flex justify-between items-center h-16">
           <Link to="/" className="flex items-center space-x-2">
-            <Cpu className="h-8 w-8 text-blue-600" />
+           <img
+          src="/logo.jpg"
+          alt="TGL Technologies Logo"
+          className="h-10 w-auto object-contain"
+        />
             <span className="font-bold text-xl tracking-tight uppercase text-[#1d1d1f]">
               TGL <span className="text-blue-600 italic">Technologies</span>
             </span>
