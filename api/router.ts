@@ -67,6 +67,18 @@ apiRouter.get("/data/:type", async (req, res) => {
            }
         }
       }
+
+      // Transform Google Drive links automatically to direct image links
+      const imageFields = ['image'];
+      for (const field of imageFields) {
+        if (typeof parsed[field] === 'string' && parsed[field].includes('drive.google.com')) {
+          const match = parsed[field].match(/\/d\/([a-zA-Z0-9_-]+)/) || parsed[field].match(/id=([a-zA-Z0-9_-]+)/);
+          if (match && match[1]) {
+             parsed[field] = `https://lh3.googleusercontent.com/d/${match[1]}=w1000`; // Better than uc?export=view for cross origin
+          }
+        }
+      }
+
       return parsed;
     });
 
