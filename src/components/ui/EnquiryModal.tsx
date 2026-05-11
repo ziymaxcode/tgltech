@@ -2,28 +2,38 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, Send } from 'lucide-react';
 
-export function EnquiryModal() {
+interface EnquiryModalProps {
+  defaultInterest?: string;
+  defaultMessage?: string;
+  storageKey?: string;
+}
+
+export function EnquiryModal({ 
+  defaultInterest = 'General Inquiry', 
+  defaultMessage = '',
+  storageKey = 'tgl_has_seen_enquiry'
+}: EnquiryModalProps = {}) {
   const [isOpen, setIsOpen] = useState(false);
   const [formData, setFormData] = useState({
     name: '',
     phone: '',
     email: '',
-    interest: 'General Inquiry',
-    message: ''
+    interest: defaultInterest,
+    message: defaultMessage
   });
 
   useEffect(() => {
     // Check if the user has already seen the popup in this session
-    const hasSeenPopup = sessionStorage.getItem('tgl_has_seen_enquiry');
+    const hasSeenPopup = sessionStorage.getItem(storageKey);
     if (!hasSeenPopup) {
       // Delay the popup slightly for a better UX
       const timer = setTimeout(() => {
         setIsOpen(true);
-        sessionStorage.setItem('tgl_has_seen_enquiry', 'true');
+        sessionStorage.setItem(storageKey, 'true');
       }, 3000);
       return () => clearTimeout(timer);
     }
-  }, []);
+  }, [storageKey]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });

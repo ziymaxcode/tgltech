@@ -15,6 +15,7 @@ import {
   PlaySquare,
 } from "lucide-react";
 import { ProjectSidebar } from "../components/ProjectSidebar";
+import { EnquiryModal } from "../components/ui/EnquiryModal";
 
 export function ProjectDetailsPage() {
   const { products: STORE_PRODUCTS, projects: PROJECTS, courses: COURSES, loading } = useData();
@@ -45,10 +46,10 @@ export function ProjectDetailsPage() {
     return <div className="p-24 text-center">Project not found</div>;
 
   const componentsNeeded = project.componentsUsed
-    .map((id) => STORE_PRODUCTS.find((p) => p.id === id))
+    .map((id: any) => STORE_PRODUCTS.find((p) => p.id === id))
     .filter(Boolean);
   const relatedCourses = project.relatedCourses
-    ?.map((id) => COURSES.find((c) => c.id === id))
+    ?.map((id: any) => COURSES.find((c) => c.id === id))
     .filter(Boolean);
 
   const whatsappMessage = `Hi TGL,%0A%0AI'm interested in the ${project.isReadymade ? "Readymade Project: " : "Components for DIY Project: "}*${project.name}*.`;
@@ -350,6 +351,11 @@ export function ProjectDetailsPage() {
           </div>
         </div>
       </div>
+      <EnquiryModal 
+        defaultInterest="Engineering Projects" 
+        defaultMessage={`I'm interested in the project: ${project.name}`}
+        storageKey="tgl_has_seen_project_enquiry"
+      />
     </div>
   );
 }
