@@ -38,11 +38,22 @@ apiRouter.get("/data/:type", async (req, res) => {
     else if (type === "projects") sheetName = "Projects";
     else if (type === "internships") sheetName = "Internships";
     else if (type === "courses") sheetName = "Courses";
+    else if (type === "labs") sheetName = "Labs";
     else {
       return res.status(400).json({ error: "Invalid data type" });
     }
 
-    const rawData = await getSheetData(`${sheetName}!A1:Z`);
+    let rawData: any[] = [];
+    try {
+      rawData = await getSheetData(`${sheetName}!A1:Z`);
+    } catch (sheetError: any) {
+      // If the sheet doesn't exist, return empty array instead of failing
+      if (sheetError.message?.includes('Unable to parse range')) {
+        console.warn(`Sheet missing or empty: ${sheetName}`);
+        return res.json([]);
+      }
+      throw sheetError;
+    }
     
     // Parse list fields if they are comma separated
     const parsedData = rawData.map(item => {
@@ -69,7 +80,7 @@ apiRouter.get("/data/:type", async (req, res) => {
       }
 
       // Transform Google Drive links automatically to direct image links
-      const imageFields = ['image'];
+      const imageFields = ['image', 'icon'];
       for (const field of imageFields) {
         if (typeof parsed[field] === 'string' && parsed[field].includes('drive.google.com')) {
           const match = parsed[field].match(/\/d\/([a-zA-Z0-9_-]+)/) || parsed[field].match(/id=([a-zA-Z0-9_-]+)/);

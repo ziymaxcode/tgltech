@@ -13,10 +13,13 @@ import {
 } from "lucide-react";
 import { useLocation } from "react-router-dom";
 import { useState, useEffect } from "react";
+import { useData } from "../context/DataContext";
+import { InfiniteProductScroll } from "../components/ui/InfiniteProductScroll";
 
 export function LabsPage() {
   const location = useLocation();
   const [activeType, setActiveType] = useState("all");
+  const { labs, loading } = useData();
 
   useEffect(() => {
     const params = new URLSearchParams(location.search);
@@ -28,55 +31,12 @@ export function LabsPage() {
     }
   }, [location]);
 
-  const LAB_CATEGORIES = [
-    {
-      id: "atl",
-      title: "ATAL TINKERING LAB (ATL)",
-      icon: Lightbulb,
-      desc: "Nurturing curiosity and creativity through hands-on learning",
-    },
-    {
-      id: "aicte",
-      title: "AICTE IDEA LAB",
-      icon: Brain,
-      desc: "Inspire, Ideate and Innovate with advanced maker space",
-    },
-    {
-      id: "nain",
-      title: "NAIN PROJECT LAB",
-      icon: HardHat,
-      desc: "Project based learning with industry relevant exposure",
-    },
-    {
-      id: "robotics",
-      title: "INNOVATION ROBOTICS LAB",
-      icon: Bot,
-      desc: "Explore Robotics, Automation & Real world applications",
-    },
-    {
-      id: "stem",
-      title: "STEM EDUCATION LAB",
-      icon: Atom,
-      desc: "Integrated Learning of Science, Technology, Engineering & Mathematics",
-    },
-    {
-      id: "iot",
-      title: "IOT & AI LAB",
-      icon: Cpu,
-      desc: "Work with IoT Devices AI tools & smart solutions",
-    },
-    {
-      id: "embedded",
-      title: "EMBEDDED SYSTEMS LAB",
-      icon: Workflow,
-      desc: "Design, develop & deploy embedded solutions",
-    },
-  ];
+  const displayLabs = labs || [];
 
   const filteredLabs =
     activeType === "all"
-      ? LAB_CATEGORIES
-      : LAB_CATEGORIES.filter((lab) => lab.id === activeType);
+      ? displayLabs
+      : displayLabs.filter((lab) => lab.id?.toLowerCase() === activeType?.toLowerCase());
 
   return (
     <div className="bg-[#fbfbfb] min-h-screen pb-24">
@@ -103,18 +63,39 @@ export function LabsPage() {
               className="bg-white border border-gray-100 hover:border-blue-200 shadow-sm hover:shadow-md p-8 rounded-3xl flex flex-col relative overflow-hidden group transition-all transform hover:-translate-y-1"
             >
               <div className="absolute top-0 right-0 p-8 opacity-[0.03] pointer-events-none transition-opacity group-hover:opacity-[0.05]">
-                <lab.icon className="w-32 h-32" />
+                {lab.icon && typeof lab.icon === 'string' ? (
+                  <img src={lab.icon} alt="" className="w-32 h-32 opacity-20 object-contain" referrerPolicy="no-referrer" />
+                ) : lab.icon ? (
+                  <lab.icon className="w-32 h-32" />
+                ) : null}
               </div>
-              <lab.icon className="w-10 h-10 text-blue-600 mb-6 relative z-10" />
+              
+              {lab.icon && typeof lab.icon === 'string' ? (
+                <img src={lab.icon} alt={lab.title} className="w-10 h-10 mb-6 relative z-10 object-contain" referrerPolicy="no-referrer" />
+              ) : lab.icon ? (
+                <lab.icon className="w-10 h-10 text-blue-600 mb-6 relative z-10" />
+              ) : null}
+              
               <h2 className="font-bold text-lg mb-3 tracking-tight relative z-10">
                 {lab.title}
               </h2>
               <p className="text-sm text-gray-500 mb-8 flex-1 relative z-10 leading-relaxed">
                 {lab.desc}
               </p>
-              <button className="text-[10px] uppercase text-gray-400 font-bold tracking-widest hover:text-blue-600 text-left transition-colors relative z-10">
-                View Detail & Equipment →
-              </button>
+              {lab.link ? (
+                <a 
+                  href={lab.link} 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="text-[10px] uppercase text-blue-600 font-bold tracking-widest hover:text-blue-800 text-left transition-colors relative z-10 block"
+                >
+                  View Detail & Equipment →
+                </a>
+              ) : (
+                <button className="text-[10px] uppercase text-gray-400 font-bold tracking-widest hover:text-blue-600 text-left transition-colors relative z-10">
+                  View Detail & Equipment →
+                </button>
+              )}
             </div>
           ))}
         </div>
@@ -137,6 +118,7 @@ export function LabsPage() {
           </div>
         </div>
       </div>
+      <InfiniteProductScroll />
     </div>
   );
 }

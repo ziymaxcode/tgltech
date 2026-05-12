@@ -16,6 +16,7 @@ import {
 } from "lucide-react";
 import { ProjectSidebar } from "../components/ProjectSidebar";
 import { EnquiryModal } from "../components/ui/EnquiryModal";
+import { InfiniteProductScroll } from "../components/ui/InfiniteProductScroll";
 
 export function ProjectDetailsPage() {
   const { products: STORE_PRODUCTS, projects: PROJECTS, courses: COURSES, loading } = useData();
@@ -57,7 +58,7 @@ export function ProjectDetailsPage() {
   return (
     <div className="bg-[#fbfbfb] min-h-screen pb-32">
       {/* Hero */}
-      <div className="relative h-[40vh] bg-[#1d1d1f] flex items-end pb-12 border-b border-gray-200">
+      <div className="relative min-h-[30vh] pt-16 bg-[#1d1d1f] flex flex-col justify-between pb-8 border-b border-gray-200">
         <div className="absolute inset-0 overflow-hidden">
           <img
             referrerPolicy="no-referrer"
@@ -66,27 +67,32 @@ export function ProjectDetailsPage() {
           />
           <div className="absolute inset-0 bg-gradient-to-t from-[#1d1d1f] to-transparent"></div>
         </div>
-        <div className="w-full mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full flex justify-between items-end">
+        
+        {/* Breadcrumbs at the top */}
+        <div className="w-full mx-auto px-4 sm:px-10 relative z-10 w-full mt-2 sm:mt-4">
+          <nav className="text-[10px] sm:text-xs font-bold uppercase tracking-widest text-gray-400">
+            <ol className="flex flex-wrap items-center gap-x-2 gap-y-1">
+              <li>
+                <Link to="/" className="hover:text-white transition-colors">Home</Link>
+              </li>
+              <li><span className="text-gray-600">/</span></li>
+              <li>
+                <Link to="/projects" className="hover:text-white transition-colors">Projects</Link>
+              </li>
+              <li><span className="text-gray-600">/</span></li>
+              <li>
+                <Link to={`/projects?category=${encodeURIComponent(project.category)}`} className="hover:text-white transition-colors">
+                  {project.category}
+                </Link>
+              </li>
+              <li><span className="text-gray-600">/</span></li>
+              <li className="text-gray-200">{project.name}</li>
+            </ol>
+          </nav>
+        </div>
+
+        <div className="w-full mx-auto px-4 sm:px-10 relative z-10 w-full flex justify-between items-end mt-8 sm:mt-10">
           <div className="w-full">
-            <nav className="text-[10px] sm:text-xs font-bold uppercase tracking-widest text-gray-400 mb-4">
-              <ol className="flex flex-wrap items-center gap-x-2 gap-y-1">
-                <li>
-                  <Link to="/" className="hover:text-white transition-colors">Home</Link>
-                </li>
-                <li><span className="text-gray-600">/</span></li>
-                <li>
-                  <Link to="/projects" className="hover:text-white transition-colors">Projects</Link>
-                </li>
-                <li><span className="text-gray-600">/</span></li>
-                <li>
-                  <Link to={`/projects?category=${encodeURIComponent(project.category)}`} className="hover:text-white transition-colors">
-                    {project.category}
-                  </Link>
-                </li>
-                <li><span className="text-gray-600">/</span></li>
-                <li className="text-gray-200">{project.name}</li>
-              </ol>
-            </nav>
             <Link
               to="/projects"
               className="inline-flex items-center text-xs font-bold uppercase tracking-widest text-white hover:text-gray-200 mb-4 sm:mb-6 transition-colors"
@@ -351,6 +357,9 @@ export function ProjectDetailsPage() {
           </div>
         </div>
       </div>
+      
+      <InfiniteProductScroll />
+
       <EnquiryModal 
         defaultInterest="Engineering Projects" 
         defaultMessage={`I'm interested in the project: ${project.name}`}

@@ -12,119 +12,33 @@ import { motion, AnimatePresence } from "motion/react";
 import { useCart } from "../../context/CartContext";
 import { useData } from "../../context/DataContext";
 
+import { DynamicDataMenu } from "./DynamicDataMenu";
+
 const LINKS = [
   {
     name: "Electronics DIY Store",
     path: "/store",
-    isMegaStore: true,
-    dropdown: [
-      { name: "All Components", path: "/store" },
-      {
-        name: "Development Boards",
-        path: "/store?category=Development+Boards",
-        storeCategory: "Development Boards",
-      },
-      {
-        name: "Sensors",
-        path: "/store?category=Sensors",
-        storeCategory: "Sensors",
-      },
-      {
-        name: "Modules",
-        path: "/store?category=Modules",
-        storeCategory: "Modules",
-      },
-      {
-        name: "Robotics",
-        path: "/store?category=Robotics",
-        storeCategory: "Robotics",
-      },
-      {
-        name: "Drone Components",
-        path: "/store?category=Drone+Components",
-        storeCategory: "Drone Components",
-      },
-      { name: "Kits", path: "/store?category=Kits", storeCategory: "Kits" },
-    ],
+    dynamicDataName: "store"
   },
   {
     name: "Engineering Projects",
     path: "/projects",
-    isMegaProjects: true,
-    dropdown: [
-      { name: "All Projects", path: "/projects" },
-      {
-        name: "IEEE Major Projects",
-        path: "/projects?category=IEEE+Major+Projects",
-      },
-      {
-        name: "Application Major Projects",
-        path: "/projects?category=Application+Major+Projects",
-      },
-      { name: "Minor Projects", path: "/projects?category=Minor+Projects" },
-      { name: "Robotics", path: "/projects?category=Robotics" },
-      { name: "IOT", path: "/projects?category=IOT" },
-    ],
+    dynamicDataName: "projects"
   },
   {
     name: "Internships",
     path: "/careers?tab=internships",
-    dropdown: [
-      { name: "All Internships", path: "/careers?tab=internships" },
-      {
-        name: "IoT Development",
-        path: "/careers?tab=internships&category=iot",
-      },
-      {
-        name: "Web Development",
-        path: "/careers?tab=internships&category=web",
-      },
-      {
-        name: "Embedded Systems",
-        path: "/careers?tab=internships&category=embedded",
-      },
-      {
-        name: "AI & Machine Learning",
-        path: "/careers?tab=internships&category=ai",
-      },
-    ],
+    dynamicDataName: "internships"
   },
   {
     name: "Certified Courses",
     path: "/careers?tab=certifications",
-    dropdown: [
-      { name: "All Courses", path: "/careers?tab=certifications" },
-      {
-        name: "Programming Foundations",
-        path: "/careers?tab=certifications&category=programming",
-      },
-      {
-        name: "Robotics & Automation",
-        path: "/careers?tab=certifications&category=robotics",
-      },
-      {
-        name: "Internet of Things (IoT)",
-        path: "/careers?tab=certifications&category=iot",
-      },
-      {
-        name: "Artificial Intelligence",
-        path: "/careers?tab=certifications&category=ai",
-      },
-    ],
+    dynamicDataName: "certifications"
   },
   {
     name: "Lab Setups",
     path: "/labs",
-    dropdown: [
-      { name: "All Labs", path: "/labs" },
-      { name: "ATAL Tinkering Lab (ATL)", path: "/labs?type=atl" },
-      { name: "AICTE IDEA Lab", path: "/labs?type=aicte" },
-      { name: "NAIN Project Lab", path: "/labs?type=nain" },
-      { name: "Innovation Robotics Lab", path: "/labs?type=robotics" },
-      { name: "STEM Education Lab", path: "/labs?type=stem" },
-      { name: "IoT & AI Lab", path: "/labs?type=iot" },
-      { name: "Embedded Systems Lab", path: "/labs?type=embedded" },
-    ],
+    dynamicDataName: "labs"
   },
   { name: "PhD Support", path: "/careers?tab=phd" },
   {
@@ -154,7 +68,7 @@ export function Navbar() {
   };
   const location = useLocation();
   const { cart } = useCart();
-  const { products: STORE_PRODUCTS } = useData();
+  const { products: STORE_PRODUCTS, projects, internships, courses, labs } = useData();
   const cartItemCount = cart.reduce((acc, item) => acc + item.quantity, 0);
 
   useEffect(() => {
@@ -170,16 +84,17 @@ export function Navbar() {
       <div className="w-full mx-auto px-2 md:px-10">
         <div className="flex justify-between items-center h-16">
           <Link to="/" className="flex items-center">
-  <img
-    src="/logot.png"
-    alt="TGL Technologies Logo"
-    className="h-16 w-auto object-contain"
-  />
-</Link>
+          <img
+            src="/logot.png"
+            alt="TGL Technologies Logo"
+            className="h-16 w-auto object-contain"
+          />
+        </Link>
+
 
 
           {/* Desktop Nav */}
-          <div className="hidden xl:flex items-center space-x-6">
+          <div className="hidden xl:flex items-center space-x-6 h-full">
             {LINKS.map((link) => {
               const isActive = link.path.includes("?")
                 ? location.pathname + location.search === link.path
@@ -187,384 +102,20 @@ export function Navbar() {
                     link.path !== "/") ||
                   (link.path === "/" && location.pathname === "/");
 
-              if ((link as any).isMegaProjects) {
+              const dynamicItemsMap: Record<string, any[]> = {
+                store: STORE_PRODUCTS,
+                projects: projects,
+                internships: internships,
+                certifications: courses,
+                labs: labs,
+              };
+
+              if ((link as any).dynamicDataName) {
+                const items = dynamicItemsMap[(link as any).dynamicDataName] || [];
                 return (
                   <div
                     key={link.path}
-                    className="relative group"
-                    onMouseLeave={() => setClosedMenuPath(null)}
-                    onClick={(e) => {
-                      if ((e.target as HTMLElement).closest("a")) {
-                        setClosedMenuPath(link.path);
-                      }
-                    }}
-                  >
-                    <Link
-                      to={link.path}
-                      className={`flex items-center text-sm font-medium transition-colors whitespace-nowrap ${
-                        isActive
-                          ? "text-blue-600"
-                          : "text-gray-500 hover:text-blue-600"
-                      }`}
-                    >
-                      {link.name}
-                    </Link>
-                    <div
-                      className={`absolute top-full left-0 pt-4 transition-all z-50 ${closedMenuPath === link.path ? "opacity-0 translate-y-2 pointer-events-none" : "opacity-0 translate-y-2 pointer-events-none group-hover:opacity-100 group-hover:translate-y-0 group-hover:pointer-events-auto"}`}
-                    >
-                      <div className="bg-white/95 backdrop-blur-3xl border border-gray-100/50 shadow-2xl rounded-3xl p-8 w-[800px] flex gap-12">
-                        {/* Sidebar */}
-                        <div className="w-48 shrink-0">
-                          <h3 className="font-black text-[10px] uppercase tracking-widest text-[#1d1d1f] mb-4">
-                            Major & Minor
-                          </h3>
-                          <ul className="space-y-3">
-                            <li className="text-sm text-gray-500 hover:text-blue-600 font-medium">
-                              <Link to="/projects?category=IEEE+Major+Projects">
-                                IEEE Major Projects
-                              </Link>
-                            </li>
-                            <li className="text-sm text-gray-500 hover:text-blue-600 font-medium">
-                              <Link to="/projects?category=Application+Major+Projects">
-                                Application Major Projects
-                              </Link>
-                            </li>
-                            <li className="text-sm text-gray-500 hover:text-blue-600 font-medium">
-                              <Link to="/projects?category=Minor+Projects">
-                                Minor Projects
-                              </Link>
-                            </li>
-                          </ul>
-                        </div>
-
-                        {/* Mega Menu Content */}
-                        <div className="flex-1 grid grid-cols-3 gap-8">
-                          <div>
-                            <h3 className="font-black text-[10px] uppercase tracking-widest text-blue-600 mb-4 pb-2 border-b border-gray-100">
-                              Embedded
-                            </h3>
-                            <ul className="space-y-3">
-                              <li className="text-sm text-gray-600 hover:text-[#1d1d1f]">
-                                <Link to="/projects?category=MATLAB">
-                                  MATLAB
-                                </Link>
-                              </li>
-                              <li className="text-sm text-gray-600 hover:text-[#1d1d1f]">
-                                <Link to="/projects?category=VLSI">VLSI</Link>
-                              </li>
-                              <li className="text-sm text-gray-600 hover:text-[#1d1d1f]">
-                                <Link to="/projects?category=ELECTRICAL">
-                                  ELECTRICAL
-                                </Link>
-                              </li>
-                              <li className="text-sm text-gray-600 hover:text-[#1d1d1f]">
-                                <Link to="/projects?category=PYTHON">
-                                  PYTHON
-                                </Link>
-                              </li>
-                              <li className="text-sm text-gray-600 hover:text-[#1d1d1f]">
-                                <Link to="/projects?category=ANDROID">
-                                  ANDROID
-                                </Link>
-                              </li>
-                              <li className="text-sm text-gray-600 hover:text-[#1d1d1f]">
-                                <Link to="/projects?category=JAVA">JAVA</Link>
-                              </li>
-                            </ul>
-                          </div>
-
-                          <div>
-                            <h3 className="font-black text-[10px] uppercase tracking-widest text-[#1d1d1f] mb-4 pb-2 border-b border-gray-100">
-                              Domains
-                            </h3>
-                            <ul className="space-y-3">
-                              <li className="text-sm text-gray-600 hover:text-[#1d1d1f]">
-                                <Link to="/projects?category=Robotics">
-                                  Robotics
-                                </Link>
-                              </li>
-                              <li className="text-sm text-gray-600 hover:text-[#1d1d1f]">
-                                <Link to="/projects?category=IOT">IOT</Link>
-                              </li>
-                              <li className="text-sm text-gray-600 hover:text-[#1d1d1f]">
-                                <Link to="/projects?category=Deep+Learning">
-                                  Deep Learning
-                                </Link>
-                              </li>
-                              <li className="text-sm text-gray-600 hover:text-[#1d1d1f]">
-                                <Link to="/projects?category=Industrial+Automation">
-                                  Industrial Automation
-                                </Link>
-                              </li>
-                              <li className="text-sm text-gray-600 hover:text-[#1d1d1f]">
-                                <Link to="/projects?category=Biomedical">
-                                  Biomedical
-                                </Link>
-                              </li>
-                              <li className="text-sm text-gray-600 hover:text-[#1d1d1f]">
-                                <Link to="/projects?category=Renewable">
-                                  Renewable
-                                </Link>
-                              </li>
-                              <li className="text-sm text-gray-600 hover:text-[#1d1d1f]">
-                                <Link to="/projects?category=Mechatronics">
-                                  Mechatronics
-                                </Link>
-                              </li>
-                              <li className="text-sm text-gray-600 hover:text-[#1d1d1f]">
-                                <Link to="/projects?category=Embedded+with+Matlab">
-                                  Embedded with Matlab
-                                </Link>
-                              </li>
-                              <li className="text-sm text-gray-600 hover:text-[#1d1d1f]">
-                                <Link to="/projects?category=Artificial+Intelligence">
-                                  Artificial Intelligence
-                                </Link>
-                              </li>
-                              <li className="text-sm text-gray-600 hover:text-[#1d1d1f]">
-                                <Link to="/projects?category=OpenCV">
-                                  OpenCV
-                                </Link>
-                              </li>
-                            </ul>
-                          </div>
-
-                          <div>
-                            <h3 className="font-black text-[10px] uppercase tracking-widest text-[#1d1d1f] mb-4 pb-2 border-b border-gray-100">
-                              Controllers & Others
-                            </h3>
-                            <ul className="space-y-3">
-                              <li className="text-sm text-gray-600 hover:text-[#1d1d1f]">
-                                <Link to="/projects?category=ARM7">ARM7</Link>
-                              </li>
-                              <li className="text-sm text-gray-600 hover:text-[#1d1d1f]">
-                                <Link to="/projects?category=Raspberry+pi">
-                                  Raspberry pi
-                                </Link>
-                              </li>
-                              <li className="text-sm text-gray-600 hover:text-[#1d1d1f]">
-                                <Link to="/projects?category=NodeMCU">
-                                  NodeMCU
-                                </Link>
-                              </li>
-                              <li className="text-sm text-gray-600 hover:text-[#1d1d1f]">
-                                <Link to="/projects?category=Arduino">
-                                  Arduino
-                                </Link>
-                              </li>
-                              <li className="text-sm text-gray-600 hover:text-[#1d1d1f]">
-                                <Link to="/projects?category=PIC16F77A">
-                                  PIC16F77A
-                                </Link>
-                              </li>
-                              <li className="text-sm text-gray-600 hover:text-[#1d1d1f]">
-                                <Link to="/projects?category=Android">
-                                  Android Apps
-                                </Link>
-                              </li>
-                            </ul>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                );
-              }
-
-              if (link.isMegaStore) {
-                return (
-                  <div
-                    key={link.path}
-                    className="relative group"
-                    onMouseLeave={() => setClosedMenuPath(null)}
-                    onClick={(e) => {
-                      if ((e.target as HTMLElement).closest("a")) {
-                        setClosedMenuPath(link.path);
-                      }
-                    }}
-                  >
-                    <Link
-                      to={link.path}
-                      className={`flex items-center text-sm font-medium transition-colors whitespace-nowrap ${
-                        isActive
-                          ? "text-blue-600"
-                          : "text-gray-500 hover:text-blue-600"
-                      }`}
-                    >
-                      {link.name}
-                    </Link>
-                    <div
-                      className={`absolute top-full left-0 pt-4 transition-all z-50 ${closedMenuPath === link.path ? "opacity-0 translate-y-2 pointer-events-none" : "opacity-0 translate-y-2 pointer-events-none group-hover:opacity-100 group-hover:translate-y-0 group-hover:pointer-events-auto"}`}
-                    >
-                      <div className="bg-white/95 backdrop-blur-3xl border border-gray-100/50 shadow-2xl rounded-3xl p-8 w-[800px] flex gap-12">
-                        {/* Sidebar / Main Categories */}
-                        <div className="w-48 shrink-0">
-                          <h3 className="font-black text-[10px] uppercase tracking-widest text-[#1d1d1f] mb-4">
-                            Main Store
-                          </h3>
-                          <ul className="space-y-3">
-                            <li className="text-sm text-gray-500 hover:text-blue-600 font-medium">
-                              <Link to="/store">All Components</Link>
-                            </li>
-                            <li className="text-sm text-gray-500 hover:text-blue-600 font-medium">
-                              <Link to="/store?category=Development+Boards">
-                                Development Boards
-                              </Link>
-                            </li>
-                            <li className="text-sm text-gray-500 hover:text-blue-600 font-medium">
-                              <Link to="/store?category=Sensors">Sensors</Link>
-                            </li>
-                            <li className="text-sm text-gray-500 hover:text-blue-600 font-medium">
-                              <Link to="/store?category=Modules">Modules</Link>
-                            </li>
-                            <li className="text-sm text-gray-500 hover:text-blue-600 font-medium">
-                              <Link to="/store?category=Displays">
-                                Displays
-                              </Link>
-                            </li>
-                            <li className="text-sm text-gray-500 hover:text-blue-600 font-medium">
-                              <Link to="/store?category=Robotics">
-                                Robotics
-                              </Link>
-                            </li>
-                            <li className="text-sm text-gray-500 hover:text-blue-600 font-medium">
-                              <Link to="/store?category=Drone+Components">
-                                Drone Components
-                              </Link>
-                            </li>
-                            <li className="text-sm text-gray-500 hover:text-blue-600 font-medium">
-                              <Link to="/store?category=Kits">Kits</Link>
-                            </li>
-                          </ul>
-                        </div>
-
-                        {/* Mega Menu Content matching the requested style */}
-                        <div className="flex-1 grid grid-cols-3 gap-8">
-                          <div>
-                            <h3 className="font-black text-[10px] uppercase tracking-widest text-blue-600 mb-4 pb-2 border-b border-gray-100">
-                              Boards & Modules
-                            </h3>
-                            <ul className="space-y-3">
-                              <li className="text-sm text-gray-600 hover:text-[#1d1d1f]">
-                                <Link to="/store?category=Development+Boards">
-                                  Arduino
-                                </Link>
-                              </li>
-                              <li className="text-sm text-gray-600 hover:text-[#1d1d1f]">
-                                <Link to="/store?category=Development+Boards">
-                                  Raspberry Pi
-                                </Link>
-                              </li>
-                              <li className="text-sm text-gray-600 hover:text-[#1d1d1f]">
-                                <Link to="/store?category=Development+Boards">
-                                  ESP / NodeMCU
-                                </Link>
-                              </li>
-                              <li className="text-sm text-gray-600 hover:text-[#1d1d1f]">
-                                <Link to="/store?category=Development+Boards">
-                                  STM32
-                                </Link>
-                              </li>
-                              <li className="text-sm text-gray-600 hover:text-[#1d1d1f]">
-                                <Link to="/store?category=Modules">
-                                  Wireless Modules
-                                </Link>
-                              </li>
-                              <li className="text-sm text-gray-600 hover:text-[#1d1d1f]">
-                                <Link to="/store?category=Displays">
-                                  OLED & LCD
-                                </Link>
-                              </li>
-                            </ul>
-                          </div>
-
-                          <div>
-                            <h3 className="font-black text-[10px] uppercase tracking-widest text-[#1d1d1f] mb-4 pb-2 border-b border-gray-100">
-                              Sensors & Power
-                            </h3>
-                            <ul className="space-y-3">
-                              <li className="text-sm text-gray-600 hover:text-[#1d1d1f]">
-                                <Link to="/store?category=Sensors">
-                                  Environmental
-                                </Link>
-                              </li>
-                              <li className="text-sm text-gray-600 hover:text-[#1d1d1f]">
-                                <Link to="/store?category=Sensors">
-                                  Motion & Distance
-                                </Link>
-                              </li>
-                              <li className="text-sm text-gray-600 hover:text-[#1d1d1f]">
-                                <Link to="/store?category=Sensors">
-                                  Gas & Chemical
-                                </Link>
-                              </li>
-                              <li className="text-sm text-gray-600 hover:text-[#1d1d1f]">
-                                <Link to="/store?category=Sensors">
-                                  Biometric
-                                </Link>
-                              </li>
-                              <li className="text-sm text-gray-600 hover:text-[#1d1d1f]">
-                                <Link to="/store?category=Modules">
-                                  Power Modules
-                                </Link>
-                              </li>
-                              <li className="text-sm text-gray-600 hover:text-[#1d1d1f]">
-                                <Link to="/store?category=Modules">
-                                  Relays & Switches
-                                </Link>
-                              </li>
-                            </ul>
-                          </div>
-
-                          <div>
-                            <h3 className="font-black text-[10px] uppercase tracking-widest text-[#1d1d1f] mb-4 pb-2 border-b border-gray-100">
-                              Robotics & Drones
-                            </h3>
-                            <ul className="space-y-3">
-                              <li className="text-sm text-gray-600 hover:text-[#1d1d1f]">
-                                <Link to="/store?category=Robotics">
-                                  Robot Chassis
-                                </Link>
-                              </li>
-                              <li className="text-sm text-gray-600 hover:text-[#1d1d1f]">
-                                <Link to="/store?category=Robotics">
-                                  Motors & Drivers
-                                </Link>
-                              </li>
-                              <li className="text-sm text-gray-600 hover:text-[#1d1d1f]">
-                                <Link to="/store?category=Drone+Components">
-                                  BLDC Motors
-                                </Link>
-                              </li>
-                              <li className="text-sm text-gray-600 hover:text-[#1d1d1f]">
-                                <Link to="/store?category=Drone+Components">
-                                  ESCs & Flight Controllers
-                                </Link>
-                              </li>
-                              <li className="text-sm text-gray-600 hover:text-[#1d1d1f]">
-                                <Link to="/store?category=Drone+Components">
-                                  Propellers & Frames
-                                </Link>
-                              </li>
-                              <li className="text-sm text-gray-600 hover:text-[#1d1d1f]">
-                                <Link to="/store?category=Kits">
-                                  Complete Kits
-                                </Link>
-                              </li>
-                            </ul>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                );
-              }
-
-              if (link.dropdown) {
-                return (
-                  <div
-                    key={link.path}
-                    className="relative group"
+                    className="relative group h-full flex items-center"
                     onMouseLeave={() => setClosedMenuPath(null)}
                     onClick={(e) => {
                       if ((e.target as HTMLElement).closest("a")) {
@@ -584,15 +135,59 @@ export function Navbar() {
                     </Link>
                     <div
                       className={`absolute top-full pt-4 transition-all z-50 ${
-                        ["Lab Setups", "Technical Solutions"].includes(
-                          link.name,
-                        )
+                        ["Technical Solutions", "PhD Support", "Lab Setups"].includes(link.name)
                           ? "right-0"
+                          : ["Internships", "Engineering Projects", "Certified Courses"].includes(link.name)
+                          ? "left-1/2 -translate-x-1/2"
+                          : "left-0"
+                      } ${closedMenuPath === link.path ? "opacity-0 translate-y-2 pointer-events-none" : "opacity-0 translate-y-2 pointer-events-none group-hover:opacity-100 group-hover:translate-y-0 group-hover:pointer-events-auto"}`}
+                    >
+                      <DynamicDataMenu 
+                        items={items} 
+                        itemPathPrefix={link.path} 
+                        itemTitleKey={(link as any).dynamicDataName === "internships" ? "title" : "name"} 
+                        defaultCategory={(link as any).dynamicDataName === "store" ? "Development Boards" : "All"} 
+                        hideCategories={(link as any).dynamicDataName === "labs"}
+                        title={link.name}
+                      />
+                    </div>
+                  </div>
+                );
+              }
+
+              if (link.dropdown) {
+                return (
+                  <div
+                    key={link.path}
+                    className="relative group h-full flex items-center"
+                    onMouseLeave={() => setClosedMenuPath(null)}
+                    onClick={(e) => {
+                      if ((e.target as HTMLElement).closest("a")) {
+                        setClosedMenuPath(link.path);
+                      }
+                    }}
+                  >
+                    <Link
+                      to={link.path}
+                      className={`flex items-center text-sm font-medium transition-colors whitespace-nowrap ${
+                        isActive
+                          ? "text-blue-600"
+                          : "text-gray-500 hover:text-blue-600"
+                      }`}
+                    >
+                      {link.name}
+                    </Link>
+                    <div
+                      className={`absolute top-full pt-4 transition-all z-50 ${
+                        ["Technical Solutions", "PhD Support", "Lab Setups"].includes(link.name)
+                          ? "right-0"
+                          : ["Internships", "Engineering Projects", "Certified Courses"].includes(link.name)
+                          ? "left-1/2 -translate-x-1/2"
                           : "left-0"
                       } ${closedMenuPath === link.path ? "opacity-0 translate-y-2 pointer-events-none" : "opacity-0 translate-y-2 pointer-events-none group-hover:opacity-100 group-hover:translate-y-0 group-hover:pointer-events-auto"}`}
                     >
                       <div className="bg-white/95 backdrop-blur-3xl border border-gray-100/50 shadow-2xl rounded-3xl p-8 min-w-[500px]">
-                        <h3 className="font-black text-[12px] uppercase tracking-widest text-[#1d1d1f] mb-6 pb-2 border-b border-gray-100">
+                        <h3 className="font-black text-[12px] uppercase tracking-widest text-black mb-6 pb-2 border-b border-gray-100">
                           {link.name}
                         </h3>
                         <div className="grid grid-cols-2 gap-x-8 gap-y-4">
@@ -600,7 +195,7 @@ export function Navbar() {
                             <Link
                               key={subLink.path}
                               to={subLink.path}
-                              className="text-sm text-gray-500 hover:text-blue-600 font-medium transition-colors"
+                              className="text-sm text-black hover:text-blue-600 font-medium transition-colors"
                             >
                               {subLink.name}
                             </Link>
@@ -616,7 +211,7 @@ export function Navbar() {
                 <Link
                   key={link.path}
                   to={link.path}
-                  className={`text-sm font-medium transition-colors whitespace-nowrap ${
+                  className={`flex items-center h-full text-sm font-medium transition-colors whitespace-nowrap ${
                     isActive
                       ? "text-blue-600"
                       : "text-gray-500 hover:text-blue-600"
@@ -678,11 +273,34 @@ export function Navbar() {
           >
             <div className="px-4 py-4 flex flex-col space-y-4">
               {LINKS.map((link) => {
+                const dynamicItemsMap: Record<string, any[]> = {
+                  store: STORE_PRODUCTS,
+                  projects: projects,
+                  internships: internships,
+                  certifications: courses,
+                  labs: labs,
+                };
                 const isActive = link.path.includes("?")
                   ? location.pathname + location.search === link.path
                   : (location.pathname.startsWith(link.path) &&
                       link.path !== "/") ||
                     (link.path === "/" && location.pathname === "/");
+
+                const isDynamic = !!(link as any).dynamicDataName;
+                const hasDropdown = isDynamic || !!link.dropdown;
+                let subLinks: { name: string; path: string }[] = [];
+                let dynamicItems: any[] = [];
+                let categories: string[] = [];
+                let itemTitleKey: string = "name";
+
+                if (isDynamic) {
+                  dynamicItems = dynamicItemsMap[(link as any).dynamicDataName] || [];
+                  const categoriesSet = new Set(dynamicItems.map((i) => i.category || i.type).filter(Boolean));
+                  categories = Array.from(categoriesSet) as string[];
+                  itemTitleKey = (link as any).dynamicDataName === "internships" ? "title" : "name";
+                } else if (link.dropdown) {
+                  subLinks = link.dropdown;
+                }
 
                 return (
                   <div key={link.path}>
@@ -698,7 +316,7 @@ export function Navbar() {
                       >
                         {link.name}
                       </Link>
-                      {link.dropdown && (
+                      {hasDropdown && (
                         <button
                           onClick={(e) => {
                             e.preventDefault();
@@ -715,7 +333,7 @@ export function Navbar() {
                       )}
                     </div>
                     <AnimatePresence>
-                      {link.dropdown && mobileExpanded[link.path] && (
+                      {hasDropdown && mobileExpanded[link.path] && (
                         <motion.div
                           initial={{ height: 0, opacity: 0 }}
                           animate={{ height: "auto", opacity: 1 }}
@@ -723,16 +341,97 @@ export function Navbar() {
                           className="overflow-hidden"
                         >
                           <div className="pl-4 mt-2 border-l-2 border-gray-100 flex flex-col space-y-2 py-2">
-                            {link.dropdown.map((sub) => (
-                              <Link
-                                key={sub.path}
-                                to={sub.path}
-                                onClick={() => setIsOpen(false)}
-                                className="block text-sm text-gray-500 hover:text-blue-600 py-1"
-                              >
-                                {sub.name}
-                              </Link>
-                            ))}
+                            {isDynamic ? (
+                              (link as any).dynamicDataName === "labs" ? (
+                                <div className="flex flex-col space-y-2">
+                                  {dynamicItems.map((item, idx) => (
+                                    <Link
+                                      key={`${item.id || item.title || item.name}-${idx}`}
+                                      to={`${link.path}?type=${item.id}`}
+                                      onClick={() => setIsOpen(false)}
+                                      className="block text-sm text-black hover:text-blue-600 py-1"
+                                    >
+                                      {item[itemTitleKey] || item.title}
+                                    </Link>
+                                  ))}
+                                </div>
+                              ) : (
+                                categories.map((cat) => {
+                                  const catPath = link.path.includes("careers") || link.path.includes("solutions")
+                                    ? `${link.path}&category=${encodeURIComponent(cat)}`
+                                    : `${link.path}?category=${encodeURIComponent(cat)}`;
+                                  const catId = `${link.path}-${cat}`;
+                                  const catItems = dynamicItems.filter(i => (i.category || i.type) === cat);
+                                  
+                                  return (
+                                    <div key={catPath}>
+                                      <div className="flex justify-between items-center gap-2">
+                                        <Link
+                                          to={catPath}
+                                          onClick={() => setIsOpen(false)}
+                                          className="block text-sm text-black hover:text-blue-600 py-1 flex-1"
+                                        >
+                                          {cat}
+                                        </Link>
+                                        {catItems.length > 0 && (
+                                          <button
+                                            onClick={(e) => {
+                                              e.preventDefault();
+                                              toggleMobileMenu(catId);
+                                            }}
+                                            className="p-1 mr-2 text-slate-400 hover:text-slate-600"
+                                          >
+                                            {mobileExpanded[catId] ? (
+                                              <ChevronUp className="h-4 w-4" />
+                                            ) : (
+                                              <ChevronDown className="h-4 w-4" />
+                                            )}
+                                          </button>
+                                        )}
+                                      </div>
+                                      <AnimatePresence>
+                                        {mobileExpanded[catId] && (
+                                          <motion.div
+                                            initial={{ height: 0, opacity: 0 }}
+                                            animate={{ height: "auto", opacity: 1 }}
+                                            exit={{ height: 0, opacity: 0 }}
+                                            className="overflow-hidden"
+                                          >
+                                            <div className="pl-3 mt-1 border-l border-gray-100 flex flex-col space-y-1 py-1 mb-2">
+                                              {catItems.map((item, idx) => (
+                                                <Link
+                                                  key={`${item.id || item.title || item.name}-${idx}`}
+                                                  to={
+                                                    link.path.includes("careers") || link.path.includes("solutions")
+                                                      ? `${link.path}&category=${encodeURIComponent(item.category || item.type)}`
+                                                      : `${link.path}/${item.id}`
+                                                  }
+                                                  onClick={() => setIsOpen(false)}
+                                                  className="block text-xs text-black hover:text-blue-500 py-1 line-clamp-1"
+                                                >
+                                                  {item[itemTitleKey] || item.title}
+                                                </Link>
+                                              ))}
+                                            </div>
+                                          </motion.div>
+                                        )}
+                                      </AnimatePresence>
+                                    </div>
+                                  );
+                                })
+                              )
+                            ) : (
+                              subLinks.map((sub) => (
+                                <Link
+                                  key={sub.path}
+                                  to={sub.path}
+                                  onClick={() => setIsOpen(false)}
+                                  className="block text-sm text-black hover:text-blue-600 py-1"
+                                >
+                                  {sub.name}
+                                </Link>
+                              ))
+                            )}
                           </div>
                         </motion.div>
                       )}

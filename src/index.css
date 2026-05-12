@@ -38,7 +38,10 @@ body.mobile-menu-open .hidden-when-menu-open {
 .animate-scrolling {
   animation: scroll 40s linear infinite;
 }
-.animate-scrolling:hover {
+.animate-scrolling-slow {
+  animation: scroll 120s linear infinite;
+}
+.animate-scrolling:hover, .animate-scrolling-slow:hover {
   animation-play-state: paused;
 }
 

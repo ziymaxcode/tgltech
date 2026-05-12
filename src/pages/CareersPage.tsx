@@ -11,6 +11,7 @@ import {
 import { useLocation, Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useData } from "../context/DataContext";
+import { InfiniteProductScroll } from "../components/ui/InfiniteProductScroll";
 
 export function CareersPage() {
   const { courses: COURSES, internships: INTERNSHIPS } = useData();
@@ -199,41 +200,41 @@ export function CareersPage() {
               {/* Internships Grid */}
               <div className="flex-1">
                 {filteredInternships.length > 0 ? (
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                     {filteredInternships.map((internship) => (
                       <div
                         key={internship.id}
-                        className="bg-white rounded-3xl border border-gray-100 p-8 shadow-sm flex flex-col justify-between hover:shadow-md transition-shadow"
+                        className="bg-white rounded-2xl border border-gray-100 p-5 shadow-sm flex flex-col justify-between hover:shadow-md transition-shadow"
                       >
                         <div>
                           <span
-                            className={`${internship.type === "Remote" ? "bg-green-50 text-green-600" : "bg-blue-50 text-blue-600"} px-3 py-1 rounded-full text-[10px] uppercase font-black tracking-widest mb-6 inline-block`}
+                            className={`${internship.type === "Remote" ? "bg-green-50 text-green-600" : "bg-blue-50 text-blue-600"} px-2 py-1 rounded-md text-[9px] uppercase font-black tracking-widest mb-4 inline-block`}
                           >
                             {internship.type}
                           </span>
-                          <h3 className="text-xl font-bold text-[#1d1d1f] mb-4">
+                          <h3 className="text-lg font-bold text-[#1d1d1f] mb-2 leading-tight">
                             {internship.title}
                           </h3>
-                          <p className="text-gray-500 mb-6 leading-relaxed text-sm">
+                          <p className="text-gray-500 mb-4 leading-relaxed text-xs line-clamp-3">
                             {internship.description}
                           </p>
-                          <div className="space-y-2 mb-8">
-                            <p className="text-sm text-gray-600">
+                          <div className="space-y-1 mb-6">
+                            <p className="text-xs text-gray-600">
                               <span className="font-bold">Duration:</span>{" "}
                               {internship.duration}
                             </p>
-                            <p className="text-sm text-gray-600">
+                            <p className="text-xs text-gray-600 line-clamp-2">
                               <span className="font-bold">Requirements:</span>{" "}
                               {internship.requirements}
                             </p>
                           </div>
                         </div>
                         <div className="flex gap-2">
-                          <a
+                           <a
                             href={`https://wa.me/918217366801?text=Hi%20TGL%2C%0A%0AI%27m%20interested%20in%20applying%20for%20the%20Internship%3A%20*${encodeURIComponent(internship.title)}*.`}
                             target="_blank"
                             rel="noreferrer"
-                            className="flex-1 block text-center bg-gray-50 border border-gray-100 text-[#1d1d1f] font-bold py-3 rounded-xl text-xs uppercase tracking-wider hover:border-blue-600 hover:text-blue-600 transition-colors shadow-sm"
+                            className="flex-1 block text-center bg-gray-50 border border-gray-100 text-[#1d1d1f] font-bold py-2.5 rounded-lg text-[10px] uppercase tracking-wider hover:border-blue-600 hover:text-blue-600 transition-colors shadow-sm"
                           >
                             Apply Now
                           </a>
@@ -242,7 +243,7 @@ export function CareersPage() {
                               href={(internship as any).learningPlanLink}
                               target="_blank"
                               rel="noreferrer"
-                              className="flex-1 block text-center bg-gray-50 border border-gray-100 hover:border-blue-600 hover:text-blue-600 text-gray-500 font-bold py-3 rounded-xl text-xs uppercase tracking-wider transition-colors shadow-sm"
+                              className="flex-1 block text-center bg-gray-50 border border-gray-100 hover:border-blue-600 hover:text-blue-600 text-gray-500 font-bold py-2.5 rounded-lg text-[10px] uppercase tracking-wider transition-colors shadow-sm"
                             >
                               Learning Plan
                             </a>
@@ -294,37 +295,37 @@ export function CareersPage() {
               {/* Courses Grid */}
               <div className="flex-1">
                 {filteredCourses.length > 0 ? (
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                     {filteredCourses.map((course) => (
                       <div
                         key={course.id}
-                        className="bg-white rounded-3xl border border-gray-100 p-6 flex flex-col shadow-sm hover:shadow-md transition-shadow overflow-hidden group"
+                        className="bg-white rounded-2xl border border-gray-100 p-4 flex flex-col shadow-sm hover:shadow-md transition-shadow overflow-hidden group"
                       >
-                        <div className="w-full aspect-video rounded-2xl overflow-hidden bg-gray-50 mb-6 shrink-0 relative">
+                        <div className="w-full aspect-video rounded-xl overflow-hidden bg-gray-50 mb-4 shrink-0 relative">
                           <img
                             referrerPolicy="no-referrer"
                             src={course.image}
                             className="w-full h-full object-cover mix-blend-multiply opacity-90 group-hover:scale-105 transition-transform duration-700"
                             alt={course.name}
                           />
-                          <span className="absolute top-4 left-4 bg-white/90 backdrop-blur border border-gray-100 text-[10px] font-black uppercase text-blue-600 tracking-widest px-3 py-1.5 rounded-xl z-10 shadow-sm">
+                          <span className="absolute top-3 left-3 bg-white/90 backdrop-blur border border-gray-100 text-[9px] font-black uppercase text-blue-600 tracking-widest px-2 py-1 rounded-md z-10 shadow-sm">
                             {course.level}
                           </span>
                         </div>
                         <div className="flex-1 flex flex-col justify-center">
-                          <span className="text-[10px] uppercase font-bold tracking-widest text-gray-400 mb-2">
+                          <span className="text-[9px] uppercase font-bold tracking-widest text-gray-400 mb-1">
                             {course.category}
                           </span>
-                          <h2 className="font-bold text-xl text-[#1d1d1f] mb-4 tracking-tight leading-tight">
+                          <h2 className="font-bold text-base text-[#1d1d1f] mb-3 tracking-tight leading-tight line-clamp-2">
                             {course.name}
                           </h2>
-                          <div className="space-y-2 mb-6">
-                            <div className="flex items-center text-sm font-medium text-gray-500">
-                              <BookOpen className="w-4 h-4 mr-3 text-gray-400" />{" "}
+                          <div className="space-y-1 mb-4">
+                            <div className="flex items-center text-xs font-medium text-gray-500">
+                              <BookOpen className="w-3.5 h-3.5 mr-2 text-gray-400" />{" "}
                               {course.duration}
                             </div>
-                            <div className="flex items-center text-sm font-medium text-gray-500">
-                              <Users className="w-4 h-4 mr-3 text-gray-400" />{" "}
+                            <div className="flex items-center text-xs font-medium text-gray-500">
+                              <Users className="w-3.5 h-3.5 mr-2 text-gray-400" />{" "}
                               Mentor: {course.mentor}
                             </div>
                           </div>
@@ -333,7 +334,7 @@ export function CareersPage() {
                               href={`https://wa.me/918217366801?text=Hi%20TGL%2C%0A%0AI%27m%20interested%20in%20enrolling%20in%20the%20Course%3A%20*${encodeURIComponent((course as any).name)}*.`}
                               target="_blank"
                               rel="noreferrer"
-                              className="flex-1 block text-center bg-[#1d1d1f] hover:bg-blue-600 text-white py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider transition-colors shadow-sm"
+                              className="flex-1 block text-center bg-[#1d1d1f] hover:bg-blue-600 text-white py-2 rounded-lg text-[10px] font-bold uppercase tracking-wider transition-colors shadow-sm"
                             >
                               Enroll
                             </a>
@@ -342,12 +343,12 @@ export function CareersPage() {
                                 href={(course as any).syllabusLink}
                                 target="_blank"
                                 rel="noreferrer"
-                                className="flex-1 block text-center bg-gray-50 border border-gray-100 hover:border-blue-600 hover:text-blue-600 text-gray-500 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider transition-colors"
+                                className="flex-1 block text-center bg-gray-50 border border-gray-100 hover:border-blue-600 hover:text-blue-600 text-gray-500 py-2 rounded-lg text-[10px] font-bold uppercase tracking-wider transition-colors"
                               >
                                 Syllabus
                               </a>
                             ) : (
-                              <button className="flex-1 bg-gray-50 border border-gray-100 hover:border-blue-600 hover:text-blue-600 text-gray-500 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider transition-colors">
+                              <button className="flex-1 bg-gray-50 border border-gray-100 hover:border-blue-600 hover:text-blue-600 text-gray-500 py-2 rounded-lg text-[10px] font-bold uppercase tracking-wider transition-colors">
                                 Syllabus
                               </button>
                             )}
@@ -368,6 +369,8 @@ export function CareersPage() {
           </div>
         )}
       </div>
+      
+      <InfiniteProductScroll />
     </div>
   );
 }

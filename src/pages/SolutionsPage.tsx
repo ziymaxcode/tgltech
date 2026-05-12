@@ -10,6 +10,7 @@ import {
 } from "lucide-react";
 import { useLocation } from "react-router-dom";
 import { useState, useEffect } from "react";
+import { InfiniteProductScroll } from "../components/ui/InfiniteProductScroll";
 
 const SOLUTIONS_DATA = [
   {
@@ -176,6 +177,8 @@ export function SolutionsPage() {
           </div>
         </div>
       </div>
+      
+      <InfiniteProductScroll />
     </div>
   );
 }

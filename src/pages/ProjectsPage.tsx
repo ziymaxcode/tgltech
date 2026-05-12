@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { ProjectSidebar } from "../components/ProjectSidebar";
 import { ProjectSkeleton } from "../components/ui/Skeletons";
 import { useData } from "../context/DataContext";
+import { InfiniteProductScroll } from "../components/ui/InfiniteProductScroll";
 
 export function ProjectsPage() {
   const { projects: PROJECTS, loading } = useData();
@@ -208,6 +209,7 @@ export function ProjectsPage() {
           )}
         </div>
       </div>
+      <InfiniteProductScroll />
     </div>
   );
 }

@@ -7,6 +7,7 @@ type DataContextType = {
   courses: any[];
   internships: any[];
   ecosystems: any[];
+  labs: any[];
   loading: boolean;
 };
 
@@ -16,6 +17,7 @@ const DataContext = createContext<DataContextType>({
   courses: [],
   internships: [],
   ecosystems: initialEcosystems,
+  labs: [],
   loading: true,
 });
 
@@ -25,6 +27,7 @@ export const DataProvider = ({ children }: { children: React.ReactNode }) => {
   const [courses, setCourses] = useState<any[]>([]);
   const [internships, setInternships] = useState<any[]>([]);
   const [ecosystems, setEcosystems] = useState<any[]>(initialEcosystems);
+  const [labs, setLabs] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -40,6 +43,7 @@ export const DataProvider = ({ children }: { children: React.ReactNode }) => {
           promises.push(fetch('/api/data/projects').then(res => res.json()).then(data => { if(data && !data.error && data.length) setProjects(data) }).catch(e => console.error(e)));
           promises.push(fetch('/api/data/courses').then(res => res.json()).then(data => { if(data && !data.error && data.length) setCourses(data) }).catch(e => console.error(e)));
           promises.push(fetch('/api/data/internships').then(res => res.json()).then(data => { if(data && !data.error && data.length) setInternships(data) }).catch(e => console.error(e)));
+          promises.push(fetch('/api/data/labs').then(res => res.json()).then(data => { if(data && !data.error && data.length) setLabs(data) }).catch(e => console.error(e)));
           
           await Promise.all(promises);
         } else {
@@ -58,7 +62,7 @@ export const DataProvider = ({ children }: { children: React.ReactNode }) => {
   }, []);
 
   return (
-    <DataContext.Provider value={{ products, projects, courses, internships, ecosystems, loading }}>
+    <DataContext.Provider value={{ products, projects, courses, internships, ecosystems, labs, loading }}>
       {children}
     </DataContext.Provider>
   );

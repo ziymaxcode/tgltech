@@ -8,7 +8,6 @@ import { PageLayout } from "./components/layout/PageLayout";
 import { CartProvider } from "./context/CartContext";
 import { DataProvider } from "./context/DataContext";
 import { ScrollToTop } from "./components/ScrollToTop";
-import { EnquiryModal } from "./components/ui/EnquiryModal";
 
 // View placeholders
 import { HomePage } from "./pages/HomePage";
@@ -42,7 +41,6 @@ export default function App() {
             <Route path="/solutions" element={<SolutionsPage />} />
             <Route path="/checkout" element={<CheckoutPage />} />
           </Routes>
-          <EnquiryModal />
         </PageLayout>
       </Router>
     </CartProvider>
