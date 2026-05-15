@@ -7,13 +7,13 @@ export function Footer() {
       <div className="w-full mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           <div className="md:col-span-1">
-          <Link to="/" className="inline-flex items-start">
-            <img
-              src="/logot.png"
-              alt="TGL Technologies Logo"
-              className="h-20 w-auto object-contain object-left"
-            />
-          </Link>
+         <Link to="/" className="inline-flex items-start -ml-4 sm:ml-0">
+          <img
+            src="/logot.png"
+            alt="TGL Technologies Logo"
+            className="h-20 w-auto object-contain object-left"
+          />
+        </Link>
             <p className="text-sm text-gray-500">
               India's trusted hub for Sensors, DIY Kits, Certifications, and
               Institutional Lab Solutions.
