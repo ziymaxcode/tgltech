@@ -226,7 +226,7 @@ export function HomePage() {
       {/* Sticky Bottom CTA */}
       <div className="fixed bottom-0 left-0 w-full z-40 bg-white border-t border-gray-200 p-4 drop-shadow-[0_-10px_30px_rgba(0,0,0,0.05)] md:hidden">
         <a
-          href="https://wa.me/918217366801"
+          href="https://wa.me/918867132966"
           target="_blank"
           rel="noreferrer"
           className="flex items-center justify-center w-full bg-green-500 text-white py-3 rounded-xl font-bold shadow-md"

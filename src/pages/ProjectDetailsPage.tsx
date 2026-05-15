@@ -322,7 +322,7 @@ export function ProjectDetailsPage() {
               )}
 
               <a
-                href={`https://wa.me/918217366801?text=${whatsappMessage}`}
+                href={`https://wa.me/918867132966?text=${whatsappMessage}`}
                 target="_blank"
                 rel="noreferrer"
                 className={`w-full block text-center font-bold py-4 rounded-xl text-xs uppercase tracking-wider transition-colors ${project.isReadymade ? "bg-[#25D366] text-white hover:bg-green-500" : "border border-blue-600 text-blue-600 hover:bg-blue-50"}`}

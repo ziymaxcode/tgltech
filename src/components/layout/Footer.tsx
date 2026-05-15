@@ -3,19 +3,17 @@ import { Cpu } from "lucide-react";
 
 export function Footer() {
   return (
-    <footer className="bg-white border-t border-gray-100 text-[#1d1d1f] py-12 md:py-16">
+    <footer className="bg-white border-t border-gray-100 text-[#1d1d1f] pt-8 pb-12 md:pt-10 md:pb-16">
       <div className="w-full mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           <div className="md:col-span-1">
-            <Link
-              to="/"
-              className="flex items-center space-x-2 text-[#1d1d1f] mb-4"
-            >
-              <Cpu className="h-8 w-8 text-blue-600" />
-              <span className="font-bold text-xl tracking-tight uppercase">
-                TGL <span className="text-blue-600 italic">Technologies</span>
-              </span>
-            </Link>
+          <Link to="/" className="inline-flex items-start">
+            <img
+              src="/logot.png"
+              alt="TGL Technologies Logo"
+              className="h-20 w-auto object-contain object-left"
+            />
+          </Link>
             <p className="text-sm text-gray-500">
               India's trusted hub for Sensors, DIY Kits, Certifications, and
               Institutional Lab Solutions.
@@ -87,11 +85,23 @@ export function Footer() {
               Contact
             </h3>
             <ul className="space-y-2 text-sm text-gray-500">
-              <li>Bengaluru, India</li>
-              <li>support@tgltechnologies.com</li>
+              <li>
+                5th Floor, Oberle Towers, Balmatta, Mangaluru, Karnataka 575001
+              </li>
+              <li>info@tgltechnologies.com</li>
+              <li>
+                <a href="tel:+918867132966" className="hover:text-blue-600 transition-colors">
+                  +91 88671 32966
+                </a>
+                {" / "}
+                <a href="tel:+91996873312" className="hover:text-blue-600 transition-colors">
+                  +91 9968 73312
+                </a>
+              </li>
+
               <li>
                 <a
-                  href="https://wa.me/918217366801"
+                  href="https://wa.me/918867132966"
                   className="text-[#25D366] hover:opacity-80 transition font-bold"
                 >
                   WhatsApp Inquiry
@@ -100,11 +110,11 @@ export function Footer() {
             </ul>
           </div>
         </div>
-        <div className="border-t border-gray-100 mt-12 pt-8 flex text-[10px] uppercase font-bold text-gray-400">
-          <span className="text-gray-900">
-            © {new Date().getFullYear()} TGL TECHNOLOGIES
-          </span>
-        </div>
+        <div className="border-t border-gray-100 mt-4 pt-3 pb-1 flex justify-center text-[10px] uppercase font-bold">
+  <span className="text-gray-900">
+    © {new Date().getFullYear()} TGL TECHNOLOGIES
+  </span>
+</div>
       </div>
     </footer>
   );

@@ -158,7 +158,7 @@ export function CareersPage() {
                 </li>
               </ul>
               <a
-                href="https://wa.me/918217366801?text=Hi, I am interested in PhD Research Support."
+                href="https://wa.me/918867132966?text=Hi, I am interested in PhD Research Support."
                 target="_blank"
                 rel="noreferrer"
                 className="bg-[#1d1d1f] text-white hover:bg-black px-8 py-4 rounded-full text-xs font-bold uppercase tracking-wider transition-colors inline-block"
@@ -231,7 +231,7 @@ export function CareersPage() {
                         </div>
                         <div className="flex gap-2">
                            <a
-                            href={`https://wa.me/918217366801?text=Hi%20TGL%2C%0A%0AI%27m%20interested%20in%20applying%20for%20the%20Internship%3A%20*${encodeURIComponent(internship.title)}*.`}
+                            href={`https://wa.me/918867132966?text=Hi%20TGL%2C%0A%0AI%27m%20interested%20in%20applying%20for%20the%20Internship%3A%20*${encodeURIComponent(internship.title)}*.`}
                             target="_blank"
                             rel="noreferrer"
                             className="flex-1 block text-center bg-gray-50 border border-gray-100 text-[#1d1d1f] font-bold py-2.5 rounded-lg text-[10px] uppercase tracking-wider hover:border-blue-600 hover:text-blue-600 transition-colors shadow-sm"
@@ -331,7 +331,7 @@ export function CareersPage() {
                           </div>
                           <div className="mt-auto flex gap-2">
                             <a
-                              href={`https://wa.me/918217366801?text=Hi%20TGL%2C%0A%0AI%27m%20interested%20in%20enrolling%20in%20the%20Course%3A%20*${encodeURIComponent((course as any).name)}*.`}
+                              href={`https://wa.me/918867132966?text=Hi%20TGL%2C%0A%0AI%27m%20interested%20in%20enrolling%20in%20the%20Course%3A%20*${encodeURIComponent((course as any).name)}*.`}
                               target="_blank"
                               rel="noreferrer"
                               className="flex-1 block text-center bg-[#1d1d1f] hover:bg-blue-600 text-white py-2 rounded-lg text-[10px] font-bold uppercase tracking-wider transition-colors shadow-sm"

@@ -85,7 +85,7 @@ Message: ${formData.message}`;
                     value={formData.name}
                     onChange={handleChange}
                     className="w-full bg-[#fbfbfb] border border-gray-200 rounded-lg px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all"
-                    placeholder="John Doe"
+                    placeholder=""
                   />
                 </div>
                 <div className="space-y-1">
@@ -110,7 +110,7 @@ Message: ${formData.message}`;
                   value={formData.email}
                   onChange={handleChange}
                   className="w-full bg-[#fbfbfb] border border-gray-200 rounded-lg px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all"
-                  placeholder="john@example.com"
+                  placeholder=""
                 />
               </div>
 

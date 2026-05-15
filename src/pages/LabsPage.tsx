@@ -110,7 +110,7 @@ export function LabsPage() {
               exact Bill of Materials (BOM).
             </p>
             <a
-              href="https://wa.me/918217366801"
+              href="https://wa.me/918867132966"
               className="bg-white text-[#1d1d1f] hover:bg-gray-100 px-8 py-3 rounded-full text-sm font-bold tracking-wider uppercase transition-colors inline-block mix-blend-screen isolate"
             >
               Request Proposal

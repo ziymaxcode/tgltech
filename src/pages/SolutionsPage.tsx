@@ -166,7 +166,7 @@ export function SolutionsPage() {
                 manufacturing and rapid prototyping.
               </p>
               <a
-                href="https://wa.me/918217366801?text=Hi,%20I%20have%20an%20STL/STEP%20file%20for%20manufacturing"
+                href="https://wa.me/918867132966?text=Hi,%20I%20have%20an%20STL/STEP%20file%20for%20manufacturing"
                 target="_blank"
                 rel="noreferrer"
                 className="bg-white text-[#1d1d1f] hover:bg-gray-100 px-6 py-3 rounded-full text-xs font-bold uppercase tracking-wider transition-colors inline-block"

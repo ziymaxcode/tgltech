@@ -15,7 +15,7 @@ export function CheckoutPage() {
     });
 
     window.open(
-      `https://wa.me/918217366801?text=${encodeURIComponent(message)}`,
+      `https://wa.me/918867132966?text=${encodeURIComponent(message)}`,
       "_blank",
     );
     clearCart();
