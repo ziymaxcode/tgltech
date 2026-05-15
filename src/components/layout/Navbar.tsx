@@ -60,6 +60,7 @@ const LINKS = [
 export function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [closedMenuPath, setClosedMenuPath] = useState<string | null>(null);
+  const [hoveredPath, setHoveredPath] = useState<string | null>(null);
   const [mobileExpanded, setMobileExpanded] = useState<Record<string, boolean>>(
     {},
   );
@@ -84,17 +85,18 @@ export function Navbar() {
       <div className="w-full mx-auto px-2 md:px-10">
         <div className="flex justify-between items-center h-16">
           <Link to="/" className="flex items-center">
-          <img
-            src="/logot.png"
-            alt="TGL Technologies Logo"
-            className="h-16 w-auto object-contain"
-          />
-        </Link>
-
-
+            <img
+              src="/logot.png"
+              alt="TGL Technologies Logo"
+              className="h-16 w-auto object-contain"
+            />
+          </Link>
 
           {/* Desktop Nav */}
-          <div className="hidden xl:flex items-center space-x-6 h-full">
+          <div 
+            className="hidden xl:flex items-center space-x-1 h-full relative"
+            onMouseLeave={() => setHoveredPath(null)}
+          >
             {LINKS.map((link) => {
               const isActive = link.path.includes("?")
                 ? location.pathname + location.search === link.path
@@ -115,41 +117,49 @@ export function Navbar() {
                 return (
                   <div
                     key={link.path}
-                    className="relative group h-full flex items-center"
+                    className="relative group h-full flex items-center px-4"
+                    onMouseEnter={() => setHoveredPath(link.path)}
                     onMouseLeave={() => setClosedMenuPath(null)}
                     onClick={(e) => {
                       if ((e.target as HTMLElement).closest("a")) {
                         setClosedMenuPath(link.path);
+                        setHoveredPath(null);
                       }
                     }}
                   >
+                    {hoveredPath === link.path && (
+                      <motion.div
+                        layoutId="nav-highlight"
+                        className="absolute inset-y-3 inset-x-0 bg-gray-100/80 rounded-2xl -z-10"
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        transition={{ type: "spring", stiffness: 400, damping: 30 }}
+                      />
+                    )}
                     <Link
                       to={link.path}
                       className={`flex items-center text-sm font-medium transition-colors whitespace-nowrap ${
                         isActive
                           ? "text-blue-600"
-                          : "text-gray-500 hover:text-blue-600"
+                          : "text-gray-600 hover:text-blue-600"
                       }`}
                     >
                       {link.name}
                     </Link>
                     <div
-                      className={`absolute top-full pt-4 transition-all z-50 ${
-                        ["Technical Solutions", "PhD Support", "Lab Setups"].includes(link.name)
-                          ? "right-0"
-                          : ["Internships", "Engineering Projects", "Certified Courses"].includes(link.name)
-                          ? "left-1/2 -translate-x-1/2"
-                          : "left-0"
-                      } ${closedMenuPath === link.path ? "opacity-0 translate-y-2 pointer-events-none" : "opacity-0 translate-y-2 pointer-events-none group-hover:opacity-100 group-hover:translate-y-0 group-hover:pointer-events-auto"}`}
+                      className={`fixed top-[64px] left-0 w-[100vw] pt-2 pb-6 transition-all z-50 flex justify-center ${closedMenuPath === link.path ? "opacity-0 translate-y-2 pointer-events-none" : "opacity-0 translate-y-2 pointer-events-none group-hover:opacity-100 group-hover:translate-y-0 group-hover:pointer-events-auto"}`}
                     >
-                      <DynamicDataMenu 
-                        items={items} 
-                        itemPathPrefix={link.path} 
-                        itemTitleKey={(link as any).dynamicDataName === "internships" ? "title" : "name"} 
-                        defaultCategory={(link as any).dynamicDataName === "store" ? "Development Boards" : "All"} 
-                        hideCategories={(link as any).dynamicDataName === "labs"}
-                        title={link.name}
-                      />
+                      <div className="w-full max-w-7xl px-10 flex justify-center">
+                        <DynamicDataMenu 
+                          items={items} 
+                          itemPathPrefix={link.path} 
+                          itemTitleKey={(link as any).dynamicDataName === "internships" ? "title" : "name"} 
+                          defaultCategory={(link as any).dynamicDataName === "store" ? "Development Boards" : "All"} 
+                          hideCategories={(link as any).dynamicDataName === "labs"}
+                          title={link.name}
+                        />
+                      </div>
                     </div>
                   </div>
                 );
@@ -159,47 +169,55 @@ export function Navbar() {
                 return (
                   <div
                     key={link.path}
-                    className="relative group h-full flex items-center"
+                    className="relative group h-full flex items-center px-4"
+                    onMouseEnter={() => setHoveredPath(link.path)}
                     onMouseLeave={() => setClosedMenuPath(null)}
                     onClick={(e) => {
                       if ((e.target as HTMLElement).closest("a")) {
                         setClosedMenuPath(link.path);
+                        setHoveredPath(null);
                       }
                     }}
                   >
+                    {hoveredPath === link.path && (
+                      <motion.div
+                        layoutId="nav-highlight"
+                        className="absolute inset-y-3 inset-x-0 bg-gray-100/80 rounded-2xl -z-10"
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        transition={{ type: "spring", stiffness: 400, damping: 30 }}
+                      />
+                    )}
                     <Link
                       to={link.path}
                       className={`flex items-center text-sm font-medium transition-colors whitespace-nowrap ${
                         isActive
                           ? "text-blue-600"
-                          : "text-gray-500 hover:text-blue-600"
+                          : "text-gray-600 hover:text-blue-600"
                       }`}
                     >
                       {link.name}
                     </Link>
                     <div
-                      className={`absolute top-full pt-4 transition-all z-50 ${
-                        ["Technical Solutions", "PhD Support", "Lab Setups"].includes(link.name)
-                          ? "right-0"
-                          : ["Internships", "Engineering Projects", "Certified Courses"].includes(link.name)
-                          ? "left-1/2 -translate-x-1/2"
-                          : "left-0"
-                      } ${closedMenuPath === link.path ? "opacity-0 translate-y-2 pointer-events-none" : "opacity-0 translate-y-2 pointer-events-none group-hover:opacity-100 group-hover:translate-y-0 group-hover:pointer-events-auto"}`}
+                      className={`fixed top-[64px] left-0 w-[100vw] pt-2 pb-6 transition-all z-50 flex justify-center ${closedMenuPath === link.path ? "opacity-0 translate-y-2 pointer-events-none" : "opacity-0 translate-y-2 pointer-events-none group-hover:opacity-100 group-hover:translate-y-0 group-hover:pointer-events-auto"}`}
                     >
-                      <div className="bg-white/95 backdrop-blur-3xl border border-gray-100/50 shadow-2xl rounded-3xl p-8 min-w-[500px]">
-                        <h3 className="font-black text-[12px] uppercase tracking-widest text-black mb-6 pb-2 border-b border-gray-100">
-                          {link.name}
-                        </h3>
-                        <div className="grid grid-cols-2 gap-x-8 gap-y-4">
-                          {link.dropdown.map((subLink) => (
-                            <Link
-                              key={subLink.path}
-                              to={subLink.path}
-                              className="text-sm text-black hover:text-blue-600 font-medium transition-colors"
-                            >
-                              {subLink.name}
-                            </Link>
-                          ))}
+                      <div className="w-full max-w-7xl px-10 flex justify-center">
+                        <div className="bg-white border border-gray-100 shadow-2xl rounded-3xl p-8 min-w-[800px] w-full max-w-[1200px]">
+                          <h3 className="font-black text-[12px] uppercase tracking-widest text-black mb-6 pb-2 border-b border-gray-100">
+                            {link.name}
+                          </h3>
+                          <div className="grid grid-cols-4 gap-x-8 gap-y-4">
+                            {link.dropdown.map((subLink) => (
+                              <Link
+                                key={subLink.path}
+                                to={subLink.path}
+                                className="text-sm text-black hover:text-blue-600 font-medium transition-colors"
+                              >
+                                {subLink.name}
+                              </Link>
+                            ))}
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -208,17 +226,32 @@ export function Navbar() {
               }
 
               return (
-                <Link
+                <div
                   key={link.path}
-                  to={link.path}
-                  className={`flex items-center h-full text-sm font-medium transition-colors whitespace-nowrap ${
-                    isActive
-                      ? "text-blue-600"
-                      : "text-gray-500 hover:text-blue-600"
-                  }`}
+                  className="relative group h-full flex items-center px-4"
+                  onMouseEnter={() => setHoveredPath(link.path)}
                 >
-                  {link.name}
-                </Link>
+                  {hoveredPath === link.path && (
+                    <motion.div
+                      layoutId="nav-highlight"
+                      className="absolute inset-y-3 inset-x-0 bg-gray-100/80 rounded-2xl -z-10"
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      exit={{ opacity: 0 }}
+                      transition={{ type: "spring", stiffness: 400, damping: 30 }}
+                    />
+                  )}
+                  <Link
+                    to={link.path}
+                    className={`flex items-center h-full text-sm font-medium transition-colors whitespace-nowrap ${
+                      isActive
+                        ? "text-blue-600"
+                        : "text-gray-600 hover:text-blue-600"
+                    }`}
+                  >
+                    {link.name}
+                  </Link>
+                </div>
               );
             })}
 

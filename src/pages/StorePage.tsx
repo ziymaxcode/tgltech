@@ -5,6 +5,7 @@ import { ProductSkeleton } from "../components/ui/Skeletons";
 import { Search } from "lucide-react";
 import { StoreSidebar } from "../components/StoreSidebar";
 import { useData } from "../context/DataContext";
+import { InfiniteProductScroll } from "../components/ui/InfiniteProductScroll";
 
 export function StorePage() {
   const { products: STORE_PRODUCTS, loading } = useData();
@@ -89,6 +90,7 @@ export function StorePage() {
           </div>
         </div>
       </div>
+       <InfiniteProductScroll />
     </div>
   );
 }

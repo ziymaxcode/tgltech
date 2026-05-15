@@ -33,7 +33,7 @@ export function DynamicDataMenu({
     : (displayedCategory ? items.filter((i) => (i.category || i.type) === displayedCategory) : items);
 
   return (
-    <div className="bg-white/95 backdrop-blur-3xl border border-gray-100/50 shadow-2xl rounded-3xl p-6 w-[800px] max-w-[90vw] flex gap-8">
+    <div className="bg-white border border-gray-100 shadow-2xl rounded-3xl p-8 w-full max-w-[1200px] flex gap-12">
       {/* Categories sidebar */}
       {!hideCategories && (
         <div className="w-64 shrink-0 border-r border-gray-100 pr-4 overflow-y-auto max-h-[60vh] custom-scrollbar">
@@ -85,7 +85,7 @@ export function DynamicDataMenu({
           </div>
         )}
         <div className="overflow-y-auto pr-2 custom-scrollbar flex-1">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-4">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-x-8 gap-y-6">
             {filteredItems.map((item, idx) => (
                <Link
                  key={`${item.id || item.title || item.name}-${idx}`}
